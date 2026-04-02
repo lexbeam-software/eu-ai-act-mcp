@@ -1,0 +1,33 @@
+{
+  "name": "@lexbeam/eu-ai-act-mcp",
+  "version": "1.0.0",
+  "description": "EU AI Act compliance MCP server - risk classification, deadlines, obligations, and FAQ. By Lexbeam Software.",
+  "keywords": ["mcp", "eu-ai-act", "ai-act", "compliance", "legal-tech", "ai-governance", "risk-assessment", "regulation", "ki-verordnung"],
+  "author": "Lexbeam Software <info@lexbeam.com> (https://lexbeam.com)",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "lexbeam-eu-ai-act-mcp": "dist/index.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PicoWorx/eu-ai-act-mcp"
+  },
+  "homepage": "https://lexbeam.com/tools/mcp"
+}
