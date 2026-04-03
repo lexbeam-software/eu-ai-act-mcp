@@ -14,7 +14,7 @@ import { registerPenaltiesTool } from "./tools/penalties.js";
 export function createServer(): McpServer {
   const server = new McpServer({
     name: "lexbeam-eu-ai-act-mcp-server",
-    version: "1.0.0",
+    version: "1.0.1",
   });
 
   // ── Tools ──
