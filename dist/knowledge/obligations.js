@@ -234,7 +234,7 @@ export const limitedRiskTransparencyObligations = [
     },
     {
         obligation: "Inform persons exposed to emotion recognition or biometric categorisation",
-        article: "Art. 50(2)",
+        article: "Art. 50(3)",
         deadline: "2026-08-02",
         details: "Providers of emotion recognition or biometric categorisation systems must inform exposed natural persons of the system's operation and process personal data in accordance with the GDPR, LED, and Regulation (EU) 2018/1725 as applicable.",
         category: "transparency",
@@ -248,7 +248,7 @@ export const limitedRiskTransparencyObligations = [
     },
     {
         obligation: "Machine-readable marking of AI-generated content",
-        article: "Art. 50(5)",
+        article: "Art. 50(2)",
         deadline: "2026-08-02",
         details: "Providers must mark AI-generated synthetic audio, image, video, or text content in a machine-readable format and ensure it is detectable as artificially generated or manipulated. Technical solutions must be effective, interoperable, robust, and reliable, considering the type of content and commonly used implementation methods and tools.",
         category: "transparency",

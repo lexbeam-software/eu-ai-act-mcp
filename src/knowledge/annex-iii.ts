@@ -376,17 +376,17 @@ export const transparencyTriggers: TransparencyTrigger[] = [
     article: "Art. 50(1)",
   },
   {
-    id: "art50-2",
+    id: "art50-3",
     name: "Emotion recognition or biometric categorisation",
     description:
-      "Providers of AI systems that perform emotion recognition or biometric categorisation must inform natural persons exposed to such systems of their operation and process personal data in accordance with applicable EU law.",
+      "Deployers of AI systems that perform emotion recognition or biometric categorisation must inform natural persons exposed to such systems of their operation and process personal data in accordance with applicable EU law.",
     examples: [
       "Retail analytics systems detecting customer emotions",
       "Access control systems categorising persons by biometric attributes",
       "Medical AI recognising patient emotional states (where permitted)",
     ],
     keywords: ["emotion recognition", "biometric categorisation", "sentiment analysis biometric", "affect detection"],
-    article: "Art. 50(2)",
+    article: "Art. 50(3)",
   },
   {
     id: "art50-3",
@@ -403,7 +403,7 @@ export const transparencyTriggers: TransparencyTrigger[] = [
     article: "Art. 50(4)",
   },
   {
-    id: "art50-4",
+    id: "art50-2",
     name: "AI-generated or manipulated content marking",
     description:
       "Providers of AI systems generating synthetic audio, image, video, or text content must ensure outputs are marked in a machine-readable format and detectable as artificially generated or manipulated. Technical solutions must be effective, interoperable, robust, and reliable.",
@@ -413,6 +413,6 @@ export const transparencyTriggers: TransparencyTrigger[] = [
       "Content authenticity metadata in AI-produced videos",
     ],
     keywords: ["watermark", "content marking", "provenance", "machine-readable", "content authenticity"],
-    article: "Art. 50(5)",
+    article: "Art. 50(2)",
   },
 ];
