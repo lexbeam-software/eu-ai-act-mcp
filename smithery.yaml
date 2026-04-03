@@ -4,5 +4,5 @@ version: 1.0.0
 command: npx
 args:
   - -y
-  - "@lexbeam/eu-ai-act-mcp"
+  - "@lexbeam-software/eu-ai-act-mcp"
 envs: {}
