@@ -1,10 +1,9 @@
 import { deadlinesInputSchema, deadlinesOutputSchema } from "../schemas/deadlines.js";
-import { BRANDING } from "../constants.js";
 import { getMilestonesWithDaysRemaining, digitalOmnibus } from "../knowledge/deadlines.js";
 export function registerDeadlinesTool(server) {
     server.registerTool("euaiact_check_deadlines", {
         title: "Check EU AI Act Implementation Deadlines",
-        description: "Returns key implementation milestones and deadlines for the EU AI Act with days remaining, plus the current status of the Digital Omnibus simplification proposal.",
+        description: "Returns key implementation milestones and deadlines for the EU AI Act with days remaining, a `next_milestone` shortcut, and the current status of the Digital Omnibus simplification proposal. Use `only_upcoming: true` to drop past milestones.",
         annotations: {
             readOnlyHint: true,
             idempotentHint: true,
@@ -19,6 +18,10 @@ export function registerDeadlinesTool(server) {
             currentMilestones = currentMilestones.filter(m => m.description.toLowerCase().includes(areaLower) ||
                 m.name.toLowerCase().includes(areaLower));
         }
+        if (input.only_upcoming) {
+            currentMilestones = currentMilestones.filter(m => !m.isPast);
+        }
+        const nextUpcoming = currentMilestones.find(m => !m.isPast) ?? null;
         const output = {
             milestones: currentMilestones.map(m => ({
                 date: m.date,
@@ -30,6 +33,13 @@ export function registerDeadlinesTool(server) {
                 days_remaining: m.daysRemaining,
                 is_past: m.isPast,
             })),
+            next_milestone: nextUpcoming
+                ? {
+                    date: nextUpcoming.date,
+                    name: nextUpcoming.name,
+                    days_remaining: nextUpcoming.daysRemaining,
+                }
+                : null,
             digital_omnibus: {
                 name: digitalOmnibus.name,
                 status: digitalOmnibus.status,
@@ -38,8 +48,6 @@ export function registerDeadlinesTool(server) {
                 key_changes: digitalOmnibus.keyChanges,
                 impact_on_ai_act: digitalOmnibus.impactOnAIAct,
             },
-            source: BRANDING.source,
-            last_updated: BRANDING.lastUpdated,
         };
         return {
             content: [{ type: "text", text: JSON.stringify(output, null, 2) }],

@@ -1,6 +1,10 @@
 import { z } from "zod";
 export const deadlinesInputSchema = z.object({
     area: z.string().optional().describe("Optional filter by compliance area (e.g. 'GPAI', 'high-risk', 'prohibited')"),
+    only_upcoming: z
+        .boolean()
+        .optional()
+        .describe("If true, return only milestones that have not yet come into effect."),
 });
 export const deadlinesOutputSchema = z.object({
     milestones: z.array(z.object({
@@ -13,6 +17,13 @@ export const deadlinesOutputSchema = z.object({
         days_remaining: z.number(),
         is_past: z.boolean(),
     })),
+    next_milestone: z
+        .object({
+        date: z.string(),
+        name: z.string(),
+        days_remaining: z.number(),
+    })
+        .nullable(),
     digital_omnibus: z.object({
         name: z.string(),
         status: z.string(),
@@ -21,7 +32,5 @@ export const deadlinesOutputSchema = z.object({
         key_changes: z.array(z.string()),
         impact_on_ai_act: z.string(),
     }),
-    source: z.string(),
-    last_updated: z.string(),
 });
 //# sourceMappingURL=deadlines.js.map

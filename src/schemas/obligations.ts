@@ -20,9 +20,8 @@ export const obligationsOutputSchema = z.object({
     max_fine: z.string(),
     basis: z.string(),
   }),
-  lexbeam_url: z.string(),
-  source: z.string(),
-  disclaimer: z.string().optional(),
+  /** Optional deep-dive link on lexbeam.com for this role + risk combination. */
+  lexbeam_url: z.string().optional(),
 });
 
 export type ObligationsInput = z.infer<typeof obligationsInputSchema>;

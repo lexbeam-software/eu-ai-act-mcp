@@ -1,7 +1,7 @@
 {
   "name": "@lexbeam-software/eu-ai-act-mcp",
-  "version": "1.0.1",
-  "description": "EU AI Act compliance MCP server - risk classification, deadlines, obligations, and FAQ. By Lexbeam Software.",
+  "version": "1.1.0",
+  "description": "EU AI Act compliance MCP server - risk classification with structured signals, article grounding, GPAI systemic risk, Art. 6(3) exception assessment, Annex III/IV resources, deadlines, obligations, penalties, and FAQ. By Lexbeam Software.",
   "keywords": ["mcp", "eu-ai-act", "ai-act", "compliance", "legal-tech", "ai-governance", "risk-assessment", "regulation", "ki-verordnung"],
   "author": "Lexbeam Software <info@lexbeam.com> (https://lexbeam.com)",
   "license": "MIT",

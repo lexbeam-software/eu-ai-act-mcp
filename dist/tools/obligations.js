@@ -48,8 +48,6 @@ export function registerObligationsTool(server) {
             obligations: filtered,
             penalties: penaltyInfo,
             lexbeam_url: `${BRANDING.baseUrl}/wissen/provider-deployer-pflichten`,
-            source: BRANDING.source,
-            disclaimer: BRANDING.disclaimer,
         };
         return {
             content: [{ type: "text", text: JSON.stringify(output, null, 2) }],

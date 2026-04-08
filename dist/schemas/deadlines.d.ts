@@ -1,10 +1,13 @@
 import { z } from "zod";
 export declare const deadlinesInputSchema: z.ZodObject<{
     area: z.ZodOptional<z.ZodString>;
+    only_upcoming: z.ZodOptional<z.ZodBoolean>;
 }, "strip", z.ZodTypeAny, {
     area?: string | undefined;
+    only_upcoming?: boolean | undefined;
 }, {
     area?: string | undefined;
+    only_upcoming?: boolean | undefined;
 }>;
 export declare const deadlinesOutputSchema: z.ZodObject<{
     milestones: z.ZodArray<z.ZodObject<{
@@ -17,24 +20,37 @@ export declare const deadlinesOutputSchema: z.ZodObject<{
         days_remaining: z.ZodNumber;
         is_past: z.ZodBoolean;
     }, "strip", z.ZodTypeAny, {
-        description: string;
         status: "in_effect" | "upcoming" | "proposal_only";
-        date: string;
+        description: string;
         name: string;
+        date: string;
         articles: string[];
         key_obligations: string[];
         days_remaining: number;
         is_past: boolean;
     }, {
-        description: string;
         status: "in_effect" | "upcoming" | "proposal_only";
-        date: string;
+        description: string;
         name: string;
+        date: string;
         articles: string[];
         key_obligations: string[];
         days_remaining: number;
         is_past: boolean;
     }>, "many">;
+    next_milestone: z.ZodNullable<z.ZodObject<{
+        date: z.ZodString;
+        name: z.ZodString;
+        days_remaining: z.ZodNumber;
+    }, "strip", z.ZodTypeAny, {
+        name: string;
+        date: string;
+        days_remaining: number;
+    }, {
+        name: string;
+        date: string;
+        days_remaining: number;
+    }>>;
     digital_omnibus: z.ZodObject<{
         name: z.ZodString;
         status: z.ZodString;
@@ -43,59 +59,63 @@ export declare const deadlinesOutputSchema: z.ZodObject<{
         key_changes: z.ZodArray<z.ZodString, "many">;
         impact_on_ai_act: z.ZodString;
     }, "strip", z.ZodTypeAny, {
-        description: string;
         status: string;
+        description: string;
         name: string;
         proposal_date: string;
         key_changes: string[];
         impact_on_ai_act: string;
     }, {
-        description: string;
         status: string;
+        description: string;
         name: string;
         proposal_date: string;
         key_changes: string[];
         impact_on_ai_act: string;
     }>;
-    source: z.ZodString;
-    last_updated: z.ZodString;
 }, "strip", z.ZodTypeAny, {
-    source: string;
-    last_updated: string;
     milestones: {
-        description: string;
         status: "in_effect" | "upcoming" | "proposal_only";
-        date: string;
+        description: string;
         name: string;
+        date: string;
         articles: string[];
         key_obligations: string[];
         days_remaining: number;
         is_past: boolean;
     }[];
+    next_milestone: {
+        name: string;
+        date: string;
+        days_remaining: number;
+    } | null;
     digital_omnibus: {
-        description: string;
         status: string;
+        description: string;
         name: string;
         proposal_date: string;
         key_changes: string[];
         impact_on_ai_act: string;
     };
 }, {
-    source: string;
-    last_updated: string;
     milestones: {
-        description: string;
         status: "in_effect" | "upcoming" | "proposal_only";
-        date: string;
+        description: string;
         name: string;
+        date: string;
         articles: string[];
         key_obligations: string[];
         days_remaining: number;
         is_past: boolean;
     }[];
+    next_milestone: {
+        name: string;
+        date: string;
+        days_remaining: number;
+    } | null;
     digital_omnibus: {
-        description: string;
         status: string;
+        description: string;
         name: string;
         proposal_date: string;
         key_changes: string[];

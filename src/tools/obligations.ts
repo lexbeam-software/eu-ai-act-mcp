@@ -52,8 +52,6 @@ export function registerObligationsTool(server: McpServer): void {
       obligations: filtered,
       penalties: penaltyInfo,
       lexbeam_url: `${BRANDING.baseUrl}/wissen/provider-deployer-pflichten`,
-      source: BRANDING.source,
-      disclaimer: BRANDING.disclaimer,
     };
 
     return {

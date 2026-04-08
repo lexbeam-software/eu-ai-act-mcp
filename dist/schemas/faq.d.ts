@@ -11,25 +11,20 @@ export declare const faqOutputSchema: z.ZodObject<{
     answer: z.ZodString;
     confidence: z.ZodEnum<["high", "medium", "low"]>;
     article_references: z.ZodArray<z.ZodString, "many">;
-    lexbeam_url: z.ZodString;
-    source: z.ZodString;
-    disclaimer: z.ZodString;
+    /** Optional deep-dive link on lexbeam.com for the matched FAQ entry. */
+    lexbeam_url: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     confidence: "high" | "medium" | "low";
-    lexbeam_url: string;
-    source: string;
-    disclaimer: string;
     question: string;
     answer: string;
     article_references: string[];
+    lexbeam_url?: string | undefined;
 }, {
     confidence: "high" | "medium" | "low";
-    lexbeam_url: string;
-    source: string;
-    disclaimer: string;
     question: string;
     answer: string;
     article_references: string[];
+    lexbeam_url?: string | undefined;
 }>;
 export type FaqInput = z.infer<typeof faqInputSchema>;
 export type FaqOutput = z.infer<typeof faqOutputSchema>;

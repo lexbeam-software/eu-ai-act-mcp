@@ -5,11 +5,11 @@ export declare const obligationsInputSchema: z.ZodObject<{
     filter_keyword: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     role: "provider" | "deployer";
-    risk_level: "high-risk" | "limited" | "minimal" | "gpai";
+    risk_level: "gpai" | "high-risk" | "limited" | "minimal";
     filter_keyword?: string | undefined;
 }, {
     role: "provider" | "deployer";
-    risk_level: "high-risk" | "limited" | "minimal" | "gpai";
+    risk_level: "gpai" | "high-risk" | "limited" | "minimal";
     filter_keyword?: string | undefined;
 }>;
 export declare const obligationsOutputSchema: z.ZodObject<{
@@ -38,19 +38,16 @@ export declare const obligationsOutputSchema: z.ZodObject<{
         max_fine: z.ZodString;
         basis: z.ZodString;
     }, "strip", z.ZodTypeAny, {
-        max_fine: string;
         basis: string;
+        max_fine: string;
     }, {
-        max_fine: string;
         basis: string;
+        max_fine: string;
     }>;
-    lexbeam_url: z.ZodString;
-    source: z.ZodString;
-    disclaimer: z.ZodOptional<z.ZodString>;
+    /** Optional deep-dive link on lexbeam.com for this role + risk combination. */
+    lexbeam_url: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     role: string;
-    lexbeam_url: string;
-    source: string;
     risk_level: string;
     obligations: {
         obligation: string;
@@ -60,14 +57,12 @@ export declare const obligationsOutputSchema: z.ZodObject<{
         category: string;
     }[];
     penalties: {
-        max_fine: string;
         basis: string;
+        max_fine: string;
     };
-    disclaimer?: string | undefined;
+    lexbeam_url?: string | undefined;
 }, {
     role: string;
-    lexbeam_url: string;
-    source: string;
     risk_level: string;
     obligations: {
         obligation: string;
@@ -77,10 +72,10 @@ export declare const obligationsOutputSchema: z.ZodObject<{
         category: string;
     }[];
     penalties: {
-        max_fine: string;
         basis: string;
+        max_fine: string;
     };
-    disclaimer?: string | undefined;
+    lexbeam_url?: string | undefined;
 }>;
 export type ObligationsInput = z.infer<typeof obligationsInputSchema>;
 export type ObligationsOutput = z.infer<typeof obligationsOutputSchema>;

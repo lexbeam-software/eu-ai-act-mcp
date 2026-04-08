@@ -21,9 +21,13 @@ export const penaltiesOutputSchema = z.object({
     article: z.string(),
     description: z.string(),
   }),
-  lexbeam_url: z.string(),
-  source: z.string(),
-  disclaimer: z.string(),
+  comparative: z
+    .object({
+      non_sme_applicable_fine_eur: z.number(),
+      sme_applicable_fine_eur: z.number(),
+      reduction_eur: z.number(),
+    })
+    .optional(),
 });
 
 export type PenaltiesInput = z.infer<typeof penaltiesInputSchema>;
