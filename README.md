@@ -3,6 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![npm version](https://img.shields.io/npm/v/@lexbeam-software/eu-ai-act-mcp)](https://www.npmjs.com/package/@lexbeam-software/eu-ai-act-mcp)
 [![smithery badge](https://smithery.ai/badge/lexbeam-software/eu-ai-act)](https://smithery.ai/servers/lexbeam-software/eu-ai-act)
+[![Test](https://github.com/lexbeam-software/eu-ai-act-mcp/actions/workflows/test.yml/badge.svg)](https://github.com/lexbeam-software/eu-ai-act-mcp/actions/workflows/test.yml)
 
 An open-source [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that gives LLMs structured intelligence about the EU AI Act (Regulation (EU) 2024/1689).
 
@@ -91,7 +92,7 @@ Direct MCP endpoint: `https://eu-ai-act--lexbeam-software.run.tools`.
 ### From source
 
 ```bash
-git clone https://github.com/PicoWorx/eu-ai-act-mcp.git
+git clone https://github.com/lexbeam-software/eu-ai-act-mcp.git
 cd eu-ai-act-mcp
 npm install
 npm run build

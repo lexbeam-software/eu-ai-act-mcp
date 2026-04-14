@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Implementation help and commercial work
+    url: https://lexbeam.com/kontakt
+    about: For paid implementation, custom MCP work, or commercial licensing, please reach out via the Lexbeam contact page.
+  - name: Security disclosures
+    url: https://github.com/lexbeam-software/eu-ai-act-mcp/blob/main/SECURITY.md
+    about: Please do not open a public issue for security findings. See SECURITY.md for the disclosure process.
