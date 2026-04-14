@@ -28,7 +28,7 @@ export function createServer(): McpServer {
   const server = new McpServer(
     {
       name: "lexbeam-eu-ai-act-mcp-server",
-      version: "1.1.0",
+      version: "1.1.2",
     },
     {
       instructions: SERVER_INSTRUCTIONS,
