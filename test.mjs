@@ -9,6 +9,9 @@ import { articleInputSchema } from "./dist/schemas/article.js";
 import { gpaiSystemicInputSchema } from "./dist/schemas/gpai-systemic.js";
 import { art6ExceptionInputSchema } from "./dist/schemas/art6.js";
 import { annexIvInputSchema } from "./dist/schemas/annex-iv.js";
+import { legalStatusInputSchema } from "./dist/schemas/legal-status.js";
+import { friaTriggerInputSchema } from "./dist/schemas/fria.js";
+import { incidentTriageInputSchema } from "./dist/schemas/incident.js";
 import { scoreKeywordMatch, calculateKeywordOverlap, findBestMatch } from "./dist/utils/matching.js";
 import { prohibitedPractices, annexIIICategories, transparencyTriggers } from "./dist/knowledge/annex-iii.js";
 import { getMilestonesWithDaysRemaining, digitalOmnibus } from "./dist/knowledge/deadlines.js";
@@ -73,6 +76,9 @@ async function callTool(toolName, input) {
   const { registerGpaiSystemicTool } = await import("./dist/tools/gpai-systemic.js");
   const { registerArt6ExceptionTool } = await import("./dist/tools/art6-exception.js");
   const { registerAnnexIvTool } = await import("./dist/tools/annex-iv.js");
+  const { registerLegalStatusTool } = await import("./dist/tools/legal-status.js");
+  const { registerFriaTriggerTool } = await import("./dist/tools/fria.js");
+  const { registerIncidentTriageTool } = await import("./dist/tools/incident.js");
 
   registerClassifyTool(fakeServer);
   registerDeadlinesTool(fakeServer);
@@ -83,6 +89,9 @@ async function callTool(toolName, input) {
   registerGpaiSystemicTool(fakeServer);
   registerArt6ExceptionTool(fakeServer);
   registerAnnexIvTool(fakeServer);
+  registerLegalStatusTool(fakeServer);
+  registerFriaTriggerTool(fakeServer);
+  registerIncidentTriageTool(fakeServer);
 
   const handler = registered[toolName];
   if (!handler) throw new Error(`Tool not registered: ${toolName}`);
@@ -108,6 +117,12 @@ test("art6 input: profiling flag required", art6ExceptionInputSchema.safeParse({
 test("art6 input: missing profiling rejected", !art6ExceptionInputSchema.safeParse({}).success);
 test("annex iv: empty ok", annexIvInputSchema.safeParse({}).success);
 test("annex iv: checklist format", annexIvInputSchema.safeParse({ format: "checklist" }).success);
+test("legal status: empty ok", legalStatusInputSchema.safeParse({}).success);
+test("legal status: area filter ok", legalStatusInputSchema.safeParse({ area: "annex_iii" }).success);
+test("FRIA trigger: empty ok", friaTriggerInputSchema.safeParse({}).success);
+test("FRIA trigger: public body ok", friaTriggerInputSchema.safeParse({ is_high_risk: true, deployer_type: "public_body" }).success);
+test("incident triage: empty ok", incidentTriageInputSchema.safeParse({}).success);
+test("incident triage: provider death ok", incidentTriageInputSchema.safeParse({ high_risk_system: true, role: "provider", death: true }).success);
 
 // ─── MATCHING REGRESSIONS (v1.1.0) ─────────────────────────────────────────
 console.log("\n🛠️ MATCHING BUG REGRESSIONS");
@@ -291,12 +306,17 @@ test("Aug 2026 is upcoming", milestones[3].isPast === false);
 test("Aug 2027 is upcoming", milestones[4].isPast === false);
 test("Digital Omnibus is provisional_agreement", digitalOmnibus.status === "provisional_agreement");
 test("Digital Omnibus impact keeps not-adopted caveat", digitalOmnibus.impactOnAIAct.includes("NOT yet adopted law"));
+test("Digital Omnibus has structured sources", Array.isArray(digitalOmnibus.sources) && digitalOmnibus.sources.length >= 4);
+test("Annex III milestone has provisional date", milestones[3].provisionalDateIfAdopted === "2027-12-02");
 
 // Tool-level: only_upcoming filter
 {
   const r = await callTool("euaiact_check_deadlines", { only_upcoming: true });
   test("deadlines only_upcoming filter drops past entries", structured(r).milestones.every((m) => !m.is_past));
   test("deadlines next_milestone shortcut populated", structured(r).next_milestone !== null);
+  test("deadlines output has knowledge_version", typeof structured(r).knowledge_version === "string");
+  test("deadlines milestone separates current/provisional dates", structured(r).milestones.some((m) => m.current_law_date === "2026-08-02" && m.provisional_date_if_adopted === "2027-12-02"));
+  test("deadlines digital omnibus exposes sources", structured(r).digital_omnibus.sources.length >= 4);
 }
 
 // ─── OBLIGATIONS ────────────────────────────────────────────────────────────
@@ -465,12 +485,53 @@ test("annexIVItems has 9 items", annexIVItems.length === 9);
   test("annex_iv checklist format: SME note present", typeof p.sme_note === "string" && p.sme_note.includes("simplified"));
 }
 
+// ─── NEW TOOLS (v1.2.0) ────────────────────────────────────────────────────
+console.log("\n🆕 NEW TOOLS v1.2.0");
+
+{
+  const r = await callTool("euaiact_get_legal_status", { area: "annex_iii" });
+  const p = structured(r);
+  test("legal_status annex_iii: current law authoritative", p.current_law_remains_authoritative === true);
+  test("legal_status annex_iii: has Dec 2027 provisional date", p.items[0].provisional_date_if_adopted === "2027-12-02");
+  test("legal_status annex_iii: guardrail says do not say amended", p.communication_guardrails.some((g) => /Do not say/i.test(g)));
+}
+
+{
+  const r = await callTool("euaiact_assess_fria_trigger", {
+    is_high_risk: true,
+    annex_iii_number: 4,
+    deployer_type: "public_body",
+    affects_natural_persons: true,
+    already_has_dpia: true,
+  });
+  const p = structured(r);
+  test("fria trigger: public high-risk deployer requires FRIA", p.fria_required === "yes");
+  test("fria trigger: DPIA does not replace FRIA", /does not automatically replace/i.test(p.dpia_interaction));
+  test("fria trigger: deadline keeps current-law status", p.deadline.binding_status === "current_law");
+}
+
+{
+  const r = await callTool("euaiact_triage_serious_incident", {
+    high_risk_system: true,
+    role: "provider",
+    fundamental_rights_breach: true,
+    causal_link_established_or_likely: true,
+    aware_date: "2026-05-08",
+  });
+  const p = structured(r);
+  test("incident triage: fundamental rights breach → reportable", p.reportable === "yes");
+  test("incident triage: fundamental rights breach → 2-day bucket", p.deadline_bucket === "2_days");
+  test("incident triage: computes outer limit", p.outer_limit === "2026-05-10");
+}
+
 // ─── BRANDING / INSTRUCTIONS ───────────────────────────────────────────────
 console.log("\n🏷️ BRANDING + INSTRUCTIONS");
 test("BRANDING.source still mentions Lexbeam", BRANDING.source.includes("Lexbeam"));
 test("SERVER_INSTRUCTIONS contains disclaimer", /not legal advice/i.test(SERVER_INSTRUCTIONS));
 test("SERVER_INSTRUCTIONS mentions Lexbeam attribution", /Lexbeam/.test(SERVER_INSTRUCTIONS));
 test("SERVER_INSTRUCTIONS references get_article tool", /get_article/.test(SERVER_INSTRUCTIONS));
+test("SERVER_INSTRUCTIONS references legal status tool", /get_legal_status/.test(SERVER_INSTRUCTIONS));
+test("SERVER_INSTRUCTIONS says 12 tools", /12 tools/.test(SERVER_INSTRUCTIONS));
 
 // ─── SERVER WIRING ─────────────────────────────────────────────────────────
 console.log("\n🔌 SERVER WIRING");

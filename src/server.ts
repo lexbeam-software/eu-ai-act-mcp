@@ -2,8 +2,12 @@
  * Shared server setup - registers all tools, resources, and prompts.
  * Used by both stdio (index.ts) and HTTP (http.ts) entry points.
  *
+ * v1.2.0:
+ *  - 3 new tools: get_legal_status, assess_fria_trigger, triage_serious_incident
+ *  - Deadline/legal-status outputs expose current-law vs provisional dates and freshness metadata
+ *
  * v1.1.0:
- *  - 4 new tools: get_article, check_gpai_systemic_risk, assess_art6_3_exception, annex_iv_checklist
+ *  - 4 tools: get_article, check_gpai_systemic_risk, assess_art6_3_exception, annex_iv_checklist
  *  - New resources: Annex III (full categories), Annex IV (full documentation items)
  *  - Per-response branding moved into server instructions
  *  - Classifier correctness fixes (see src/utils/matching.ts, src/tools/classify.ts)
@@ -21,14 +25,18 @@ import { registerArticleTool } from "./tools/article.js";
 import { registerGpaiSystemicTool } from "./tools/gpai-systemic.js";
 import { registerArt6ExceptionTool } from "./tools/art6-exception.js";
 import { registerAnnexIvTool } from "./tools/annex-iv.js";
+import { registerLegalStatusTool } from "./tools/legal-status.js";
+import { registerFriaTriggerTool } from "./tools/fria.js";
+import { registerIncidentTriageTool } from "./tools/incident.js";
 import { annexIIICategories } from "./knowledge/annex-iii.js";
 import { annexIVItems } from "./knowledge/annex-iv.js";
+import { KNOWLEDGE_VERSION, LAST_CONTENT_UPDATE, LAST_OMNIBUS_VERIFICATION, digitalOmnibus } from "./knowledge/deadlines.js";
 
 export function createServer(): McpServer {
   const server = new McpServer(
     {
       name: "lexbeam-eu-ai-act-mcp-server",
-      version: "1.1.4",
+      version: "1.2.0",
     },
     {
       instructions: SERVER_INSTRUCTIONS,
@@ -45,6 +53,9 @@ export function createServer(): McpServer {
   registerGpaiSystemicTool(server);
   registerArt6ExceptionTool(server);
   registerAnnexIvTool(server);
+  registerLegalStatusTool(server);
+  registerFriaTriggerTool(server);
+  registerIncidentTriageTool(server);
 
   // ── Resources ──
   server.resource(
@@ -57,12 +68,21 @@ export function createServer(): McpServer {
         mimeType: "application/json",
         text: JSON.stringify({
           regulation: "EU AI Act (Regulation 2024/1689)",
+          knowledge_version: KNOWLEDGE_VERSION,
+          last_content_update: LAST_CONTENT_UPDATE,
+          last_omnibus_verification: LAST_OMNIBUS_VERIFICATION,
+          digital_omnibus: {
+            status: digitalOmnibus.status,
+            provisional_agreement_date: digitalOmnibus.provisionalAgreementDate,
+            last_verified_at: digitalOmnibus.lastVerifiedAt,
+            sources: digitalOmnibus.sources,
+          },
           milestones: [
-            { date: "2024-08-01", event: "Entry into force", status: "past" },
-            { date: "2025-02-02", event: "Prohibited AI practices ban + AI literacy obligation", status: "past" },
-            { date: "2025-08-02", event: "GPAI model obligations apply", status: "past" },
-            { date: "2026-08-02", event: "Most provisions apply (high-risk, transparency, governance)", status: "upcoming" },
-            { date: "2027-08-02", event: "High-risk AI in Annex I (EU harmonisation legislation) fully applies", status: "upcoming" },
+            { current_law_date: "2024-08-01", provisional_date_if_adopted: null, event: "Entry into force", status: "past", binding_status: "current_law" },
+            { current_law_date: "2025-02-02", provisional_date_if_adopted: "2026-12-02 for newly added prohibited practices if adopted", event: "Prohibited AI practices ban + AI literacy obligation", status: "past", binding_status: "current_law" },
+            { current_law_date: "2025-08-02", provisional_date_if_adopted: null, event: "GPAI model obligations apply", status: "past", binding_status: "current_law" },
+            { current_law_date: "2026-08-02", provisional_date_if_adopted: "2027-12-02", event: "High-risk Annex III and transparency rules apply", status: "upcoming", binding_status: "current_law" },
+            { current_law_date: "2027-08-02", provisional_date_if_adopted: "2028-08-02", event: "High-risk AI in Annex I (EU harmonisation legislation) fully applies", status: "upcoming", binding_status: "current_law" },
           ],
         }, null, 2),
       }],

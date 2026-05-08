@@ -1,7 +1,7 @@
 export declare const BRANDING: {
     readonly source: "Lexbeam Software - lexbeam.com";
     readonly disclaimer: "General guidance, not legal advice. For implementation support: lexbeam.com/kontakt";
-    readonly lastUpdated: "2026-04-08";
+    readonly lastUpdated: "2026-05-08";
     readonly baseUrl: "https://lexbeam.com";
 };
 /**

@@ -9,6 +9,14 @@ An open-source [Model Context Protocol](https://modelcontextprotocol.io) (MCP) s
 
 Built by [Lexbeam Software](https://lexbeam.com) — an agentic AI implementation boutique for regulated workflows.
 
+## What's new in 1.2.0
+
+- **Legal-status card.** `euaiact_get_legal_status` returns the current-law vs provisional Digital Omnibus status, remaining formal adoption steps, communication guardrails, last verification date, and structured official sources.
+- **Structured deadline metadata.** `euaiact_check_deadlines` now separates `current_law_date` from `provisional_date_if_adopted`, adds `binding_status`, `last_verified_at`, `knowledge_version`, and source URLs.
+- **FRIA trigger assessment.** `euaiact_assess_fria_trigger` checks Art. 27 scope for high-risk systems, deployer type, DPIA interaction, notification notes, and current-law/provisional timing.
+- **Serious-incident triage.** `euaiact_triage_serious_incident` maps Art. 73 facts to likely 2-day / 10-day / 15-day reporting buckets with clock-start guidance and immediate actions.
+- **Content/version metadata.** `/health`, the timeline resource, and deadline/legal-status responses now expose content freshness fields (`knowledge_version`, `last_content_update`, `last_omnibus_verification`).
+
 ## What's new in 1.1.0
 
 - **Structured classifier signals.** `euaiact_classify_system` now accepts optional `signals` (domain, `uses_biometrics`, `biometric_realtime`, `is_safety_component_of_regulated_product`, `generates_synthetic_content`, `interacts_with_natural_persons`, etc.). Signals take precedence over text matching and give deterministic, high-confidence answers on canonical Art. 5 / Annex III / Art. 50 cases.
@@ -34,6 +42,7 @@ Built by [Lexbeam Software](https://lexbeam.com) — an agentic AI implementatio
 |------|-------------|
 | `euaiact_classify_system` | Classify an AI system's risk level (prohibited / high-risk / limited / minimal) from free text **or** structured signals. Returns matched signals, missing signals, and follow-up questions. |
 | `euaiact_check_deadlines` | Implementation milestones with days remaining, `next_milestone` shortcut, `only_upcoming` filter, and the Digital Omnibus proposal status. |
+| `euaiact_get_legal_status` **(new)** | Current-law vs provisional Digital Omnibus legal-status card with official sources, adoption steps, and communication guardrails. |
 | `euaiact_get_obligations` | Specific compliance obligations by role (provider/deployer) and risk level, including GPAI (Art. 51-56) and universal AI literacy (Art. 4). |
 | `euaiact_answer_question` | Semantic FAQ search across 24 curated EU AI Act questions with article references. |
 | `euaiact_calculate_penalty` | Calculate maximum fines by violation type, turnover, and SME status (Art. 99) with a comparative non-SME vs SME block. |
@@ -41,6 +50,8 @@ Built by [Lexbeam Software](https://lexbeam.com) — an agentic AI implementatio
 | `euaiact_check_gpai_systemic_risk` **(new)** | Check whether a GPAI model crosses the 10²⁵ FLOPs threshold and return Art. 53 + Art. 55 obligations plus the Art. 52 notification duty. |
 | `euaiact_assess_art6_3_exception` **(new)** | Walk through the Art. 6(3) "no significant risk" exception with explicit profiling block and Art. 6(4) / Art. 49(2) reminders. |
 | `euaiact_annex_iv_checklist` **(new)** | Return all nine Annex IV technical-documentation items, optionally as a markdown checklist. |
+| `euaiact_assess_fria_trigger` **(new)** | Assess whether Art. 27 FRIA is required or likely based on high-risk status, deployer type, affected persons, and DPIA interaction. |
+| `euaiact_triage_serious_incident` **(new)** | Triage Art. 73 serious-incident reportability and likely 2-day / 10-day / 15-day outer reporting bucket. |
 
 ## Resources
 
@@ -87,7 +98,9 @@ Add to `claude_desktop_config.json`:
 npx -y @smithery/cli@latest mcp add lexbeam-software/eu-ai-act
 ```
 
-Direct MCP endpoint: `https://eu-ai-act--lexbeam-software.run.tools`.
+Hosted Lexbeam MCP endpoint: `https://mcp.lexbeam.com/mcp`.
+
+Smithery direct endpoint: `https://eu-ai-act--lexbeam-software.run.tools`.
 
 ### From source
 
@@ -109,7 +122,7 @@ Curated, structured data covering:
 - **Art. 6(3) exception conditions** with the profiling block rule
 - **Art. 50 transparency triggers** (chatbots, deepfakes, emotion recognition, machine-readable marking)
 - **5 implementation milestones** with dynamic days-remaining calculation
-- **Digital Omnibus proposal** status and impact assessment
+- **Digital Omnibus provisional-agreement status** with current-law/provisional dates, source URLs, and freshness metadata
 - **Provider obligations** (13 for high-risk, 8 for GPAI including Art. 53 + Art. 55)
 - **Deployer obligations** (8 for high-risk)
 - **Limited-risk transparency obligations** (4 under Art. 50)
@@ -123,20 +136,20 @@ All dates, articles, and obligations verified against the regulation text.
 
 ## Regulatory Accuracy
 
-This server tracks the current state of the EU AI Act as published (Regulation 2024/1689). The Digital Omnibus proposal (December 2025) is included but clearly marked as `proposal_only` — not yet adopted law.
+This server tracks the current state of the EU AI Act as published (Regulation 2024/1689). The Digital Omnibus AI Act amendments reached a Council/Parliament provisional political agreement on 7 May 2026, but are **not yet adopted law**. Current-law dates remain authoritative until formal adoption and Official Journal publication. The server exposes this through `euaiact_get_legal_status` and the `digital_omnibus` block in `euaiact_check_deadlines`.
 
 Key dates verified:
 - **2 Feb 2025** — Prohibited practices + AI literacy (in effect)
 - **2 Aug 2025** — GPAI model obligations (in effect)
-- **2 Aug 2026** — High-risk Annex III obligations (upcoming)
-- **2 Aug 2027** — Annex I regulated products (upcoming)
+- **2 Aug 2026** — High-risk Annex III obligations under current law; provisional agreement would shift to **2 Dec 2027** if adopted
+- **2 Aug 2027** — Annex I regulated products under current law; provisional agreement would shift to **2 Aug 2028** if adopted
 
 ## Development
 
 ```bash
 npm install
 npm run build        # typescript -> dist/
-node test.mjs        # run the 108-test suite
+node test.mjs        # run the 132-test suite
 npm run dev          # stdio dev server
 npm run dev:http     # HTTP dev server
 ```

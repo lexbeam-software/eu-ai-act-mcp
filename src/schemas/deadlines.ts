@@ -11,6 +11,10 @@ export const deadlinesInputSchema = z.object({
 export const deadlinesOutputSchema = z.object({
   milestones: z.array(z.object({
     date: z.string(),
+    current_law_date: z.string(),
+    provisional_date_if_adopted: z.string().nullable(),
+    binding_status: z.enum(["current_law", "provisional_if_adopted"]),
+    last_verified_at: z.string(),
     name: z.string(),
     description: z.string(),
     status: z.enum(["in_effect", "upcoming", "proposal_only"]),
@@ -30,10 +34,19 @@ export const deadlinesOutputSchema = z.object({
     name: z.string(),
     status: z.string(),
     proposal_date: z.string(),
+    provisional_agreement_date: z.string(),
+    last_verified_at: z.string(),
     description: z.string(),
     key_changes: z.array(z.string()),
     impact_on_ai_act: z.string(),
+    sources: z.array(z.object({
+      name: z.string(),
+      date: z.string(),
+      url: z.string(),
+    })),
   }),
+  knowledge_version: z.string(),
+  last_content_update: z.string(),
 });
 
 export type DeadlinesInput = z.infer<typeof deadlinesInputSchema>;
