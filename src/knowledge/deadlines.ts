@@ -127,19 +127,23 @@ export interface LegislativeProposal {
 
 export const digitalOmnibus: LegislativeProposal = {
   name: "Digital Omnibus Simplification Package",
-  status: "proposal_only",
-  proposalDate: "2025-12-04",
+  status: "provisional_agreement", // updated 2026-05-08: was "proposal_only"; political agreement reached 2026-05-07, not yet formally adopted
+  proposalDate: "2025-12-04", // Commission tabled the original proposal on this date
   description:
-    "European Commission proposal to simplify reporting and compliance obligations across the AI Act, GDPR, NIS2, DORA, and other digital regulations. Part of the broader EU simplification agenda. NOT YET ADOPTED - still a legislative proposal going through ordinary legislative procedure.",
+    "European Commission proposal (tabled 2025-12-04) to simplify reporting and compliance obligations across the AI Act, GDPR, NIS2, DORA. The AI Act portion progressed to a Council/Parliament PROVISIONAL POLITICAL AGREEMENT on 2026-05-07. Status as of 2026-05-08: not formally adopted. Pending Council and Parliament endorsement, legal/linguistic revision, and Official Journal publication. EP Legislative Observatory (procedure 2025/0359(COD)) shows file as awaiting Parliament's position in 1st reading.",
   keyChanges: [
-    "Proposed narrowing of Annex III high-risk categories (e.g. removing certain AI components in regulated products)",
-    "Proposed extension of certain deadlines for SMEs",
-    "Proposed alignment of incident reporting across AI Act, NIS2, and DORA",
-    "Proposed reduction of documentation burden for low-risk GPAI models",
-    "Proposed strengthening of the Art. 6(3) exception mechanism",
+    "Annex III high-risk obligations: current law 2 Aug 2026 -> provisional agreement would shift to 2 Dec 2027",
+    "Annex I high-risk obligations: current law 2 Aug 2027 -> provisional agreement would shift to 2 Aug 2028",
+    "Article 50 GenAI watermarking and output detection: current law 2 Aug 2026 -> provisional agreement would shift to 2 Dec 2026",
+    "Article 5 prohibited practices list expanded with CSAM and non-consensual sexual/intimate content; provisional compliance by 2 Dec 2026",
+    "Registration of 'exempted' Annex III high-risk systems: REMAINS MANDATED (Parliament blocked Commission simplification)",
+    "Sensitive personal data processing for bias detection: broader scope, 'strictly necessary' clause retained",
+    "GPAI obligations themselves (in force since 2 Aug 2025): UNCHANGED",
+    "Commission enforcement powers and fines for GPAI (start 2 Aug 2026): UNCHANGED",
+    "Legacy GPAI compliance deadline (2 Aug 2027 for models placed before 2 Aug 2025): UNCHANGED",
   ],
   impactOnAIAct:
-    "If adopted, the Digital Omnibus could significantly reduce the scope of high-risk classification and ease compliance burdens. However, as a proposal only (December 2025), organisations should NOT rely on these changes for current compliance planning. Continue preparing against the current regulation text.",
+    "The 2026-05-07 provisional Council/Parliament political agreement would shift several deadlines for high-risk AI systems IF formally adopted. The agreement is NOT yet adopted law: pending formal adoption plus Official Journal publication, current-law dates remain authoritative for compliance advice. Plan against current law; treat the provisional shifts as politically foreseeable but not yet binding. Sources: Council press release 2026-05-07, European Parliament press release 2026-05-07, EP Legislative Observatory procedure 2025/0359(COD), AI Act Service Desk timeline.",
 };
 
 // ---------------------------------------------------------------------------
