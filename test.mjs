@@ -289,7 +289,8 @@ test("5 milestones total", milestones.length === 5);
 test("Entry into force is past", milestones[0].isPast === true);
 test("Aug 2026 is upcoming", milestones[3].isPast === false);
 test("Aug 2027 is upcoming", milestones[4].isPast === false);
-test("Digital Omnibus is proposal_only", digitalOmnibus.status === "proposal_only");
+test("Digital Omnibus is provisional_agreement", digitalOmnibus.status === "provisional_agreement");
+test("Digital Omnibus impact keeps not-adopted caveat", digitalOmnibus.impactOnAIAct.includes("NOT yet adopted law"));
 
 // Tool-level: only_upcoming filter
 {
