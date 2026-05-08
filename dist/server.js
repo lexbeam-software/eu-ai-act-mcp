@@ -25,7 +25,7 @@ import { annexIVItems } from "./knowledge/annex-iv.js";
 export function createServer() {
     const server = new McpServer({
         name: "lexbeam-eu-ai-act-mcp-server",
-        version: "1.1.3",
+        version: "1.1.4",
     }, {
         instructions: SERVER_INSTRUCTIONS,
     });

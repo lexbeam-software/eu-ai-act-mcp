@@ -26,7 +26,7 @@ const httpServer = createHttpServer(async (req, res) => {
     // Health check
     if (req.method === "GET" && req.url === "/health") {
         res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ status: "ok", server: "lexbeam-eu-ai-act-mcp", version: "1.1.3" }));
+        res.end(JSON.stringify({ status: "ok", server: "lexbeam-eu-ai-act-mcp", version: "1.1.4" }));
         return;
     }
     // MCP endpoint
