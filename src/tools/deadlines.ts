@@ -1,6 +1,12 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { deadlinesInputSchema, deadlinesOutputSchema, type DeadlinesInput, type DeadlinesOutput } from "../schemas/deadlines.js";
-import { getMilestonesWithDaysRemaining, digitalOmnibus } from "../knowledge/deadlines.js";
+import {
+  getMilestonesWithDaysRemaining,
+  digitalOmnibus,
+  LAST_CONTENT_UPDATE,
+  LAST_OMNIBUS_VERIFICATION,
+  KNOWLEDGE_VERSION,
+} from "../knowledge/deadlines.js";
 
 export function registerDeadlinesTool(server: McpServer): void {
   server.registerTool("euaiact_check_deadlines", {
@@ -33,6 +39,10 @@ export function registerDeadlinesTool(server: McpServer): void {
     const output: DeadlinesOutput = {
       milestones: currentMilestones.map(m => ({
         date: m.date,
+        current_law_date: m.date,
+        provisional_date_if_adopted: m.provisionalDateIfAdopted ?? null,
+        binding_status: "current_law",
+        last_verified_at: LAST_OMNIBUS_VERIFICATION,
         name: m.name,
         description: m.description,
         status: m.status,
@@ -52,10 +62,15 @@ export function registerDeadlinesTool(server: McpServer): void {
         name: digitalOmnibus.name,
         status: digitalOmnibus.status,
         proposal_date: digitalOmnibus.proposalDate,
+        provisional_agreement_date: digitalOmnibus.provisionalAgreementDate,
+        last_verified_at: digitalOmnibus.lastVerifiedAt,
         description: digitalOmnibus.description,
         key_changes: digitalOmnibus.keyChanges,
         impact_on_ai_act: digitalOmnibus.impactOnAIAct,
+        sources: digitalOmnibus.sources,
       },
+      knowledge_version: KNOWLEDGE_VERSION,
+      last_content_update: LAST_CONTENT_UPDATE,
     };
 
     return {

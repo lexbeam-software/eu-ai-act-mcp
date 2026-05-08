@@ -11,12 +11,46 @@ export interface Milestone {
   status: "in_effect" | "upcoming" | "proposal_only";
   articles: string[];
   keyObligations: string[];
+  provisionalDateIfAdopted?: string;
 }
 
 export interface MilestoneWithDaysRemaining extends Milestone {
   daysRemaining: number;
   isPast: boolean;
 }
+
+export interface SourceCitation {
+  name: string;
+  date: string;
+  url: string;
+}
+
+export const KNOWLEDGE_VERSION = "2026-05-08.omnibus-provisional";
+export const LAST_CONTENT_UPDATE = "2026-05-08";
+export const LAST_OMNIBUS_VERIFICATION = "2026-05-08";
+
+export const omnibusSources: SourceCitation[] = [
+  {
+    name: "Council of the European Union press release",
+    date: "2026-05-07",
+    url: "https://www.consilium.europa.eu/en/press/press-releases/2026/05/07/artificial-intelligence-council-and-parliament-agree-to-simplify-and-streamline-rules/pdf/",
+  },
+  {
+    name: "European Parliament press release",
+    date: "2026-05-07",
+    url: "https://www.europarl.europa.eu/news/en/press-room/20260427IPR42011/ai-act-deal-on-simplification-measures-ban-on-nudifier-apps",
+  },
+  {
+    name: "European Parliament Legislative Observatory procedure 2025/0359(COD)",
+    date: "2026-05-08",
+    url: "https://oeil.secure.europarl.europa.eu/oeil/en/procedure-file?reference=2025/0359(COD)",
+  },
+  {
+    name: "European Commission AI Act Service Desk timeline",
+    date: "2026-05-08",
+    url: "https://ai-act-service-desk.ec.europa.eu/en/ai-act/timeline/timeline-implementation-eu-ai-act",
+  },
+];
 
 // ---------------------------------------------------------------------------
 // Milestone Timeline
@@ -95,6 +129,7 @@ export const milestones: Milestone[] = [
       "Post-market monitoring and incident reporting",
       "Penalties framework enforceable",
     ],
+    provisionalDateIfAdopted: "2027-12-02",
   },
   {
     date: "2027-08-02",
@@ -109,6 +144,7 @@ export const milestones: Milestone[] = [
       "Covers: medical devices, machinery, toys, lifts, pressure equipment, radio equipment, civil aviation, motor vehicles, and more",
       "Third-party conformity assessment aligned with sectoral legislation",
     ],
+    provisionalDateIfAdopted: "2028-08-02",
   },
 ];
 
@@ -120,15 +156,20 @@ export interface LegislativeProposal {
   name: string;
   status: string;
   proposalDate: string;
+  provisionalAgreementDate: string;
+  lastVerifiedAt: string;
   description: string;
   keyChanges: string[];
   impactOnAIAct: string;
+  sources: SourceCitation[];
 }
 
 export const digitalOmnibus: LegislativeProposal = {
   name: "Digital Omnibus Simplification Package",
   status: "provisional_agreement", // updated 2026-05-08: was "proposal_only"; political agreement reached 2026-05-07, not yet formally adopted
   proposalDate: "2025-12-04", // Commission tabled the original proposal on this date
+  provisionalAgreementDate: "2026-05-07",
+  lastVerifiedAt: LAST_OMNIBUS_VERIFICATION,
   description:
     "European Commission proposal (tabled 2025-12-04) to simplify reporting and compliance obligations across the AI Act, GDPR, NIS2, DORA. The AI Act portion progressed to a Council/Parliament PROVISIONAL POLITICAL AGREEMENT on 2026-05-07. Status as of 2026-05-08: not formally adopted. Pending Council and Parliament endorsement, legal/linguistic revision, and Official Journal publication. EP Legislative Observatory (procedure 2025/0359(COD)) shows file as awaiting Parliament's position in 1st reading.",
   keyChanges: [
@@ -144,6 +185,7 @@ export const digitalOmnibus: LegislativeProposal = {
   ],
   impactOnAIAct:
     "The 2026-05-07 provisional Council/Parliament political agreement would shift several deadlines for high-risk AI systems IF formally adopted. The agreement is NOT yet adopted law: pending formal adoption plus Official Journal publication, current-law dates remain authoritative for compliance advice. Plan against current law; treat the provisional shifts as politically foreseeable but not yet binding. Sources: Council press release 2026-05-07, European Parliament press release 2026-05-07, EP Legislative Observatory procedure 2025/0359(COD), AI Act Service Desk timeline.",
+  sources: omnibusSources,
 };
 
 // ---------------------------------------------------------------------------

@@ -11,6 +11,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Moved repository to the `lexbeam-software` GitHub organization. Updated `repository` and `bugs` fields in `package.json`. Old `PicoWorx/eu-ai-act-mcp` URLs continue to redirect.
 - Added `SECURITY.md`, `CONTRIBUTING.md`, issue templates, pull request template, and a CI workflow that runs the full test suite on every push and pull request.
 
+## [1.2.0] - 2026-05-08
+
+### Added
+
+- **`euaiact_get_legal_status`** to return a canonical legal-status card for current-law vs provisional Digital Omnibus dates, remaining formal adoption steps, last verification date, source URLs, and communication guardrails.
+- **`euaiact_assess_fria_trigger`** to assess whether Art. 27 FRIA is required or likely based on high-risk status, deployer type, affected persons, DPIA interaction, and current-law/provisional timing.
+- **`euaiact_triage_serious_incident`** to triage Art. 73 serious-incident reportability and likely 2-day / 10-day / 15-day outer reporting bucket.
+- Structured freshness metadata: `knowledge_version`, `last_content_update`, and `last_omnibus_verification` in `/health`, the timeline resource, and deadline/legal-status outputs.
+- Structured official source citations for the Digital Omnibus block.
+
+### Changed
+
+- `euaiact_check_deadlines` now separates `current_law_date` from `provisional_date_if_adopted` and exposes `binding_status` plus `last_verified_at` for date-sensitive milestones.
+- Timeline resource now carries Digital Omnibus legal-status metadata and source citations.
+- Test suite expanded to 132 tests.
+
 ## [1.1.4] - 2026-05-08
 
 ### Changed
@@ -25,7 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Schema unchanged. The `digital_omnibus` block keeps the same shape (`name`, `status`, `proposal_date`, `description`, `key_changes`, `impact_on_ai_act`); only string content is updated. Existing clients of `euaiact_check_deadlines` see updated text without breaking changes.
 - Sources: Council press release 2026-05-07, European Parliament press release 2026-05-07, EP Legislative Observatory procedure 2025/0359(COD), AI Act Service Desk timeline.
-- A future v1.2.0 release will add a structured two-track API (`current_law` and `provisional_omnibus_agreement_2026_05_07` separately, with `legal_status` flag and source URLs per response) and a new `euaiact_omnibus_impact_assessment` tool. The 1.1.4 patch covers hygiene; 1.2.0 ships the product-feature differentiator.
+- v1.2.0 adds the structured two-track/current-law API and a dedicated legal-status tool.
 
 ## [1.1.1] - 2026-04-13
 
