@@ -1,6 +1,6 @@
 name: lexbeam-eu-ai-act-mcp-server
-description: "EU AI Act compliance MCP server with 9 tools: risk classification (with structured signals), article lookup, GPAI systemic risk check, Art. 6(3) exception assessment, Annex IV checklist, deadlines, obligations, penalties, and FAQ. By Lexbeam Software."
-version: 1.1.1
+description: "EU AI Act compliance MCP server with 9 tools: risk classification (with structured signals), article lookup, GPAI systemic risk check, Art. 6(3) exception assessment, Annex IV checklist, deadlines (Digital Omnibus provisional-agreement aware), obligations, penalties, and FAQ. By Lexbeam Software."
+version: 1.1.4
 command: npx
 args:
   - -y
