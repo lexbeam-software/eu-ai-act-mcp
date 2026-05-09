@@ -9,6 +9,18 @@ An open-source [Model Context Protocol](https://modelcontextprotocol.io) (MCP) s
 
 Built by [Lexbeam Software](https://lexbeam.com) — an agentic AI implementation boutique for regulated workflows.
 
+## What's new in 1.1.5
+
+- **Annex III(5) FRIA citation labels corrected.** Article 27(1) universal FRIA triggers are now correctly cited as **Annex III(5)(b)** (creditworthiness or credit scoring) and **Annex III(5)(c)** (risk assessment and pricing for life and health insurance). Previous labels (5(a)/5(b) or 5(b)/5(a)) are fixed across `articles.ts`, `faq-database.ts`, `obligations.ts`, and the generated `dist`.
+- **Article 27 carve-out clarified.** Annex III point 2 (critical infrastructure) is the only Annex III category exempt from FRIA, now stated explicitly in every relevant surface.
+- **Article 43 conformity assessment text corrected.** Previous wording suggested "certain critical infrastructure" required notified-body involvement. Fixed: Annex III points 2-8 follow internal-control under Annex VI per Art. 43(2). Notified-body involvement is the Annex III(1) biometrics route under Art. 43(1) and the Annex I sectoral route under Art. 43(3).
+- **Version skew resolved.** `package.json`, MCP server metadata (`src/server.ts`), and `/health` endpoint now all report `1.1.5` consistently.
+- **Test count.** Local suite is now **110 tests passing**.
+
+## What's new in 1.1.4
+
+- **Digital Omnibus block** in `euaiact_check_deadlines` updated to reflect the **2026-05-07 Council/Parliament provisional political agreement**. `status` flips from `"proposal_only"` to `"provisional_agreement"`. The agreement is **not yet adopted law** — current-law dates remain authoritative for compliance advice until formal adoption plus Official Journal publication.
+
 ## What's new in 1.1.0
 
 - **Structured classifier signals.** `euaiact_classify_system` now accepts optional `signals` (domain, `uses_biometrics`, `biometric_realtime`, `is_safety_component_of_regulated_product`, `generates_synthetic_content`, `interacts_with_natural_persons`, etc.). Signals take precedence over text matching and give deterministic, high-confidence answers on canonical Art. 5 / Annex III / Art. 50 cases.
@@ -26,7 +38,7 @@ Built by [Lexbeam Software](https://lexbeam.com) — an agentic AI implementatio
 - **Better deadlines tool.** New `only_upcoming` filter and a `next_milestone` shortcut at the top of the response.
 - **Improved FAQ search.** `findBestMatch` uses symmetric overlap (`matched / min(query_words, item_words)`), so specific multi-word queries like *"FRIA for credit scoring"* no longer drop to generic answers.
 - **Slim per-response branding.** `disclaimer`, `source`, and `last_updated` were moved into the MCP `serverInfo.instructions` shown once on initialize. Agents no longer pay a per-call context tax for attribution. `lexbeam_url` is kept only where it adds deep-dive value (FAQ, obligations, classifier).
-- **Comprehensive test suite.** 108 tests (up from 54), including regression tests for every bug fixed in this release.
+- **Comprehensive test suite.** Includes regression tests for every bug fixed in this release. Current local suite count: 110 tests passing.
 
 ## Tools
 
@@ -123,7 +135,7 @@ All dates, articles, and obligations verified against the regulation text.
 
 ## Regulatory Accuracy
 
-This server tracks the current state of the EU AI Act as published (Regulation 2024/1689). The Digital Omnibus proposal (December 2025) is included but clearly marked as `proposal_only` — not yet adopted law.
+This server tracks the current state of the EU AI Act as published (Regulation 2024/1689). The Digital Omnibus reached a Council/Parliament **provisional political agreement on 2026-05-07** (procedure 2025/0359(COD)) and is now reported with `status: "provisional_agreement"`. The agreement is **not yet adopted law** — current-law dates remain authoritative for compliance advice until formal adoption plus Official Journal publication.
 
 Key dates verified:
 - **2 Feb 2025** — Prohibited practices + AI literacy (in effect)

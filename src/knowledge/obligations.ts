@@ -86,7 +86,7 @@ export const providerHighRiskObligations: Obligation[] = [
     article: "Art. 43",
     deadline: "2026-08-02",
     details:
-      "Undergo a conformity assessment procedure before placing the system on the market. For systems listed in Annex III (except biometrics and critical infrastructure), internal control under Annex VI is sufficient. For biometrics in Annex III(1) and certain critical infrastructure, involvement of a notified body is required. Systems covered by Union harmonisation legislation in Annex I follow that legislation's assessment procedure.",
+      "Undergo a conformity assessment procedure before placing the system on the market. For Annex III point 1 (biometrics), Art. 43(1) sets the applicable route (internal control under Annex VI, or quality management system plus technical documentation assessment with notified-body involvement under Annex VII). For Annex III points 2-8, providers follow the internal-control procedure under Annex VI per Art. 43(2). Systems covered by Union harmonisation legislation in Annex I follow the relevant sectoral conformity assessment procedure under Art. 43(3), including notified-body involvement where required by that sectoral legislation.",
     category: "conformity_assessment",
   },
   {

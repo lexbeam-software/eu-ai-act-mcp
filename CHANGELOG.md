@@ -11,6 +11,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Moved repository to the `lexbeam-software` GitHub organization. Updated `repository` and `bugs` fields in `package.json`. Old `PicoWorx/eu-ai-act-mcp` URLs continue to redirect.
 - Added `SECURITY.md`, `CONTRIBUTING.md`, issue templates, pull request template, and a CI workflow that runs the full test suite on every push and pull request.
 
+## [1.1.5] - 2026-05-09
+
+### Fixed
+
+- **Annex III(5) FRIA citation labels.** Corrected sub-point labels for the universal FRIA triggers under Article 27(1): creditworthiness and credit scoring of natural persons is **Annex III(5)(b)**, life and health insurance risk assessment and pricing is **Annex III(5)(c)**. Previous labels in `articles.ts`, `faq-database.ts` (faq-11-fria, faq-22-fria-credit-scoring) and `obligations.ts` had these as 5(a)/5(b) or 5(b)/5(a). Cross-checked against EUR-Lex Regulation (EU) 2024/1689.
+- **Article 27 carve-out clarified.** Annex III point 2 (critical infrastructure) is the only Annex III category exempt from the FRIA obligation; this is now stated explicitly in the article summary, the FAQ entry, and the obligations text.
+- **Article 43 conformity assessment text.** `obligations.ts` previously suggested "certain critical infrastructure" required notified-body involvement. Corrected: Annex III points 2-8 follow internal-control under Annex VI (Art. 43(2)). Notified-body involvement applies to Annex III point 1 biometrics under Art. 43(1) and to Annex I sectoral legislation under Art. 43(3).
+- **Version skew.** `src/server.ts` and `src/http.ts` `/health` previously hardcoded `"1.1.4"` while `package.json` was bumped. Now consistent at `1.1.5` across all surfaces.
+
 ## [1.1.4] - 2026-05-08
 
 ### Changed
