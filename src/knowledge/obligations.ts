@@ -173,7 +173,7 @@ export const deployerHighRiskObligations: Obligation[] = [
     article: "Art. 27",
     deadline: "2026-08-02",
     details:
-      "Before putting a high-risk AI system into use, deployers that are bodies governed by public law, private entities providing public services, or deployers of systems under Annex III points 5(b) (creditworthiness) and 5(a) (essential services) must perform an assessment of the system's impact on fundamental rights. Must notify the market surveillance authority of the result and submit the FRIA via the EU database.",
+      "Before putting a high-risk AI system into use (with the exception of systems under Annex III point 2 critical infrastructure), deployers that are bodies governed by public law, private entities providing public services, or deployers of systems under Annex III points 5(b) (creditworthiness or credit scoring of natural persons) and 5(c) (risk assessment and pricing for life and health insurance) must perform an assessment of the system's impact on fundamental rights. Must notify the market surveillance authority of the result and submit the FRIA via the EU database.",
     category: "fundamental_rights",
   },
   {
