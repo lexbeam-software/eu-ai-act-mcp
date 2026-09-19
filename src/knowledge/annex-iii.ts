@@ -45,7 +45,8 @@ export interface TransparencyTrigger {
 
 /**
  * Single-word keywords that classify on their own. Each one is a term of art that, in a
- * description of an AI system, names the regulated function by itself. Every other
+ * description of an AI system, names the regulated function by itself, or in the case of
+ * "judicial" the user whose involvement defines Annex III(8)(a). Every other
  * single-word keyword in the lists below is weak evidence: it counts only beside a
  * second hit in the same category, and never on its own towards a prohibited practice.
  *
@@ -61,6 +62,7 @@ export const decisiveSingleWordKeywords: ReadonlySet<string> = new Set([
   "hiring",
   "creditworthiness",
   "polygraph",
+  "judicial",
   "sentencing",
   "subliminal",
   "nudification",
@@ -208,6 +210,7 @@ export const annexIIICategories: HighRiskCategory[] = [
       "immigration", "border security", "refugee",
       "irregular migration",
       "asylum application", "asylum claim", "visa application risk", "visa application assessment",
+      "visa application examination", "examine visa application", "residence permit application",
     ],
     relevantArticles: ["Annex III(7)", "Art. 6(2)"],
   },
@@ -229,6 +232,7 @@ export const annexIIICategories: HighRiskCategory[] = [
       "democratic process",
       "judicial authority", "assist judges", "influence voters", "influence election",
       "voter targeting", "persuade voters",
+      "judge", "magistrate", "appellate",
     ],
     relevantArticles: ["Annex III(8)", "Art. 6(2)"],
   },

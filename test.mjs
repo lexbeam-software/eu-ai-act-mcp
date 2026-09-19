@@ -2158,7 +2158,7 @@ console.log("\n🧷 FREE-TEXT GUARDS");
   // A new decisive single word is a reviewed decision, not a convenience.
   test("matcher: the decisive single-word set is the reviewed one",
     [...decisiveSingleWordKeywords].sort().join(",") ===
-      "chatbot,creditworthiness,csam,deepfake,hiring,nudification,nudify,polygraph,proctoring,recruitment,sentencing,subliminal,undress");
+      "chatbot,creditworthiness,csam,deepfake,hiring,judicial,nudification,nudify,polygraph,proctoring,recruitment,sentencing,subliminal,undress");
 }
 
 // ─── SITE LINKS ─────────────────────────────────────────────────────────────
