@@ -36,7 +36,8 @@ function canonicalize(value) {
 }
 
 function canonicalResponseHash(response) {
-  const { runtime_metadata: _runtimeMetadata, ...stable } = response;
+  // Kept in step with deterministicResponseProjection in src/utils/canonical-json.ts.
+  const { runtime_metadata: _runtimeMetadata, server_version: _serverVersion, ...stable } = response;
   return createHash("sha256").update(canonicalize(stable), "utf8").digest("hex");
 }
 

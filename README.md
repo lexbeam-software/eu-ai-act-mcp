@@ -9,23 +9,25 @@ An open-source [Model Context Protocol](https://modelcontextprotocol.io) (MCP) s
 
 Built by [Lexbeam Software](https://lexbeam.com) - an agentic AI implementation boutique for regulated workflows.
 
-## What's new in 1.5.0
+## What's new in 1.6.0
 
-Version 1.5.0 adds `euaiact_assess_system`, one bounded decision call over a sparse,
-normalized system profile.
+Version 1.6.0 corrects what a calling agent is told, and measures what it then does.
 
-- **Three independent blocks:** legal classification, qualitative impact, and
-  implementation readiness. Impact cannot change legal classification, and a legal
-  route never implies evidence completeness or approval.
-- **Fail-closed conclusions:** decisive missing facts make only their affected blocks
-  undetermined, with stable IDs and questions. Unverified free text cannot satisfy a
-  decisive legal predicate.
-- **Grounded and reproducible:** every finding resolves to supplied facts or disclosed
-  missing facts and carries complete official-text provenance. Results bind to the
-  sealed four-source corpus and have RFC 8785 golden hashes.
-- **Compatibility pinned:** all nine existing tools retain byte-identical behavior for
-  the same fixed inputs and corpus. The assessment tool is registered additively as
-  tool 10.
+- **Listed uses, not sectors:** `signals.domain` names an Annex III area only when the
+  system itself performs a use Annex III lists for it. Until now the field read as the
+  sector a system operates in, and an agent that filled it faithfully got a school
+  timetable, a payroll check and a court budgeting tool back as high-risk. Measured with
+  one agent model on 358 descriptions: 46 of 106 non-regulated systems were wrongly
+  regulated under the old tool definition and none under the new one, while recognition
+  of regulated systems held (181 and 179 of 252). See [evals/front-door](evals/front-door).
+- **Signals first:** the tool description tells the agent to derive the structured
+  signals from the user's description itself. Free text alone is only keyword-matched.
+- **A callable assessment:** the `euaiact_assess_system` description states the fact
+  shape and a useful minimum profile.
+- **Releases with two human steps and no token:** a GitHub release stages the package on
+  npm over trusted publishing, and it becomes public only when a maintainer approves it
+  with 2FA. A weekly job checks every lexbeam.com link the server publishes, and a version
+  bump no longer moves a pinned hash.
 
 Full release history: [CHANGELOG.md](CHANGELOG.md).
 
@@ -77,7 +79,7 @@ npm run start:http  # streamable HTTP (for Smithery/Railway)
 
 | Tool | Description |
 |------|-------------|
-| `euaiact_classify_system` | Classify an AI system's risk level (prohibited / high-risk / limited / minimal) from free text **or** structured signals. Returns matched signals, missing signals, and follow-up questions. |
+| `euaiact_classify_system` | Classify an AI system's risk level (prohibited / high-risk / limited / minimal) from structured signals that the calling agent derives from the user's description; free text alone is a keyword fallback. Returns matched signals, missing signals, and follow-up questions. |
 | `euaiact_check_deadlines` | Implementation milestones with days remaining, `next_milestone` shortcut, `only_upcoming` filter, and the enacted Digital Omnibus (Regulation (EU) 2026/1744) status. |
 | `euaiact_get_obligations` | Specific compliance obligations by role (provider/deployer) and risk level, including GPAI (Art. 51-56) and universal AI literacy (Art. 4). |
 | `euaiact_answer_question` | Keyword FAQ search (lexical matching with stopword filtering, tie handling and abstention) across 24 curated EU AI Act questions; echoes your question and names the matched entry. |
@@ -145,10 +147,11 @@ Operative dates as amended:
 npm install
 npm run build        # typescript -> dist/
 node test.mjs         # full suite incl. ten agent journeys
-node test-claims.mjs  # 108-check matrix: pinned law corpus vs served facts
+node test-claims.mjs  # 124-check matrix: pinned law corpus vs served facts
 node test-schemas.mjs # post-serialization output-schema gate
 node law/fetch.mjs verify # verify all 4 pinned legal documents
 npm --prefix compiler test # deterministic compiler: 6 tests
+node evals/front-door/score.mjs evals/front-door/agent-args-1.6.0.json # the front door, measured
 npm run dev          # stdio dev server
 npm run dev:http     # HTTP dev server
 ```

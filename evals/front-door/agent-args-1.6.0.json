@@ -1,0 +1,2265 @@
+{
+ "s1-annex_iii_1-01": {
+  "description": "Our stadium turnstiles match season-ticket holders' faces from a metre away as they walk in, so fans never fumble for a ticket.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true
+  }
+ },
+ "s1-annex_iii_1-02": {
+  "description": "Our entry cameras at the festival gate estimate each visitor's age group and steer under-age fans away from the beer tents.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_realtime": true
+  }
+ },
+ "s1-annex_iii_1-03": {
+  "description": "Our ride cameras rate how much thrill or fear each rider shows on their face, and the park uses those scores to suggest scarier attractions.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s1-annex_iii_1-04": {
+  "description": "A system that recognises regulars by voice through the intercom at our car park entrance and lifts the barrier automatically.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true
+  }
+ },
+ "s1-annex_iii_1-05": {
+  "description": "We identify gym members by their walk as they pass the door camera, so nobody needs a key fob.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true
+  }
+ },
+ "s1-annex_iii_2-01": {
+  "description": "Our system sets the timing of every traffic light in the city centre in real time to keep junctions flowing.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s1-annex_iii_2-02": {
+  "description": "Our SCADA screens run the dosing pumps at the water treatment plant; the software adjusts chlorine automatically and trips the line if readings drift.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s1-annex_iii_2-03": {
+  "description": "A system that watches pressure across the gas network and closes valves section by section when a leak is suspected.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s1-annex_iii_2-04": {
+  "description": "Our dispatch tool decides which power plants ramp up and sheds load automatically when grid frequency drops, keeping the lights on nationwide.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s1-annex_iii_2-05": {
+  "description": "We control the town's district heating network, throttling pumps and boilers so homes stay warm without pipes over-pressuring.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s1-annex_iii_3-01": {
+  "description": "We rank nursing programme applicants by their grades, entrance test results and personal statements, and only the top band gets an offer.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s1-annex_iii_3-02": {
+  "description": "Our LMS marks the essay questions in the end-of-year exam and the mark goes straight into the report card.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s1-annex_iii_3-03": {
+  "description": "The app listens to each pupil read aloud, then moves them up or down a reading level without teacher sign-off.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s1-annex_iii_3-04": {
+  "description": "Our proctoring software watches candidates' webcams during online exams and flags anyone whose gaze drifts or who leaves the screen.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s1-annex_iii_3-05": {
+  "description": "We sort incoming year sevens into maths sets based on a placement test the system scores overnight.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s1-annex_iii_4-01": {
+  "description": "Our ATS screens incoming CVs against the job spec and auto-rejects anyone missing the right keywords before a recruiter looks.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s1-annex_iii_4-02": {
+  "description": "We score candidates' recorded video interviews for confidence and word choice; only the top tenth reach a human panel.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s1-annex_iii_4-03": {
+  "description": "The warehouse system tracks how fast each picker walks, scans and stows, ranks the whole shift and emails warnings to the slowest three.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s1-annex_iii_4-04": {
+  "description": "Our dashboard pulls every consultant's utilisation, client feedback and sales numbers, then lists who should be promoted and who managed out.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s1-annex_iii_4-05": {
+  "description": "We route incoming support chats to agents based on their past resolution speed and a personality test they took at hiring.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s1-annex_iii_5-01": {
+  "description": "Our tool checks each household's income, rent and family size against the rules and tells the council who qualifies for housing benefit.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s1-annex_iii_5-02": {
+  "description": "We score loan applicants on repayment history, existing debts and income to decide approval and the interest rate on their mortgage.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s1-annex_iii_5-03": {
+  "description": "Our engine prices life policies from applicants' medical questionnaires, pharmacy records and family history, setting the yearly premium for each person.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s1-annex_iii_5-04": {
+  "description": "A system that recalculates everyone's health cover price each month from their step counts, smoking status and past claims.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s1-annex_iii_5-05": {
+  "description": "Our console listens to incoming emergency calls, ranks them by urgency and assigns the nearest ambulance automatically.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s1-annex_iii_6-01": {
+  "description": "Our tool helps officers judge how likely a domestic abuse victim is to be attacked again, so they can set protection measures.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s1-annex_iii_6-02": {
+  "description": "The interview room software analyses a suspect's voice for stress and micro-tremors to indicate whether they are telling the truth.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s1-annex_iii_6-03": {
+  "description": "We rate how reliable each witness statement is, flagging inconsistencies so investigators know which testimony to lean on when building the case.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s1-annex_iii_6-04": {
+  "description": "Our score estimates the chance a convicted offender commits another crime, and the parole board uses it when deciding early release.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s1-annex_iii_6-05": {
+  "description": "During the burglary series, our software profiles suspects from their movements, phone records and known associates to rank who gets interviewed next.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s1-annex_iii_7-01": {
+  "description": "Our tool scores visa applications for the risk that the applicant overstays, using their travel history, finances and family ties back home.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s1-annex_iii_7-02": {
+  "description": "We help caseworkers assess asylum claims by checking each applicant's account against country reports and flagging inconsistencies in the story.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s1-annex_iii_7-03": {
+  "description": "Our kiosks at the land border capture every traveller's face and irises and match them against border watchlists before the gate opens.",
+  "signals": {
+   "domain": "migration",
+   "uses_biometrics": true
+  }
+ },
+ "s1-annex_iii_7-04": {
+  "description": "The system pre-screens arriving passengers against security and immigration databases and marks anyone who should be questioned at the border.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s1-annex_iii_7-05": {
+  "description": "We verify residence permit applications, spotting forged documents and mismatched photos before a case officer ever opens the file.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s1-annex_iii_8-01": {
+  "description": "Our assistant reads the case file, surfaces relevant precedents and suggests how the judge might apply the law to the facts.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s1-annex_iii_8-02": {
+  "description": "We draft first versions of rulings for the commercial court, matching the dispute's facts to the right legal provisions.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s1-annex_iii_8-03": {
+  "description": "Our app texts voters in marginal constituencies with personalised arguments picked to shift their support toward our candidate before election day.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s1-annex_iii_8-04": {
+  "description": "We build psychological profiles of undecided voters from their likes and shares, then serve each one ads crafted to change their vote.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s1-annex_iii_8-05": {
+  "description": "A system that compares an ongoing case against thousands of past judgments and tells the chamber which outcome the law supports.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s1-art5_1a-01": {
+  "description": "Our video player flashes ten-millisecond frames praising the sponsor, too quick to consciously notice, and viewers later buy things they never planned to.",
+  "signals": {}
+ },
+ "s1-art5_1a-02": {
+  "description": "Our checkout page warns 'your booking will be cancelled in 60 seconds' with a countdown, pressuring customers into overpriced cancellation cover they don't need.",
+  "signals": {}
+ },
+ "s1-art5_1a-03": {
+  "description": "A voice agent that clones a customer's relative from a short sample, calls claiming an emergency, and talks them into transferring savings to a 'safe' account.",
+  "signals": {
+   "generates_synthetic_content": true,
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s1-art5_1b-01": {
+  "description": "Our mobile game targets children with spinning wheels, fake countdowns and 'your parents aren't watching' prompts that push them into repeated in-app purchases.",
+  "signals": {
+   "targets_children_or_vulnerable": true
+  }
+ },
+ "s1-art5_1b-02": {
+  "description": "The app reads its terms out far too fast and hides the cancel button behind tiny icons, trapping subscribers with learning difficulties into plans they can't escape.",
+  "signals": {
+   "targets_children_or_vulnerable": true
+  }
+ },
+ "s1-art5_1b-03": {
+  "description": "Our lending app detects when a user's balance hits zero and pushes one-tap micro-loans at triple-digit rates in that exact moment.",
+  "signals": {
+   "targets_children_or_vulnerable": true
+  }
+ },
+ "s1-art5_1c-01": {
+  "description": "Our platform gives every shopper a hidden conduct score from their returns, reviews and browsing, and low scorers face slower deliveries and higher prices on unrelated products.",
+  "signals": {
+   "performs_social_scoring": true,
+   "social_scoring_unrelated_context": true
+  }
+ },
+ "s1-art5_1c-02": {
+  "description": "We score customers on how politely they treat support staff and whether they pay small fees on time, then people with poor marks lose our job board and flat listings.",
+  "signals": {
+   "performs_social_scoring": true,
+   "social_scoring_unrelated_context": true
+  }
+ },
+ "s1-art5_1c-03": {
+  "description": "The city app tracks how often residents recycle, volunteer and pay fees on time, and low scorers pay more for parking and wait longer for permits.",
+  "signals": {
+   "performs_social_scoring": true,
+   "social_scoring_unrelated_context": true,
+   "performs_social_scoring_by_public_authority": true
+  }
+ },
+ "s1-art5_1d-01": {
+  "description": "Our tool takes a personality questionnaire and a postcode, then predicts which teenagers will one day commit violent offences.",
+  "signals": {
+   "targets_children_or_vulnerable": true
+  }
+ },
+ "s1-art5_1d-02": {
+  "description": "We flag shoppers as future shoplifters purely from their walking pace, browsing patterns and which aisles they linger in — no offence has taken place."
+ },
+ "s1-art5_1d-03": {
+  "description": "The software reads teenagers' social media posts, friendships and hobbies to predict who is likely to join a gang and offend.",
+  "signals": {
+   "targets_children_or_vulnerable": true
+  }
+ },
+ "s1-art5_1e-01": {
+  "description": "We harvest billions of photos from social media profiles and tag pages to build a face search engine anyone can query with a single picture.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true
+  }
+ },
+ "s1-art5_1e-02": {
+  "description": "Our crawlers collect every face they find in public web albums, wedding galleries and news photos, adding them all to one searchable gallery.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true
+  }
+ },
+ "s1-art5_1e-03": {
+  "description": "The system ingests footage from hundreds of municipal CCTV streams, crops every face it sees and stores them in a lookup database with no particular suspect in mind.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true
+  }
+ },
+ "s1-art5_1f-01": {
+  "description": "Our desktop software listens to call centre agents' tone during their shifts and flags when they sound frustrated or flat with customers.",
+  "signals": {
+   "domain": "employment",
+   "uses_biometrics": true,
+   "performs_emotion_recognition_workplace_or_school": true
+  }
+ },
+ "s1-art5_1f-02": {
+  "description": "The classroom camera watches each pupil's face during lessons and tells the teacher who looks confused, bored or anxious.",
+  "signals": {
+   "uses_biometrics": true,
+   "performs_emotion_recognition_workplace_or_school": true,
+   "targets_children_or_vulnerable": true
+  }
+ },
+ "s1-art5_1f-03": {
+  "description": "We analyse office workers' webcam feeds and typing rhythm to gauge their stress levels, alerting managers when morale dips.",
+  "signals": {
+   "domain": "employment",
+   "uses_biometrics": true,
+   "performs_emotion_recognition_workplace_or_school": true
+  }
+ },
+ "s1-art5_1g-01": {
+  "description": "Our ad platform infers shoppers' ethnicity from their facial features in the webcam preview and uses that to pick which products to show.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s1-art5_1g-02": {
+  "description": "A startup claims it can tell a person's religion and political leaning from one passport-style photo, and sells that as an API to advertisers.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s1-art5_1g-03": {
+  "description": "We analyse callers' voice recordings to guess their sexual orientation and where their family comes from, then sort the mailing list accordingly.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s1-art5_1h-01": {
+  "description": "City police run live CCTV at the main station entrance, matching every face in the crowd against a wanted list in real time.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true,
+   "biometric_law_enforcement": true,
+   "biometric_publicly_accessible_space": true
+  }
+ },
+ "s1-art5_1h-02": {
+  "description": "During the carnival, officers scan live street camera feeds to spot persons of interest the moment they appear in the crowd.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true,
+   "biometric_law_enforcement": true,
+   "biometric_publicly_accessible_space": true
+  }
+ },
+ "s1-art5_1h-03": {
+  "description": "Our watchlist system alerts patrol officers within seconds when a body-worn camera picks out a tracked suspect in a public square.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true,
+   "biometric_law_enforcement": true,
+   "biometric_publicly_accessible_space": true
+  }
+ },
+ "s1-art50_1-01": {
+  "description": "Our webshop chatbot answers shoppers' questions about sizes, shipping and returns, and most customers don't realise they're typing to a machine.",
+  "signals": {
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s1-art50_1-02": {
+  "description": "We built a phone voice assistant that handles password resets and account questions for our bank's callers around the clock.",
+  "signals": {
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s1-art50_1-03": {
+  "description": "A conversational assistant on our travel site helps users plan trips, suggesting hotels and answering follow-up questions in natural dialogue.",
+  "signals": {
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s1-art50_2-01": {
+  "description": "Our platform generates thousands of product descriptions and banner images every night for online shops, with no human writer involved.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s1-art50_2-02": {
+  "description": "We mass-produce short promotional videos with synthetic voiceovers for social media campaigns, turning out dozens per client each day.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s1-art50_2-03": {
+  "description": "The newsroom tool writes automated summaries of press releases and generates stock illustrations to sit above each article.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s1-art50_3-01": {
+  "description": "Our shelf cameras track shoppers' facial expressions in the snack aisle to see which displays make them smile or frown.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s1-art50_3-02": {
+  "description": "We show focus group participants teaser trailers and read their faces through the webcam to score surprise, delight and boredom.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s1-art50_3-03": {
+  "description": "The smart billboard estimates passers-by's age and mood and swaps the advert to whatever suits the crowd at that moment.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s1-art50_4-01": {
+  "description": "We clone our brand ambassador's voice from old interviews so she can 'narrate' new ads in languages she never recorded.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s1-art50_4-02": {
+  "description": "Our tool puts words in a politician's mouth, generating a realistic video of them announcing a policy they never mentioned.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s1-art50_4-03": {
+  "description": "The studio generates photorealistic shots of the lead actor doing stunts, indistinguishable from footage of the real performer.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s1-none-01": {
+  "description": "Our fraud engine flags card transactions that don't fit a customer's usual spending pattern and blocks the payment until they confirm in the app.",
+  "signals": {}
+ },
+ "s1-none-02": {
+  "description": "We rank incoming sales leads by how likely they are to close, using company size, past email replies and website visits.",
+  "signals": {}
+ },
+ "s1-none-03": {
+  "description": "The pipeline scores candidate molecules against the target protein and cuts the lab's shortlist from two million compounds to fifty.",
+  "signals": {}
+ },
+ "s1-none-04": {
+  "description": "We transcribe hour-long user research interviews and highlight the moments where participants hesitate or correct themselves.",
+  "signals": {}
+ },
+ "s1-none-05": {
+  "description": "Our appliance watches network traffic for unusual patterns and quarantines a laptop the moment it talks to a suspicious address.",
+  "signals": {}
+ },
+ "s1-none-06": {
+  "description": "Vibration sensors feed our model, which predicts which conveyor motors in the plant will fail this month so crews service them first.",
+  "signals": {}
+ },
+ "s1-none-07": {
+  "description": "Our filter catches phishing and spam before it reaches anyone's inbox and learns from every message users mark as junk.",
+  "signals": {}
+ },
+ "s1-none-08": {
+  "description": "The editor underlines grammar slips and awkward phrasing as you type and suggests tighter wording for each sentence.",
+  "signals": {}
+ },
+ "s1-none-09": {
+  "description": "We suggest what to watch next based on the films a subscriber finished, abandoned or rated highly.",
+  "signals": {}
+ },
+ "s1-none-10": {
+  "description": "Our forecast predicts how many units of each product the warehouse will ship next quarter, so purchasing knows what to stock.",
+  "signals": {}
+ },
+ "s1-none-11": {
+  "description": "We read supplier invoices as they arrive, pull out the amounts and VAT numbers, and push them into accounting.",
+  "signals": {}
+ },
+ "s1-none-12": {
+  "description": "Our translation layer converts support tickets from German and Polish into English so agents in one hub can answer everything.",
+  "signals": {}
+ },
+ "s1-none-13": {
+  "description": "As the developer types, our assistant completes whole functions from the docstring and offers unit test stubs.",
+  "signals": {}
+ },
+ "s1-none-14": {
+  "description": "We combine satellite imagery and soil sensors to tell each farmer which fields need watering and which will yield best.",
+  "signals": {}
+ },
+ "s1-none-15": {
+  "description": "Our model reads product reviews and labels each one positive, negative or neutral so merchandisers can track reactions to a launch.",
+  "signals": {}
+ },
+ "s1-none-16": {
+  "description": "Cameras over the filling line spot bottles with crooked caps or low fill levels and pull them before packing.",
+  "signals": {}
+ },
+ "s1-none-17": {
+  "description": "Our storefront search reorders results for each shopper based on what similar customers clicked and bought.",
+  "signals": {}
+ },
+ "s1-none-18": {
+  "description": "After each standup, our bot turns the recording into short notes with owners and due dates for every action item.",
+  "signals": {}
+ },
+ "s1-none-19": {
+  "description": "Our planner sequences every van's drop-offs to cut fuel use and keep each delivery inside its promised window.",
+  "signals": {}
+ },
+ "s1-none-20": {
+  "description": "We pick the next track for each listener by matching tempo and energy to the songs they skipped or replayed.",
+  "signals": {}
+ },
+ "s2-annex_iii_1-01": {
+  "description": "Our stadium security platform scans recorded surveillance footage after events to locate and identify banned individuals across multiple camera angles.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": false,
+   "biometric_sole_purpose_verification": false
+  }
+ },
+ "s2-annex_iii_1-02": {
+  "description": "We deploy a shopping mall visitor analytics system that estimates shopper age brackets and gender from overhead camera footage.",
+  "role": "deployer",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-annex_iii_1-03": {
+  "description": "The venue management software matches faces from retrospective concert recordings against an internal watch list of known ticket fraudsters.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": false,
+   "biometric_sole_purpose_verification": false
+  }
+ },
+ "s2-annex_iii_1-04": {
+  "description": "Our interactive museum installation detects the moods and attention levels of gallery visitors to dynamically adjust lighting and ambient sound.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "performs_emotion_recognition_workplace_or_school": false
+  }
+ },
+ "s2-annex_iii_1-05": {
+  "description": "We built an airport lounge camera tool that groups waiting passengers into demographic segments based on their physical features.",
+  "role": "provider",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-annex_iii_2-01": {
+  "description": "Our SCADA automation module controls emergency shutoff valves across municipal drinking water pipelines when pressure spikes threaten structural failure.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s2-annex_iii_2-02": {
+  "description": "The smart grid software autonomously redistributes high-voltage electricity loads between regional substations to prevent widespread blackouts during peak demand.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s2-annex_iii_2-03": {
+  "description": "We supply an urban traffic management system that modifies motorway speed limits and lane signals in real time to prevent collisions.",
+  "role": "provider",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s2-annex_iii_2-04": {
+  "description": "Our industrial control system regulates safety dampers and burner pressures across the city's central district heating network.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s2-annex_iii_2-05": {
+  "description": "The software manages automated routing failovers and core router switching to keep critical regional internet exchange points operating safely.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s2-annex_iii_3-01": {
+  "description": "Our university admissions platform scores applicant high school records and personal statements to automatically decide which candidates receive offers.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s2-annex_iii_3-02": {
+  "description": "We provide an automated exam proctoring plugin that flags suspicious head movements and background audio to detect cheating during remote tests.",
+  "role": "provider",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s2-annex_iii_3-03": {
+  "description": "The LMS engine evaluates written student essays, assigns final letter grades, and records them directly into the school's academic registry.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s2-annex_iii_3-04": {
+  "description": "Our tool allocates incoming secondary school pupils across specialized vocational tracks or academic streams based on their aptitude test scores.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s2-annex_iii_3-05": {
+  "description": "We use an adaptive learning platform that determines which advanced curriculum tier a pupil is placed into for mathematics.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s2-annex_iii_4-01": {
+  "description": "Our ATS automatically parses incoming CVs, screens candidates against job specs, and shortlists applicants for interview rounds.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s2-annex_iii_4-02": {
+  "description": "The workforce management tool tracks call centre agent keystrokes, breaks, and call handling times to generate monthly performance reviews.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s2-annex_iii_4-03": {
+  "description": "We use a video interviewing platform that analyzes candidate speech patterns, gestures, and tone to generate suitability scores for hiring managers.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s2-annex_iii_4-04": {
+  "description": "Our platform assigns warehouse packing shifts and daily delivery routes by analyzing individual workers' historical productivity and stamina metrics.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s2-annex_iii_4-05": {
+  "description": "The HR analytics software evaluates employee retention risk and recommends staff for promotion or contract termination during quarterly restructuring.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s2-annex_iii_5-01": {
+  "description": "Our municipal portal evaluates citizen financial records and household size to decide eligibility for housing subsidies and heating allowances.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s2-annex_iii_5-02": {
+  "description": "We provide consumer lending software that scores personal loan applicants and sets individualized interest rates based on banking history.",
+  "role": "provider",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s2-annex_iii_5-03": {
+  "description": "The underwriting engine calculates personalized monthly premiums for private health and life insurance applicants using individual medical histories.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s2-annex_iii_5-04": {
+  "description": "Our 999 call handling software evaluates caller descriptions to automatically assign urgency levels and dispatch ambulances to critical emergencies.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s2-annex_iii_5-05": {
+  "description": "The government welfare system verifies unemployment support claims and determines whether recipients continue to meet entitlement criteria.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s2-annex_iii_6-01": {
+  "description": "Our investigative toolkit analyzes financial transactions and phone logs to identify suspect networks and profile potential accomplices.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s2-annex_iii_6-02": {
+  "description": "The custody management tool assesses the likelihood that an arrested suspect will commit another violent crime if released on pre-trial bail.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s2-annex_iii_6-03": {
+  "description": "Police detectives use our software to evaluate the credibility and consistency of witness audio statements during homicide investigations.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s2-annex_iii_6-04": {
+  "description": "We built a risk assessment system for police officers to predict whether a domestic abuse victim is in immediate danger of severe harm.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s2-annex_iii_6-05": {
+  "description": "The forensic analytics application tests digital evidence for signs of tampering and calculates a reliability score for court proceedings.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s2-annex_iii_7-01": {
+  "description": "Our automated border e-gates match passenger passports with live camera snapshots to verify identities and clear travellers for entry.",
+  "signals": {
+   "domain": "other",
+   "uses_biometrics": true,
+   "biometric_sole_purpose_verification": true
+  }
+ },
+ "s2-annex_iii_7-02": {
+  "description": "The immigration authority uses our system to screen asylum applications, checking supporting documents and flagging discrepancies in refugee travel routes.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s2-annex_iii_7-03": {
+  "description": "Our passenger screening tool analyzes advance passenger data before flight departures to assess security and immigration risks for arriving visa holders.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s2-annex_iii_7-04": {
+  "description": "The border agency deployed our system to examine tourist visa applications and identify applicants who might overstay their permitted duration.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s2-annex_iii_7-05": {
+  "description": "We provide border checkpoints with an identity verification system that authenticates travel documents and detects fraudulent residency permits.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-annex_iii_8-01": {
+  "description": "Our judicial assistant software searches case jurisprudence and drafts recommended legal rulings on statutory claims for presiding judges.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s2-annex_iii_8-02": {
+  "description": "We run a political campaign platform that microtargets swing voters with personalized messages designed to alter their voting choices in upcoming parliamentary elections.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s2-annex_iii_8-03": {
+  "description": "The legal analytics tool interprets court filings and statutory precedents to advise magistrates on standard sentence lengths for criminal charges.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s2-annex_iii_8-04": {
+  "description": "Our election marketing software models individual voter anxieties to deploy customized social media ad campaigns aimed at swaying referendum votes.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s2-annex_iii_8-05": {
+  "description": "The appellate court uses our research assistant to analyze case facts against conflicting precedents and propose formal legal findings.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s2-art5_1a-01": {
+  "description": "Our mobile game plays inaudible high-frequency audio cues during play to induce compulsive in-app purchases among players who cannot hear them.",
+  "signals": {}
+ },
+ "s2-art5_1a-02": {
+  "description": "We built an e-commerce checkout tool that uses imperceptible micro-flashes and hidden cues to trick users into signing recurring subscription debts.",
+  "signals": {}
+ },
+ "s2-art5_1a-03": {
+  "description": "The app delivers covert subliminal visual prompts below conscious perception to drive users to take dangerous unprescribed weight loss supplements.",
+  "signals": {}
+ },
+ "s2-art5_1b-01": {
+  "description": "Our connected toy uses synthetic companionship to persuade young children into performing dangerous physical stunts around the house.",
+  "signals": {
+   "targets_children_or_vulnerable": true
+  }
+ },
+ "s2-art5_1b-02": {
+  "description": "We created an app that targets financially desperate, impoverished people with deceptive high-cost predatory microloans, driving them into severe insolvency.",
+  "signals": {
+   "targets_children_or_vulnerable": true
+  }
+ },
+ "s2-art5_1b-03": {
+  "description": "The platform exploits cognitive declines in elderly dementia patients to coax them into transferring their life savings into risky offshore funds.",
+  "signals": {
+   "targets_children_or_vulnerable": true
+  }
+ },
+ "s2-art5_1c-01": {
+  "description": "The municipal platform tracks citizens' recycling habits, driving infractions, and online comments to assign a civic score that limits their access to public transport.",
+  "signals": {
+   "performs_social_scoring": true,
+   "social_scoring_unrelated_context": true,
+   "performs_social_scoring_by_public_authority": true
+  }
+ },
+ "s2-art5_1c-02": {
+  "description": "Our corporate platform rates customers on their personal lifestyle habits and shopping choices, using the score to deny them access to unrelated rental housing.",
+  "signals": {
+   "performs_social_scoring": true,
+   "social_scoring_unrelated_context": true
+  }
+ },
+ "s2-art5_1c-03": {
+  "description": "We aggregate social media posts and neighbourhood dispute reports into a general citizen trust rating used by local authorities to downgrade school placements.",
+  "signals": {
+   "performs_social_scoring": true,
+   "social_scoring_unrelated_context": true,
+   "performs_social_scoring_by_public_authority": true
+  }
+ },
+ "s2-art5_1d-01": {
+  "description": "The police tool predicts whether a specific citizen will commit a future burglary based entirely on their neighbourhood profile and psychological questionnaire scores.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s2-art5_1d-02": {
+  "description": "We developed an algorithm for detectives that flags individual citizens as prospective drug offenders using personality traits and lifestyle assessments without prior offences.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s2-art5_1d-03": {
+  "description": "Our system assigns criminal risk ratings to individuals based solely on their leisure habits, social circles, and personality traits to justify proactive surveillance.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s2-art5_1e-01": {
+  "description": "Our web crawler systematically scrapes photos from public social media profiles and websites across the internet to expand our massive facial recognition database.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-art5_1e-02": {
+  "description": "We build commercial face databases by mass downloading unindexed portrait images and personal photos across billions of web pages without specific targets.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-art5_1e-03": {
+  "description": "The software ingests untargeted, continuous live streams from municipal CCTV cameras to harvest and catalog millions of random faces for our matching index.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-art5_1f-01": {
+  "description": "Our monitoring software analyzes webcam video feeds of remote employees during work hours to determine if they are frustrated, bored, or content.",
+  "signals": {
+   "domain": "employment",
+   "uses_biometrics": true,
+   "performs_emotion_recognition_workplace_or_school": true
+  }
+ },
+ "s2-art5_1f-02": {
+  "description": "We installed cameras in high school classrooms that track students' facial expressions to deduce their emotional engagement and mood during lectures.",
+  "signals": {
+   "domain": "education",
+   "uses_biometrics": true,
+   "performs_emotion_recognition_workplace_or_school": true
+  }
+ },
+ "s2-art5_1f-03": {
+  "description": "The company uses an audio analysis plugin on staff conference calls to detect when team members feel stressed or unhappy at work.",
+  "signals": {
+   "domain": "employment",
+   "uses_biometrics": true,
+   "performs_emotion_recognition_workplace_or_school": true
+  }
+ },
+ "s2-art5_1g-01": {
+  "description": "Our software scans facial features and skin tone variations from uploaded portraits to classify individuals by racial background and ethnic origin.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-art5_1g-02": {
+  "description": "We built a computer vision tool that analyzes users' facial geometry and eye movements to predict their political party affiliations and voting leanings.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-art5_1g-03": {
+  "description": "The image processing app examines physical facial traits in profile pictures to determine a person's religious beliefs and sexual orientation.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-art5_1h-01": {
+  "description": "Police units use our system to perform live facial identification of pedestrians passing through public city squares using real-time CCTV streams.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true,
+   "biometric_law_enforcement": true,
+   "biometric_publicly_accessible_space": true
+  }
+ },
+ "s2-art5_1h-02": {
+  "description": "Our mobile surveillance van feeds live public street camera footage to police algorithms that instantly identify citizens walking along downtown pavements.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true,
+   "biometric_law_enforcement": true,
+   "biometric_publicly_accessible_space": true
+  }
+ },
+ "s2-art5_1h-03": {
+  "description": "Law enforcement officers run our real-time facial recognition tool on body-worn cameras to identify individuals live in crowded public train stations.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true,
+   "biometric_law_enforcement": true,
+   "biometric_publicly_accessible_space": true
+  }
+ },
+ "s2-art50_1-01": {
+  "description": "We built an automated conversational voice agent that answers incoming customer support telephone calls and helps users troubleshoot billing questions.",
+  "signals": {
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s2-art50_1-02": {
+  "description": "Our website includes an interactive shopping chatbot that talks directly to store visitors and answers product inquiries in real time.",
+  "signals": {
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s2-art50_1-03": {
+  "description": "The banking app features a virtual conversational assistant that interacts directly with account holders to help them execute transfers.",
+  "signals": {
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s2-art50_2-01": {
+  "description": "Our content engine generates synthetic product descriptions, blog posts, and marketing imagery at scale for online retail catalogues.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s2-art50_2-02": {
+  "description": "We developed an AI platform that produces synthetic background music tracks and stock illustrations for video game studios.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s2-art50_2-03": {
+  "description": "The publishing tool generates full-length synthetic audiobook narrations and illustrative cover art from raw book manuscripts.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s2-art50_3-01": {
+  "description": "Our retail display camera detects whether shoppers look pleased or confused when looking at promotional store endcaps.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-art50_3-02": {
+  "description": "We use an in-store sensor that categorizes passing supermarket shoppers by estimated age group to display targeted digital advertisements.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-art50_3-03": {
+  "description": "The market research platform scans focus group participants' expressions during movie trailers to record moment-by-moment emotional reactions.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s2-art50_4-01": {
+  "description": "Our video editing suite generates realistic synthetic videos of real television presenters reading breaking news scripts in multiple foreign languages.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s2-art50_4-02": {
+  "description": "We built a tool that replaces actors' faces with realistic digital likenesses of real historical figures in cinematic footage.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s2-art50_4-03": {
+  "description": "The voice cloning application generates photorealistic audio clips mimicking the exact voices of famous celebrities reading user-submitted messages.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s2-none-01": {
+  "description": "Our payment gateway monitors credit card transactions for anomalous purchasing locations and unusual amounts to prevent payment fraud.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-02": {
+  "description": "The CRM platform ranks inbound enterprise sales leads based on corporate website visits, company headcount, and downloaded whitepapers.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-03": {
+  "description": "Our biotech platform screens and ranks millions of candidate chemical molecules to predict their binding affinity with target viral proteins.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-04": {
+  "description": "We use an automated speech-to-text service that transcribes recorded user research interviews for our product design team.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-05": {
+  "description": "The cybersecurity software inspects outgoing network packets for known malware signatures and prevents data exfiltration from office workstations.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-06": {
+  "description": "Vibration sensors on factory conveyor belts feed our predictive maintenance software to schedule bearing replacements before mechanical breakdowns occur.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-07": {
+  "description": "Our mail server filters incoming corporate emails into quarantine folders if they contain deceptive sender headers or known phishing links.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-08": {
+  "description": "We provide a desktop writing assistant that highlights typographical errors, suggests synonyms, and corrects punctuation mistakes in drafted reports.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-09": {
+  "description": "Our streaming service recommends comedy films and documentaries to subscribers based on their previous viewing history and genre ratings.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-10": {
+  "description": "The supply chain module forecasts pallet replenishment schedules for warehouse logistics by analyzing historical sales volumes and seasonal supplier lead times.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-11": {
+  "description": "Our accounting utility extracts vendor names, line items, and invoice totals from scanned receipts to populate ERP payment entries.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-12": {
+  "description": "We use an automated neural engine that translates English technical user manuals into Spanish and German for industrial equipment exports.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-13": {
+  "description": "The developer plugin suggests boilerplate code snippets and auto-completes function arguments inside the software engineer's code editor.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-14": {
+  "description": "Our agritech system analyzes satellite soil moisture data and regional weather forecasts to help farmers plan optimal wheat harvest dates.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-15": {
+  "description": "The marketing dashboard groups thousands of public Amazon reviews into positive and negative feedback categories for our consumer electronics line.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-16": {
+  "description": "Our studio software analyzes raw multi-track music recordings to automatically equalize audio frequencies and normalize volume levels for streaming release.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-17": {
+  "description": "The robotic vacuum cleaner builds a 2D floorplan of home living rooms using infrared bumper sensors to optimize cleaning routes.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-18": {
+  "description": "Our commercial aviation platform adjusts ticket prices for scheduled flights based on route search volume, competitor fares, and remaining seat capacity.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-19": {
+  "description": "The web developer tool audits HTML pages against web accessibility guidelines to flag low color contrast and missing image alt tags.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s2-none-20": {
+  "description": "Our mobile gallery app automatically groups pet photos into cat and dog albums by recognizing animal shapes in stored images.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-annex_iii_1-01": {
+  "description": "We use a camera system that scans faces from street corners to match visitors against a government watchlist in real time.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true,
+   "biometric_publicly_accessible_space": true
+  }
+ },
+ "s3-annex_iii_1-02": {
+  "description": "Our tool analyzes body temperature and heart rate from shoppers in a mall to infer stress levels and categorize them by perceived anxiety.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s3-annex_iii_1-03": {
+  "description": "A system that captures gait patterns from pedestrians in a park and groups them by age and gender without explicit consent.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s3-annex_iii_1-04": {
+  "description": "We deploy drones that record facial expressions of festival attendees to sort crowds by happiness and excitement for marketing sponsors.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s3-annex_iii_1-05": {
+  "description": "Our platform reads micro‑movements from shoppers’ eyes in a retail aisle to determine interest levels and rank them for personalized offers.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s3-annex_iii_2-01": {
+  "description": "We operate an AI controller that adjusts electricity grid load balancing in response to real‑time demand spikes to prevent blackouts.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s3-annex_iii_2-02": {
+  "description": "Our system monitors water pressure in municipal pipelines and automatically closes valves when leak risk exceeds predefined thresholds.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s3-annex_iii_2-03": {
+  "description": "A platform that predicts gas flow anomalies in a refinery and triggers emergency shut‑down procedures to avoid explosions.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s3-annex_iii_2-04": {
+  "description": "We use AI to coordinate traffic light timing across a city, reducing congestion and preventing accidents at busy intersections.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s3-annex_iii_2-05": {
+  "description": "Our tool continuously scans cybersecurity logs of a data centre and isolates compromised servers before they affect critical services.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s3-annex_iii_3-01": {
+  "description": "We run an AI that evaluates high‑school transcripts and test scores to rank applicants for university scholarships.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s3-annex_iii_3-02": {
+  "description": "Our platform automatically grades multiple‑choice exams for online courses and flags unusual answer patterns for possible cheating.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s3-annex_iii_3-03": {
+  "description": "A system that assigns students to language‑learning groups based on initial placement test results and learning speed.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s3-annex_iii_3-04": {
+  "description": "We use AI to monitor webcam feeds during remote exams, detecting suspicious movements and alerting proctors in real time.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s3-annex_iii_3-05": {
+  "description": "Our tool predicts which freshmen are at risk of dropping out after the first semester and recommends targeted tutoring.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s3-annex_iii_4-01": {
+  "description": "We employ an AI that scans CVs and social profiles to shortlist candidates whose skills match a software‑engineer vacancy.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s3-annex_iii_4-02": {
+  "description": "Our system rates employee performance from daily activity logs and suggests promotions for the top‑ranked staff each quarter.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s3-annex_iii_4-03": {
+  "description": "A platform that allocates warehouse picking tasks to workers based on their speed and error history to optimise throughput.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s3-annex_iii_4-04": {
+  "description": "We use AI to monitor call‑center agents’ voice tone and pause length, providing real‑time coaching to improve customer satisfaction.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s3-annex_iii_4-05": {
+  "description": "Our tool analyses employee survey responses to identify burnout risk and recommends workload adjustments for at‑risk teams.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s3-annex_iii_5-01": {
+  "description": "We run an AI that determines eligibility for housing subsidies based on income, family size, and rental market data.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s3-annex_iii_5-02": {
+  "description": "Our platform calculates life‑insurance premiums by analysing medical history, lifestyle habits, and regional health statistics.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s3-annex_iii_5-03": {
+  "description": "A system that prioritises emergency calls by assessing caller location, injury severity, and available ambulance resources.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s3-annex_iii_5-04": {
+  "description": "We use AI to evaluate applications for unemployment benefits, automatically approving those who meet income and work‑history criteria.",
+  "signals": {
+   "domain": "essential_services"
+  }
+ },
+ "s3-annex_iii_5-05": {
+  "description": "Our tool predicts credit risk for small businesses by combining transaction data, cash‑flow trends, and sector performance indicators.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-annex_iii_6-01": {
+  "description": "We deploy an AI that estimates a suspect’s likelihood of re‑offending based on prior convictions and demographic factors.",
+  "role": "deployer",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s3-annex_iii_6-02": {
+  "description": "Our system analyses interview recordings to detect stress cues that may indicate deception during police interrogations.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s3-annex_iii_6-03": {
+  "description": "A tool that scores the reliability of digital evidence by cross‑checking timestamps, metadata, and source authenticity.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s3-annex_iii_6-04": {
+  "description": "We use AI to identify victims at high risk of domestic violence by monitoring social‑media activity and emergency‑call patterns.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s3-annex_iii_6-05": {
+  "description": "Our platform creates offender profiles by clustering past crime reports, helping investigators focus on likely perpetrators.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s3-annex_iii_7-01": {
+  "description": "We operate a system that scores visa applicants by analysing travel history, employment records, and language proficiency to flag high‑risk entries.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s3-annex_iii_7-02": {
+  "description": "Our AI evaluates asylum seekers’ statements and supporting documents to assess credibility and prioritize case reviews.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s3-annex_iii_7-03": {
+  "description": "A platform that matches facial images captured at border checkpoints with a watchlist to alert officers in real time.",
+  "signals": {
+   "domain": "migration",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true
+  }
+ },
+ "s3-annex_iii_7-04": {
+  "description": "We use machine learning to predict the likelihood that a traveller will overstay their visa based on entry patterns.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s3-annex_iii_7-05": {
+  "description": "Our tool analyses biometric data from e‑gates to identify individuals attempting to use forged documents at international airports.",
+  "signals": {
+   "domain": "migration",
+   "uses_biometrics": true
+  }
+ },
+ "s3-annex_iii_8-01": {
+  "description": "We provide an AI that suggests relevant case law and statutes to judges based on the facts entered in a docket.",
+  "role": "provider",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s3-annex_iii_8-02": {
+  "description": "Our platform generates personalized political ads by analyzing voter preferences and tailoring messages to sway election outcomes.",
+  "signals": {
+   "domain": "justice",
+   "generates_synthetic_content": true
+  }
+ },
+ "s3-annex_iii_8-03": {
+  "description": "A system that drafts summary opinions for magistrates by extracting key arguments from trial transcripts.",
+  "signals": {
+   "domain": "justice",
+   "generates_synthetic_content": true
+  }
+ },
+ "s3-annex_iii_8-04": {
+  "description": "We use AI to monitor social‑media sentiment during campaigns and recommend strategic communication adjustments to candidates.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-annex_iii_8-05": {
+  "description": "Our tool evaluates the consistency of jury deliberations by analysing spoken language patterns for bias indicators.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s3-art5_1a-01": {
+  "description": "We run a chatbot that subtly nudges users to click on phishing links by presenting them as urgent security alerts.",
+  "signals": {
+   "interacts_with_natural_persons": true,
+   "affects_fundamental_rights": true
+  }
+ },
+ "s3-art5_1a-02": {
+  "description": "Our system embeds hidden messages in video ads that trigger impulse purchases without the viewer realizing the influence.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s3-art5_1a-03": {
+  "description": "A platform delivers personalized news feeds that mask sponsored content, leading readers to adopt harmful health practices.",
+  "signals": {
+   "affects_fundamental_rights": true
+  }
+ },
+ "s3-art5_1b-01": {
+  "description": "We use AI to target low‑income households with predatory loan offers disguised as emergency assistance.",
+  "signals": {
+   "targets_children_or_vulnerable": true,
+   "affects_fundamental_rights": true
+  }
+ },
+ "s3-art5_1b-02": {
+  "description": "Our tool sends push notifications to elderly users, urging them to purchase unnecessary medical devices through fear‑based messaging.",
+  "signals": {
+   "targets_children_or_vulnerable": true,
+   "affects_fundamental_rights": true
+  }
+ },
+ "s3-art5_1b-03": {
+  "description": "A system analyses disability benefit claim forms to identify applicants likely to accept higher‑priced insurance add‑ons.",
+  "signals": {
+   "targets_children_or_vulnerable": true,
+   "affects_fundamental_rights": true
+  }
+ },
+ "s3-art5_1c-01": {
+  "description": "We maintain a loyalty score that lowers credit limits for customers who frequently shop at discount stores.",
+  "signals": {
+   "performs_social_scoring": true,
+   "social_scoring_unrelated_context": true
+  }
+ },
+ "s3-art5_1c-02": {
+  "description": "Our platform reduces insurance premiums for drivers who consistently post travel photos on social media, regardless of driving record.",
+  "signals": {
+   "performs_social_scoring": true,
+   "social_scoring_unrelated_context": true
+  }
+ },
+ "s3-art5_1c-03": {
+  "description": "A system downgrades tenant applications if renters have previously used free Wi‑Fi services, affecting housing eligibility.",
+  "signals": {
+   "performs_social_scoring": true,
+   "social_scoring_unrelated_context": true
+  }
+ },
+ "s3-art5_1d-01": {
+  "description": "We deploy an AI that flags individuals as potential burglars solely based on their social media interests and neighborhood.",
+  "role": "deployer",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s3-art5_1d-02": {
+  "description": "Our tool generates a risk score for teenagers to predict future violent behavior using only personality quiz responses.",
+  "signals": {
+   "domain": "law_enforcement",
+   "targets_children_or_vulnerable": true
+  }
+ },
+ "s3-art5_1d-03": {
+  "description": "A system assesses the likelihood of shoplifting by analysing shoppers’ browsing patterns without any prior criminal record.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s3-art5_1e-01": {
+  "description": "We collect publicly available Instagram images to compile a facial recognition database for future marketing analytics.",
+  "signals": {
+   "uses_biometrics": true
+  }
+ },
+ "s3-art5_1e-02": {
+  "description": "Our platform continuously scrapes street‑level CCTV feeds to amass a repository of pedestrian faces for law‑enforcement licensing.",
+  "signals": {
+   "uses_biometrics": true,
+   "biometric_law_enforcement": true
+  }
+ },
+ "s3-art5_1e-03": {
+  "description": "A system aggregates profile pictures from professional networking sites to build a global face dataset without user consent.",
+  "signals": {
+   "uses_biometrics": true
+  }
+ },
+ "s3-art5_1f-01": {
+  "description": "We use webcam analysis to gauge employee stress levels during virtual meetings and suggest break intervals.",
+  "signals": {
+   "domain": "employment",
+   "uses_biometrics": true,
+   "performs_emotion_recognition_workplace_or_school": true
+  }
+ },
+ "s3-art5_1f-02": {
+  "description": "Our tool monitors classroom facial expressions to infer student engagement and alerts teachers when attention drops.",
+  "signals": {
+   "domain": "education",
+   "uses_biometrics": true,
+   "performs_emotion_recognition_workplace_or_school": true
+  }
+ },
+ "s3-art5_1f-03": {
+  "description": "A system evaluates typing speed and error patterns to estimate worker satisfaction in a call centre.",
+  "signals": {
+   "domain": "employment",
+   "performs_emotion_recognition_workplace_or_school": true
+  }
+ },
+ "s3-art5_1g-01": {
+  "description": "We analyze gait and posture captured by retail cameras to infer customers’ cultural background for targeted advertising.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s3-art5_1g-02": {
+  "description": "Our AI predicts political affiliation from facial micro‑expressions during televised debates for market research.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s3-art5_1g-03": {
+  "description": "A system extracts likely religious affiliation from voice tone and language use in customer service calls.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s3-art5_1h-01": {
+  "description": "We provide live facial matching for police to identify individuals walking in a city park from surveillance cameras.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true,
+   "biometric_law_enforcement": true,
+   "biometric_publicly_accessible_space": true
+  }
+ },
+ "s3-art5_1h-02": {
+  "description": "Our system alerts officers when a person of interest appears on a subway platform camera in real time.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true,
+   "biometric_law_enforcement": true,
+   "biometric_publicly_accessible_space": true
+  }
+ },
+ "s3-art5_1h-03": {
+  "description": "A platform streams CCTV footage to law enforcement, automatically flagging faces that match a watchlist during public events.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true,
+   "biometric_remote_identification": true,
+   "biometric_realtime": true,
+   "biometric_law_enforcement": true,
+   "biometric_publicly_accessible_space": true
+  }
+ },
+ "s3-art50_1-01": {
+  "description": "We operate a virtual assistant that answers customer queries about bank balances via text chat on our website.",
+  "signals": {
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s3-art50_1-02": {
+  "description": "Our voice agent handles inbound calls for a utility company, guiding callers through outage reporting steps.",
+  "signals": {
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s3-art50_1-03": {
+  "description": "A chatbot provides real‑time travel advice, recommending routes and ticket options based on user preferences.",
+  "signals": {
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s3-art50_2-01": {
+  "description": "We generate thousands of product description paragraphs daily using an AI language model trained on e‑commerce data.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s3-art50_2-02": {
+  "description": "Our platform creates realistic portrait images of fictional characters for video game concept art.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s3-art50_2-03": {
+  "description": "A system synthesizes natural‑sounding podcast episodes by stitching together AI‑generated speech and background music.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s3-art50_3-01": {
+  "description": "We analyze shoppers’ facial expressions in a department store to segment customers by excitement level for product placement.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s3-art50_3-02": {
+  "description": "Our tool measures foot traffic pressure patterns in a mall to infer visitor mood and adjust ambient lighting.",
+  "signals": {
+   "domain": "biometrics"
+  }
+ },
+ "s3-art50_3-03": {
+  "description": "A system sorts conference attendees by perceived confidence from posture analysis to tailor networking suggestions.",
+  "signals": {
+   "domain": "biometrics",
+   "uses_biometrics": true
+  }
+ },
+ "s3-art50_4-01": {
+  "description": "We create synthetic videos of politicians delivering scripted messages for political satire productions.",
+  "role": "provider",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s3-art50_4-02": {
+  "description": "Our AI generates synthetic audio clips that mimic a celebrity’s voice for advertising jingles.",
+  "role": "provider",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s3-art50_4-03": {
+  "description": "A platform produces lifelike images of historical figures in modern settings for educational documentaries.",
+  "signals": {
+   "generates_synthetic_content": true
+  }
+ },
+ "s3-none-01": {
+  "description": "We use machine learning to detect fraudulent credit‑card transactions by analysing spending patterns and device fingerprints.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-02": {
+  "description": "Our system ranks sales leads based on engagement scores to prioritize outreach for the marketing team.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-03": {
+  "description": "A platform predicts the binding affinity of candidate molecules in early‑stage drug discovery using neural networks.",
+  "signals": {
+   "domain": "health"
+  }
+ },
+ "s3-none-04": {
+  "description": "We transcribe user‑research interview recordings into detailed text files for qualitative analysis.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-05": {
+  "description": "Our tool scans network traffic to identify potential intrusion attempts and alerts the security operations center.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-06": {
+  "description": "We apply predictive maintenance models to forecast equipment failures in a manufacturing plant, scheduling repairs proactively.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-07": {
+  "description": "Our spam filter classifies incoming emails as junk or legitimate using natural‑language features.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-08": {
+  "description": "We provide spell‑checking functionality in a word processor, suggesting corrections for misspelled words.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-09": {
+  "description": "Our recommendation engine suggests movies to users based on viewing history and genre preferences.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-10": {
+  "description": "We forecast warehouse inventory demand for seasonal products using time‑series analysis accurately.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-11": {
+  "description": "Our OCR solution extracts invoice data such as totals and dates for automated accounting entry.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-12": {
+  "description": "We translate technical manuals from English to German using a neural machine translation model.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-13": {
+  "description": "Our code completion assistant suggests API calls while developers write software in an IDE.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-14": {
+  "description": "We generate weather forecasts for agricultural regions to help farmers plan irrigation schedules.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-15": {
+  "description": "Our sentiment analysis tool evaluates product reviews to gauge customer satisfaction levels.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-16": {
+  "description": "We predict crop yields based on satellite imagery and soil moisture data for agribusiness planning.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-17": {
+  "description": "Our system monitors social media for brand mentions and alerts the PR team to emerging trends.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-18": {
+  "description": "We use AI to optimize routing of delivery trucks, reducing fuel consumption and travel time.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s3-none-19": {
+  "description": "Our platform automates the generation of legal contract drafts based on user‑provided clauses.",
+  "signals": {
+   "domain": "other",
+   "generates_synthetic_content": true
+  }
+ },
+ "s3-none-20": {
+  "description": "We analyze financial statements to produce credit risk ratings for corporate bond issuers.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-critical_infrastructure-01": {
+  "description": "Our utility's chatbot answers customers' questions about their water bill and books meter readings.",
+  "signals": {
+   "domain": "other",
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s4-critical_infrastructure-02": {
+  "description": "We forecast next year's electricity demand per region so the sales team can plan tariffs.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-critical_infrastructure-03": {
+  "description": "The tool drafts marketing emails for a gas supplier's loyalty programme.",
+  "signals": {
+   "domain": "other",
+   "generates_synthetic_content": true
+  }
+ },
+ "s4-critical_infrastructure-04": {
+  "description": "We count vehicles from roadside cameras to produce yearly traffic statistics for the transport ministry's report.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-education-05": {
+  "description": "Our scheduler builds the weekly timetable for a secondary school from teacher availability and room sizes.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-education-06": {
+  "description": "The canteen app predicts how many lunches the school kitchen should cook each day.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-education-07": {
+  "description": "We translate lecture slides and course handouts from English into Polish for a university's exchange students.",
+  "signals": {
+   "domain": "other",
+   "generates_synthetic_content": true
+  }
+ },
+ "s4-education-08": {
+  "description": "A chatbot answers questions about the university library's opening hours and how to renew a loan.",
+  "signals": {
+   "domain": "other",
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s4-employment-09": {
+  "description": "Our payroll add-on checks each month's salary run for calculation errors before the bank file goes out.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-employment-10": {
+  "description": "An HR chatbot answers employees' questions about the holiday policy and where to find the travel expense form.",
+  "signals": {
+   "domain": "other",
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s4-employment-11": {
+  "description": "The assistant books meeting rooms and desks for staff based on the calendar invitations they send.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-employment-12": {
+  "description": "We translate our internal job postings into French and Dutch for the Belgian offices.",
+  "signals": {
+   "domain": "other",
+   "generates_synthetic_content": true
+  }
+ },
+ "s4-law_enforcement-13": {
+  "description": "The police force's website chatbot tells citizens how to report lost property and which station is open.",
+  "signals": {
+   "domain": "other",
+   "interacts_with_natural_persons": true
+  }
+ },
+ "s4-law_enforcement-14": {
+  "description": "We schedule maintenance for the police department's patrol cars from mileage and fault codes.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-law_enforcement-15": {
+  "description": "Our tool transcribes officers' dictated incident notes into the report template.",
+  "signals": {
+   "domain": "other",
+   "generates_synthetic_content": true
+  }
+ },
+ "s4-law_enforcement-16": {
+  "description": "A dashboard shows aggregated burglary counts per district and month from historical reports, with no information about individuals.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-migration-17": {
+  "description": "The immigration office uses our tool to book and reschedule appointment slots and send reminders by text message.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-migration-18": {
+  "description": "We translate the migration agency's information leaflets into Arabic, Dari and Ukrainian.",
+  "signals": {
+   "domain": "other",
+   "generates_synthetic_content": true
+  }
+ },
+ "s4-migration-19": {
+  "description": "Border officers use our scanner software to check whether a passport's security features are authentic.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-migration-20": {
+  "description": "Our model forecasts how many staff the visa section needs each month from past visitor numbers.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-justice-21": {
+  "description": "The court uses our software to remove names and addresses from judgments before they are published online.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-justice-22": {
+  "description": "Our scheduler assigns court rooms and hearing times and notifies the parties of changes.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-justice-23": {
+  "description": "A legal research assistant helps associates at our law firm find relevant case law for their briefs.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s4-justice-24": {
+  "description": "We route incoming mail at the court registry to the right department by reading the letterhead.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-critical_infrastructure-04": {
+  "description": "Railway signaling system simulation tool that models traffic flow for planning upgrades, not controlling real-time operations.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-critical_infrastructure-05": {
+  "description": "Facility management AI that monitors HVAC performance in data centers to reduce energy use, not safety-critical controls.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-education-01": {
+  "description": "Automatic translation engine that converts curriculum textbooks from English to Spanish for multilingual classrooms.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-education-02": {
+  "description": "AI tool that generates weekly lesson plan outlines for teachers based on curriculum standards.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-education-03": {
+  "description": "Document summarisation system that condenses research articles for faculty weekly reading lists.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-education-04": {
+  "description": "Scheduling assistant that allocates classroom resources and equipment for school events throughout the academic year.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-education-05": {
+  "description": "Inventory management AI that tracks and orders school supplies based on consumption trends.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-employment-02": {
+  "description": "Automated expense report classification system that extracts cost categories from receipts for accounting.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-employment-03": {
+  "description": "Predictive model for corporate travel demand to optimize each fleet leasing contract.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-employment-04": {
+  "description": "Document translation service for internal corporate policies across global offices to ensure compliance.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-employment-05": {
+  "description": "Facility maintenance scheduler that plans HVAC service visits for corporate buildings on a quarterly basis.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-law_enforcement-01": {
+  "description": "Evidence archive indexing AI that tags and organizes digital files for quick retrieval by investigators.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-law_enforcement-02": {
+  "description": "Automated translation system for foreign-language statements used in report writing by law enforcement agencies.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-law_enforcement-05": {
+  "description": "Resource allocation model that predicts needed number of patrol units for public events based on attendance forecasts.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-migration-02": {
+  "description": "Document translation platform that converts immigration forms into multiple languages for applicants.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-migration-03": {
+  "description": "Workflow optimizer that balances case loads among immigration officers to reduce processing delays.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-migration-04": {
+  "description": "Predictive system for estimating staffing needs at border checkpoints during holiday seasons.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-migration-05": {
+  "description": "Inventory tracker for immigration office supplies that automatically reorders forms and brochures when stock runs low.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-justice-01": {
+  "description": "Courtroom audio transcription AI that produces searchable text records of proceedings for clerks.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-justice-03": {
+  "description": "Document management AI that archives and indexes case files for long-term storage and retrieval.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-justice-04": {
+  "description": "Automated translation of legal documents for parties requiring language assistance in civil proceedings.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s5-justice-05": {
+  "description": "AI-driven budgeting tool that forecasts court operational expenses for the upcoming fiscal year.",
+  "signals": {
+   "domain": "other"
+  }
+ },
+ "s6-A01": {
+  "description": "Our traffic management dashboard suggests dynamic green-wave timing adjustments for downtown traffic signals during rush hour to prevent gridlock and vehicle pile-ups.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s6-A02": {
+  "description": "The control room assistant monitors municipal power sub-station loads and automatically flags microgrid switching options to operators to prevent feeder circuit overloads.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s6-A03": {
+  "description": "A pressure optimization module continuously adjusts distribution valves across the municipal water network to stabilize pipe pressure and reduce leak risks during peak hours.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s6-A04": {
+  "description": "Our pipeline monitoring module suggests automated pressure regulator setpoints to field controllers across the city gas network to maintain steady distribution during winter spikes.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s6-A05": {
+  "description": "Our admissions intake assistant scores and pre-ranks incoming community college applications against course prerequisite criteria to help staff assemble initial class rosters.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s6-A06": {
+  "description": "The classroom companion scans student short-answer quiz submissions and drafts preliminary rubric scores with feedback notes for teacher review.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s6-A07": {
+  "description": "Our placement advisor analyzes a student's diagnostic test answers to suggest the most suitable vocational training track and math level to academic counselors.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s6-A08": {
+  "description": "Our online exam proctoring plugin flags unusual background audio spikes and webcam head movements during remote midterms for subsequent instructor review.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s6-A09": {
+  "description": "Our HR inbox tool scans incoming CVs, extracts key skills, and groups applicants into priority buckets to help recruiters organize screening calls.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s6-A10": {
+  "description": "Our delivery dispatch system assigns daily customer delivery routes and vehicle tasks to drivers based on their past completion speeds and handling history.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s6-A11": {
+  "description": "A support team plugin tracks agent call durations and customer sentiment trends to draft quarterly performance summaries for team leads.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s6-A12": {
+  "description": "Our talent analytics module flags underperforming contractors based on monthly milestone delivery rates to prompt vendor manager contract renewal reviews.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s6-A13": {
+  "description": "Our forensics assistant cross-checks witness interview transcripts against surveillance timestamps and highlights conflicting statements for investigative detectives.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s6-A14": {
+  "description": "The station intake helper calculates a flight-risk score from an arrestee's prior appearance history to assist custody officers with bail scheduling notes.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s6-A15": {
+  "description": "An investigative analytics tool analyzes transactional records and suspect communication metadata to flag behavioral anomalies to the financial crimes unit.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s6-A16": {
+  "description": "Our interview verification tool analyzes pitch variations and speech hesitation patterns in witness audio recordings to generate stress indicators for investigators.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s6-A17": {
+  "description": "Our consular intake helper pre-checks tourist visa application packets for completeness and computes a risk score on supporting financial documents for visa officers.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s6-A18": {
+  "description": "The border control assistant flags passenger travel itineraries with irregular transit patterns to help customs officers select travellers for secondary baggage inspection.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s6-A19": {
+  "description": "An asylum intake portal compares applicant statements against regional country-of-origin reports and flags inconsistencies to assist caseworkers during preliminary eligibility reviews.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s6-A20": {
+  "description": "Our perimeter surveillance system analyzes thermal sensor feeds along restricted border fence zones to alert station guards to moving human silhouettes.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s6-A21": {
+  "description": "Our judicial clerk tool summarizes case briefs, retrieves applicable precedent, and drafts recommended legal reasoning paragraphs for a judge's draft ruling.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s6-A22": {
+  "description": "The municipal court assistant cross-references tenant eviction case filings with local rent-control statutes to draft preliminary factual findings for magistrate hearings.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s6-A23": {
+  "description": "Our political campaign platform analyzes voter demographic data to generate personalized messaging variations aimed at undecided voters in upcoming parliamentary elections.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s6-A24": {
+  "description": "A small-claims dispute resolver extracts key facts from claimant submissions and suggests statutory compensation figures to the presiding adjudicator.",
+  "signals": {
+   "domain": "justice"
+  }
+ }
+}

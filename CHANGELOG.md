@@ -6,6 +6,85 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-09-19
+
+Agent-first front door. The tool is called by language-model agents, and this release
+corrects what they are told, measures what they then do, and carries its own delivery
+pipeline. The classifier's logic, the legal content and the decision contract are
+unchanged.
+
+### Fixed
+
+- **`signals.domain` was described as the sector a system operates in**, while the
+  classifier concludes high-risk with high confidence from it alone. A faithful agent
+  therefore got every system inside a regulated sector back as high-risk: a school
+  timetable, a payroll check, a utility's billing chatbot, a court budgeting tool, the
+  verification of travel documents that Annex III(7)(d) expressly excepts, the
+  anonymisation of judgments that recital 61 names as purely ancillary. Annex III
+  regulates listed uses, never a sector. The field now says so, lists the uses per area
+  from the descriptions the classifier itself reports, and names `other` for a system that
+  merely operates in a sector. The tool description, the follow-up question, the server
+  instructions and the `euaiact_assess_system` description carry the same rule.
+- `package-lock.json` still stated 1.5.0 in the 1.5.1 release. The version-identity gate
+  now compares every file that states the version, including the lockfile and
+  `smithery.yaml`.
+
+### Changed
+
+- The `euaiact_classify_system` description tells the agent to derive the structured
+  signals from the user's description itself and to pass them with the description.
+- The `euaiact_assess_system` description states the fact shape and a useful minimum
+  profile, which the JSON-pointer references of its input schema hide from an agent.
+- `server_version` is no longer part of the pinned response hash. It varied per release and
+  said nothing about an assessment, yet every version bump moved all twelve golden hashes
+  and the evaluation baseline. The version is still asserted by the version-identity gate
+  and the behavior suite. Hashes published for earlier versions do not compare with 1.6.0
+  hashes; they never compared across versions before either.
+
+### Added
+
+- `evals/front-door`: 358 natural descriptions, the tool definitions of 1.5.1 and 1.6.0 as
+  an agent sees them, the arguments one agent model passed on its first call under each,
+  and an offline scorer. The 1.6.0 recording is pinned in the behavior suite.
+- `Stage on npm` workflow: a published GitHub release stages the package on npm over
+  trusted publishing, with no token on any machine. A staged version is not public until a
+  maintainer approves it with 2FA on npmjs.com, so CI alone can never put a version in
+  front of users. The job checks the tag against the package version, refuses a version
+  already on npm, runs the release verification and keeps its evidence. A manual dry run
+  rehearses everything but the upload.
+- `Site links` workflow: the link gate of 1.5.1 runs every Monday and opens an issue when a
+  lexbeam.com URL stops resolving. The 1.5.0 links died between releases.
+- `scripts/regen-goldens.mjs`: the guarded way to regenerate goldens. It prints every
+  differing pinned value and writes nothing until `--allow-content-changes` confirms them.
+
+### Verification
+
+- One agent model, the same 358 descriptions, scored offline by the deterministic
+  classifier. Under the 1.5.1 tool definition 181 of 252 regulated descriptions are
+  recognised and 46 of 106 non-regulated systems are wrongly regulated, all 46 of them
+  in-sector systems. Under the 1.6.0 definition: 179 of 252, and none of 106. The 22
+  in-sector systems written by a model that never saw the new wording go from 22 wrong to
+  none.
+- The dangerous direction was tested on purpose: a second model wrote 24 systems that
+  genuinely perform a listed use in wording that sounds merely assistive ("pre-ranks
+  applications for staff", "drafts preliminary rubric scores for teacher review"), to
+  tempt an agent into answering `other`. All 24 are recognised under both definitions.
+- One-time regeneration under the new hash definition: `tests/golden/hashes.json` and the
+  `day-4-baseline` evaluation record. No golden response, metric or verdict changed. The
+  bump from 1.5.1 to 1.6.0 itself moved no hash.
+
+### Known limits
+
+- The sector problem is corrected in what the agent is told, not yet in the logic. A
+  caller that still passes a sector as `domain`, or as `annex_iii.domain` in an assessment
+  profile, is still told high-risk. Making the listed use a predicate of its own changes
+  the decision contract and is left to a migration of its own, together with a signal
+  route for Annex III(5), which has none.
+- The measurement rests on one agent model and on model-written labels, some of them
+  wrong in ways `evals/front-door/corpus.json` names. Another agent may fill the signals
+  differently.
+- Free-text recall without signals remains as stated under 1.5.1.
+
 ## [1.5.1] - 2026-09-19
 
 Front-door patch. The legal content, the decision contract and the structured-signals

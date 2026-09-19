@@ -1,0 +1,119 @@
+{
+ "name": "euaiact_classify_system",
+ "description": "Classify an AI system's risk level under the EU AI Act (Regulation 2024/1689). Accepts a free-text description, a use_case, and/or structured signals (domain, biometric flags, synthetic content, etc.). Signals take precedence over text matching for deterministic classification. Returns risk classification, applicable Annex III category, relevant articles, provider/deployer determination, matched signals, and follow-up questions the agent should relay. Note: Art. 6(3) exceptions require documented justification and cannot be auto-applied; use euaiact_assess_art6_3_exception.",
+ "inputSchema": {
+  "type": "object",
+  "properties": {
+   "description": {
+    "type": "string",
+    "description": "Free-text description of the AI system and its functionalities"
+   },
+   "use_case": {
+    "type": "string",
+    "description": "Specific context where the system is deployed"
+   },
+   "role": {
+    "type": "string",
+    "enum": [
+     "provider",
+     "deployer",
+     "unknown"
+    ],
+    "default": "unknown"
+   },
+   "signals": {
+    "type": "object",
+    "properties": {
+     "domain": {
+      "type": "string",
+      "enum": [
+       "employment",
+       "education",
+       "biometrics",
+       "critical_infrastructure",
+       "law_enforcement",
+       "migration",
+       "justice",
+       "essential_services",
+       "health",
+       "gpai",
+       "product_safety",
+       "other"
+      ],
+      "description": "Primary sector where the system operates"
+     },
+     "uses_biometrics": {
+      "type": "boolean",
+      "description": "System processes biometric data (face, fingerprint, iris, voice, gait)"
+     },
+     "biometric_sole_purpose_verification": {
+      "type": "boolean",
+      "description": "Biometric use is solely to verify that a specific natural person is the person they claim to be, which is excluded from Annex III(1)(a)"
+     },
+     "biometric_remote_identification": {
+      "type": "boolean",
+      "description": "System performs remote biometric identification, not merely one-to-one biometric verification"
+     },
+     "biometric_realtime": {
+      "type": "boolean",
+      "description": "Biometric processing happens in real time"
+     },
+     "biometric_law_enforcement": {
+      "type": "boolean",
+      "description": "Biometric system is used by or for law enforcement"
+     },
+     "biometric_publicly_accessible_space": {
+      "type": "boolean",
+      "description": "Real-time remote biometric identification takes place in publicly accessible spaces (Art. 5(1)(h))"
+     },
+     "is_safety_component_of_regulated_product": {
+      "type": "boolean",
+      "description": "System is a safety component of a product covered by EU harmonisation legislation (Annex I)"
+     },
+     "requires_third_party_conformity_assessment": {
+      "type": "boolean",
+      "description": "The product or AI system is required to undergo third-party conformity assessment under the applicable Annex I legislation"
+     },
+     "affects_fundamental_rights": {
+      "type": "boolean",
+      "description": "System materially affects health, safety, or fundamental rights of natural persons"
+     },
+     "targets_children_or_vulnerable": {
+      "type": "boolean",
+      "description": "System is directed at or materially affects children or other vulnerable groups (Art. 5(1)(b))"
+     },
+     "generates_synthetic_content": {
+      "type": "boolean",
+      "description": "System generates or manipulates images, audio, video, or text (Art. 50(2)/(4))"
+     },
+     "interacts_with_natural_persons": {
+      "type": "boolean",
+      "description": "System is designed to interact directly with natural persons (Art. 50(1))"
+     },
+     "performs_emotion_recognition_workplace_or_school": {
+      "type": "boolean",
+      "description": "System infers emotions of natural persons in the workplace or educational institutions (Art. 5(1)(f))"
+     },
+     "performs_social_scoring": {
+      "type": "boolean",
+      "description": "System evaluates or classifies natural persons or groups over time based on social behaviour or personal/personality characteristics, leading to detrimental treatment (Art. 5(1)(c))"
+     },
+     "social_scoring_unrelated_context": {
+      "type": "boolean",
+      "description": "Social scoring leads to detrimental or unfavourable treatment in social contexts unrelated to the contexts in which the data was originally generated or collected (Art. 5(1)(c)(i))"
+     },
+     "social_scoring_unjustified_or_disproportionate": {
+      "type": "boolean",
+      "description": "Social scoring leads to detrimental or unfavourable treatment that is unjustified or disproportionate to the social behaviour or its gravity (Art. 5(1)(c)(ii))"
+     },
+     "performs_social_scoring_by_public_authority": {
+      "type": "boolean",
+      "description": "Legacy alias: public-authority social scoring. Art. 5(1)(c) is not limited to public authorities."
+     }
+    },
+    "additionalProperties": false
+   }
+  },
+  "additionalProperties": false
+ }
+}

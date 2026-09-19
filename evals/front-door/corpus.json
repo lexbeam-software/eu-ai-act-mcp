@@ -1,0 +1,2337 @@
+{
+ "purpose": "Natural descriptions of AI systems, written the way a business user talks to an assistant, for measuring the front door of euaiact_classify_system end to end. 252 describe a regulated system, 24 of them in deliberately assistive wording. 106 must never come back high-risk or prohibited: 60 hard negatives that share vocabulary with a regulated category, and 46 systems that sit inside a regulated sector without performing a listed use.",
+ "caveats": [
+  "Synthetic. Written by three language models on 2026-09-19 under one brief that forbade the regulation's own terms of art and asked for the decisive facts to be stated.",
+  "The labels of the 228 regulated descriptions are the writing model's and were not verified one by one; some, notably under annex_iii_1, are arguable. Aggregate recognition over them is a metric, never a legal assertion about a single description.",
+  "The 106 negatives were reviewed by hand. Of the 46 in-sector ones, 24 were written by hand against the Annex wording and 22 by a model that never saw the tool definition. None may come back high-risk or prohibited.",
+  "Known wrong labels, left in place so that recordings stay comparable: s2-annex_iii_7-05 describes the verification of travel documents, which Annex III(7)(d) expressly excepts; s3-annex_iii_8-04 describes campaign analytics that voters are never exposed to, which Annex III(8)(b) excludes; s2-annex_iii_7-01 describes one-to-one verification of a traveller against a passport and is arguable. An agent that declines to call these high-risk is right, and the score counts it as a miss."
+ ],
+ "sets": [
+  {
+   "id": "s1",
+   "written_by": "z-ai/glm-5.3-flash",
+   "history": "used to tune the 1.5.1 keyword lists"
+  },
+  {
+   "id": "s2",
+   "written_by": "google/gemini-3.7-flash",
+   "history": "read once during 1.5.1 to repair regressions"
+  },
+  {
+   "id": "s3",
+   "written_by": "openai/gpt-oss-120b",
+   "history": "read once during 1.5.1 to repair regressions"
+  },
+  {
+   "id": "s4",
+   "written_by": "hand",
+   "history": "24 systems that operate inside a sector Annex III names while performing none of the uses it lists; each carries the provision it rests on, read in the pinned text. Written for 1.6.0 to measure what the `domain` signal concludes."
+  },
+  {
+   "id": "s5",
+   "written_by": "openai/gpt-oss-120b",
+   "history": "In-sector negatives written under a brief that named the listed uses and banned the examples the 1.6.0 field description uses. 30 written, 22 kept after a hand review that dropped every item a careful reader could argue into a listed use (grid and water operations, workplace occupancy sensing, attendance tracking) and three that repeated a banned example. Never used to word anything."
+  },
+  {
+   "id": "s6",
+   "written_by": "google/gemini-3.7-flash, as adversary",
+   "history": "24 systems that genuinely perform a listed use, worded as merely assistive, partial or administrative, written in an adversarial review of 1.6.0 to test the dangerous direction of its fix: an agent that reads the new field description and answers `other` for a regulated use. Labels reviewed by hand. Several may qualify for the Art. 6(3) exception, which is a separate documented assessment and does not change the Annex III route."
+  }
+ ],
+ "labels": {
+  "annex_iii_N": "expected high-risk with Annex III category N",
+  "art5_*": "expected prohibited",
+  "art50_*": "expected limited",
+  "none": "must not be high-risk or prohibited"
+ },
+ "items": [
+  {
+   "id": "s1-annex_iii_1-01",
+   "set": "s1",
+   "label": "annex_iii_1",
+   "text": "Our stadium turnstiles match season-ticket holders' faces from a metre away as they walk in, so fans never fumble for a ticket."
+  },
+  {
+   "id": "s1-annex_iii_1-02",
+   "set": "s1",
+   "label": "annex_iii_1",
+   "text": "Our entry cameras at the festival gate estimate each visitor's age group and steer under-age fans away from the beer tents."
+  },
+  {
+   "id": "s1-annex_iii_1-03",
+   "set": "s1",
+   "label": "annex_iii_1",
+   "text": "Our ride cameras rate how much thrill or fear each rider shows on their face, and the park uses those scores to suggest scarier attractions."
+  },
+  {
+   "id": "s1-annex_iii_1-04",
+   "set": "s1",
+   "label": "annex_iii_1",
+   "text": "A system that recognises regulars by voice through the intercom at our car park entrance and lifts the barrier automatically."
+  },
+  {
+   "id": "s1-annex_iii_1-05",
+   "set": "s1",
+   "label": "annex_iii_1",
+   "text": "We identify gym members by their walk as they pass the door camera, so nobody needs a key fob."
+  },
+  {
+   "id": "s1-annex_iii_2-01",
+   "set": "s1",
+   "label": "annex_iii_2",
+   "text": "Our system sets the timing of every traffic light in the city centre in real time to keep junctions flowing."
+  },
+  {
+   "id": "s1-annex_iii_2-02",
+   "set": "s1",
+   "label": "annex_iii_2",
+   "text": "Our SCADA screens run the dosing pumps at the water treatment plant; the software adjusts chlorine automatically and trips the line if readings drift."
+  },
+  {
+   "id": "s1-annex_iii_2-03",
+   "set": "s1",
+   "label": "annex_iii_2",
+   "text": "A system that watches pressure across the gas network and closes valves section by section when a leak is suspected."
+  },
+  {
+   "id": "s1-annex_iii_2-04",
+   "set": "s1",
+   "label": "annex_iii_2",
+   "text": "Our dispatch tool decides which power plants ramp up and sheds load automatically when grid frequency drops, keeping the lights on nationwide."
+  },
+  {
+   "id": "s1-annex_iii_2-05",
+   "set": "s1",
+   "label": "annex_iii_2",
+   "text": "We control the town's district heating network, throttling pumps and boilers so homes stay warm without pipes over-pressuring."
+  },
+  {
+   "id": "s1-annex_iii_3-01",
+   "set": "s1",
+   "label": "annex_iii_3",
+   "text": "We rank nursing programme applicants by their grades, entrance test results and personal statements, and only the top band gets an offer."
+  },
+  {
+   "id": "s1-annex_iii_3-02",
+   "set": "s1",
+   "label": "annex_iii_3",
+   "text": "Our LMS marks the essay questions in the end-of-year exam and the mark goes straight into the report card."
+  },
+  {
+   "id": "s1-annex_iii_3-03",
+   "set": "s1",
+   "label": "annex_iii_3",
+   "text": "The app listens to each pupil read aloud, then moves them up or down a reading level without teacher sign-off."
+  },
+  {
+   "id": "s1-annex_iii_3-04",
+   "set": "s1",
+   "label": "annex_iii_3",
+   "text": "Our proctoring software watches candidates' webcams during online exams and flags anyone whose gaze drifts or who leaves the screen."
+  },
+  {
+   "id": "s1-annex_iii_3-05",
+   "set": "s1",
+   "label": "annex_iii_3",
+   "text": "We sort incoming year sevens into maths sets based on a placement test the system scores overnight."
+  },
+  {
+   "id": "s1-annex_iii_4-01",
+   "set": "s1",
+   "label": "annex_iii_4",
+   "text": "Our ATS screens incoming CVs against the job spec and auto-rejects anyone missing the right keywords before a recruiter looks."
+  },
+  {
+   "id": "s1-annex_iii_4-02",
+   "set": "s1",
+   "label": "annex_iii_4",
+   "text": "We score candidates' recorded video interviews for confidence and word choice; only the top tenth reach a human panel."
+  },
+  {
+   "id": "s1-annex_iii_4-03",
+   "set": "s1",
+   "label": "annex_iii_4",
+   "text": "The warehouse system tracks how fast each picker walks, scans and stows, ranks the whole shift and emails warnings to the slowest three."
+  },
+  {
+   "id": "s1-annex_iii_4-04",
+   "set": "s1",
+   "label": "annex_iii_4",
+   "text": "Our dashboard pulls every consultant's utilisation, client feedback and sales numbers, then lists who should be promoted and who managed out."
+  },
+  {
+   "id": "s1-annex_iii_4-05",
+   "set": "s1",
+   "label": "annex_iii_4",
+   "text": "We route incoming support chats to agents based on their past resolution speed and a personality test they took at hiring."
+  },
+  {
+   "id": "s1-annex_iii_5-01",
+   "set": "s1",
+   "label": "annex_iii_5",
+   "text": "Our tool checks each household's income, rent and family size against the rules and tells the council who qualifies for housing benefit."
+  },
+  {
+   "id": "s1-annex_iii_5-02",
+   "set": "s1",
+   "label": "annex_iii_5",
+   "text": "We score loan applicants on repayment history, existing debts and income to decide approval and the interest rate on their mortgage."
+  },
+  {
+   "id": "s1-annex_iii_5-03",
+   "set": "s1",
+   "label": "annex_iii_5",
+   "text": "Our engine prices life policies from applicants' medical questionnaires, pharmacy records and family history, setting the yearly premium for each person."
+  },
+  {
+   "id": "s1-annex_iii_5-04",
+   "set": "s1",
+   "label": "annex_iii_5",
+   "text": "A system that recalculates everyone's health cover price each month from their step counts, smoking status and past claims."
+  },
+  {
+   "id": "s1-annex_iii_5-05",
+   "set": "s1",
+   "label": "annex_iii_5",
+   "text": "Our console listens to incoming emergency calls, ranks them by urgency and assigns the nearest ambulance automatically."
+  },
+  {
+   "id": "s1-annex_iii_6-01",
+   "set": "s1",
+   "label": "annex_iii_6",
+   "text": "Our tool helps officers judge how likely a domestic abuse victim is to be attacked again, so they can set protection measures."
+  },
+  {
+   "id": "s1-annex_iii_6-02",
+   "set": "s1",
+   "label": "annex_iii_6",
+   "text": "The interview room software analyses a suspect's voice for stress and micro-tremors to indicate whether they are telling the truth."
+  },
+  {
+   "id": "s1-annex_iii_6-03",
+   "set": "s1",
+   "label": "annex_iii_6",
+   "text": "We rate how reliable each witness statement is, flagging inconsistencies so investigators know which testimony to lean on when building the case."
+  },
+  {
+   "id": "s1-annex_iii_6-04",
+   "set": "s1",
+   "label": "annex_iii_6",
+   "text": "Our score estimates the chance a convicted offender commits another crime, and the parole board uses it when deciding early release."
+  },
+  {
+   "id": "s1-annex_iii_6-05",
+   "set": "s1",
+   "label": "annex_iii_6",
+   "text": "During the burglary series, our software profiles suspects from their movements, phone records and known associates to rank who gets interviewed next."
+  },
+  {
+   "id": "s1-annex_iii_7-01",
+   "set": "s1",
+   "label": "annex_iii_7",
+   "text": "Our tool scores visa applications for the risk that the applicant overstays, using their travel history, finances and family ties back home."
+  },
+  {
+   "id": "s1-annex_iii_7-02",
+   "set": "s1",
+   "label": "annex_iii_7",
+   "text": "We help caseworkers assess asylum claims by checking each applicant's account against country reports and flagging inconsistencies in the story."
+  },
+  {
+   "id": "s1-annex_iii_7-03",
+   "set": "s1",
+   "label": "annex_iii_7",
+   "text": "Our kiosks at the land border capture every traveller's face and irises and match them against border watchlists before the gate opens."
+  },
+  {
+   "id": "s1-annex_iii_7-04",
+   "set": "s1",
+   "label": "annex_iii_7",
+   "text": "The system pre-screens arriving passengers against security and immigration databases and marks anyone who should be questioned at the border."
+  },
+  {
+   "id": "s1-annex_iii_7-05",
+   "set": "s1",
+   "label": "annex_iii_7",
+   "text": "We verify residence permit applications, spotting forged documents and mismatched photos before a case officer ever opens the file."
+  },
+  {
+   "id": "s1-annex_iii_8-01",
+   "set": "s1",
+   "label": "annex_iii_8",
+   "text": "Our assistant reads the case file, surfaces relevant precedents and suggests how the judge might apply the law to the facts."
+  },
+  {
+   "id": "s1-annex_iii_8-02",
+   "set": "s1",
+   "label": "annex_iii_8",
+   "text": "We draft first versions of rulings for the commercial court, matching the dispute's facts to the right legal provisions."
+  },
+  {
+   "id": "s1-annex_iii_8-03",
+   "set": "s1",
+   "label": "annex_iii_8",
+   "text": "Our app texts voters in marginal constituencies with personalised arguments picked to shift their support toward our candidate before election day."
+  },
+  {
+   "id": "s1-annex_iii_8-04",
+   "set": "s1",
+   "label": "annex_iii_8",
+   "text": "We build psychological profiles of undecided voters from their likes and shares, then serve each one ads crafted to change their vote."
+  },
+  {
+   "id": "s1-annex_iii_8-05",
+   "set": "s1",
+   "label": "annex_iii_8",
+   "text": "A system that compares an ongoing case against thousands of past judgments and tells the chamber which outcome the law supports."
+  },
+  {
+   "id": "s1-art5_1a-01",
+   "set": "s1",
+   "label": "art5_1a",
+   "text": "Our video player flashes ten-millisecond frames praising the sponsor, too quick to consciously notice, and viewers later buy things they never planned to."
+  },
+  {
+   "id": "s1-art5_1a-02",
+   "set": "s1",
+   "label": "art5_1a",
+   "text": "Our checkout page warns 'your booking will be cancelled in 60 seconds' with a countdown, pressuring customers into overpriced cancellation cover they don't need."
+  },
+  {
+   "id": "s1-art5_1a-03",
+   "set": "s1",
+   "label": "art5_1a",
+   "text": "A voice agent that clones a customer's relative from a short sample, calls claiming an emergency, and talks them into transferring savings to a 'safe' account."
+  },
+  {
+   "id": "s1-art5_1b-01",
+   "set": "s1",
+   "label": "art5_1b",
+   "text": "Our mobile game targets children with spinning wheels, fake countdowns and 'your parents aren't watching' prompts that push them into repeated in-app purchases."
+  },
+  {
+   "id": "s1-art5_1b-02",
+   "set": "s1",
+   "label": "art5_1b",
+   "text": "The app reads its terms out far too fast and hides the cancel button behind tiny icons, trapping subscribers with learning difficulties into plans they can't escape."
+  },
+  {
+   "id": "s1-art5_1b-03",
+   "set": "s1",
+   "label": "art5_1b",
+   "text": "Our lending app detects when a user's balance hits zero and pushes one-tap micro-loans at triple-digit rates in that exact moment."
+  },
+  {
+   "id": "s1-art5_1c-01",
+   "set": "s1",
+   "label": "art5_1c",
+   "text": "Our platform gives every shopper a hidden conduct score from their returns, reviews and browsing, and low scorers face slower deliveries and higher prices on unrelated products."
+  },
+  {
+   "id": "s1-art5_1c-02",
+   "set": "s1",
+   "label": "art5_1c",
+   "text": "We score customers on how politely they treat support staff and whether they pay small fees on time, then people with poor marks lose our job board and flat listings."
+  },
+  {
+   "id": "s1-art5_1c-03",
+   "set": "s1",
+   "label": "art5_1c",
+   "text": "The city app tracks how often residents recycle, volunteer and pay fees on time, and low scorers pay more for parking and wait longer for permits."
+  },
+  {
+   "id": "s1-art5_1d-01",
+   "set": "s1",
+   "label": "art5_1d",
+   "text": "Our tool takes a personality questionnaire and a postcode, then predicts which teenagers will one day commit violent offences."
+  },
+  {
+   "id": "s1-art5_1d-02",
+   "set": "s1",
+   "label": "art5_1d",
+   "text": "We flag shoppers as future shoplifters purely from their walking pace, browsing patterns and which aisles they linger in — no offence has taken place."
+  },
+  {
+   "id": "s1-art5_1d-03",
+   "set": "s1",
+   "label": "art5_1d",
+   "text": "The software reads teenagers' social media posts, friendships and hobbies to predict who is likely to join a gang and offend."
+  },
+  {
+   "id": "s1-art5_1e-01",
+   "set": "s1",
+   "label": "art5_1e",
+   "text": "We harvest billions of photos from social media profiles and tag pages to build a face search engine anyone can query with a single picture."
+  },
+  {
+   "id": "s1-art5_1e-02",
+   "set": "s1",
+   "label": "art5_1e",
+   "text": "Our crawlers collect every face they find in public web albums, wedding galleries and news photos, adding them all to one searchable gallery."
+  },
+  {
+   "id": "s1-art5_1e-03",
+   "set": "s1",
+   "label": "art5_1e",
+   "text": "The system ingests footage from hundreds of municipal CCTV streams, crops every face it sees and stores them in a lookup database with no particular suspect in mind."
+  },
+  {
+   "id": "s1-art5_1f-01",
+   "set": "s1",
+   "label": "art5_1f",
+   "text": "Our desktop software listens to call centre agents' tone during their shifts and flags when they sound frustrated or flat with customers."
+  },
+  {
+   "id": "s1-art5_1f-02",
+   "set": "s1",
+   "label": "art5_1f",
+   "text": "The classroom camera watches each pupil's face during lessons and tells the teacher who looks confused, bored or anxious."
+  },
+  {
+   "id": "s1-art5_1f-03",
+   "set": "s1",
+   "label": "art5_1f",
+   "text": "We analyse office workers' webcam feeds and typing rhythm to gauge their stress levels, alerting managers when morale dips."
+  },
+  {
+   "id": "s1-art5_1g-01",
+   "set": "s1",
+   "label": "art5_1g",
+   "text": "Our ad platform infers shoppers' ethnicity from their facial features in the webcam preview and uses that to pick which products to show."
+  },
+  {
+   "id": "s1-art5_1g-02",
+   "set": "s1",
+   "label": "art5_1g",
+   "text": "A startup claims it can tell a person's religion and political leaning from one passport-style photo, and sells that as an API to advertisers."
+  },
+  {
+   "id": "s1-art5_1g-03",
+   "set": "s1",
+   "label": "art5_1g",
+   "text": "We analyse callers' voice recordings to guess their sexual orientation and where their family comes from, then sort the mailing list accordingly."
+  },
+  {
+   "id": "s1-art5_1h-01",
+   "set": "s1",
+   "label": "art5_1h",
+   "text": "City police run live CCTV at the main station entrance, matching every face in the crowd against a wanted list in real time."
+  },
+  {
+   "id": "s1-art5_1h-02",
+   "set": "s1",
+   "label": "art5_1h",
+   "text": "During the carnival, officers scan live street camera feeds to spot persons of interest the moment they appear in the crowd."
+  },
+  {
+   "id": "s1-art5_1h-03",
+   "set": "s1",
+   "label": "art5_1h",
+   "text": "Our watchlist system alerts patrol officers within seconds when a body-worn camera picks out a tracked suspect in a public square."
+  },
+  {
+   "id": "s1-art50_1-01",
+   "set": "s1",
+   "label": "art50_1",
+   "text": "Our webshop chatbot answers shoppers' questions about sizes, shipping and returns, and most customers don't realise they're typing to a machine."
+  },
+  {
+   "id": "s1-art50_1-02",
+   "set": "s1",
+   "label": "art50_1",
+   "text": "We built a phone voice assistant that handles password resets and account questions for our bank's callers around the clock."
+  },
+  {
+   "id": "s1-art50_1-03",
+   "set": "s1",
+   "label": "art50_1",
+   "text": "A conversational assistant on our travel site helps users plan trips, suggesting hotels and answering follow-up questions in natural dialogue."
+  },
+  {
+   "id": "s1-art50_2-01",
+   "set": "s1",
+   "label": "art50_2",
+   "text": "Our platform generates thousands of product descriptions and banner images every night for online shops, with no human writer involved."
+  },
+  {
+   "id": "s1-art50_2-02",
+   "set": "s1",
+   "label": "art50_2",
+   "text": "We mass-produce short promotional videos with synthetic voiceovers for social media campaigns, turning out dozens per client each day."
+  },
+  {
+   "id": "s1-art50_2-03",
+   "set": "s1",
+   "label": "art50_2",
+   "text": "The newsroom tool writes automated summaries of press releases and generates stock illustrations to sit above each article."
+  },
+  {
+   "id": "s1-art50_3-01",
+   "set": "s1",
+   "label": "art50_3",
+   "text": "Our shelf cameras track shoppers' facial expressions in the snack aisle to see which displays make them smile or frown."
+  },
+  {
+   "id": "s1-art50_3-02",
+   "set": "s1",
+   "label": "art50_3",
+   "text": "We show focus group participants teaser trailers and read their faces through the webcam to score surprise, delight and boredom."
+  },
+  {
+   "id": "s1-art50_3-03",
+   "set": "s1",
+   "label": "art50_3",
+   "text": "The smart billboard estimates passers-by's age and mood and swaps the advert to whatever suits the crowd at that moment."
+  },
+  {
+   "id": "s1-art50_4-01",
+   "set": "s1",
+   "label": "art50_4",
+   "text": "We clone our brand ambassador's voice from old interviews so she can 'narrate' new ads in languages she never recorded."
+  },
+  {
+   "id": "s1-art50_4-02",
+   "set": "s1",
+   "label": "art50_4",
+   "text": "Our tool puts words in a politician's mouth, generating a realistic video of them announcing a policy they never mentioned."
+  },
+  {
+   "id": "s1-art50_4-03",
+   "set": "s1",
+   "label": "art50_4",
+   "text": "The studio generates photorealistic shots of the lead actor doing stunts, indistinguishable from footage of the real performer."
+  },
+  {
+   "id": "s1-none-01",
+   "set": "s1",
+   "label": "none",
+   "text": "Our fraud engine flags card transactions that don't fit a customer's usual spending pattern and blocks the payment until they confirm in the app."
+  },
+  {
+   "id": "s1-none-02",
+   "set": "s1",
+   "label": "none",
+   "text": "We rank incoming sales leads by how likely they are to close, using company size, past email replies and website visits."
+  },
+  {
+   "id": "s1-none-03",
+   "set": "s1",
+   "label": "none",
+   "text": "The pipeline scores candidate molecules against the target protein and cuts the lab's shortlist from two million compounds to fifty."
+  },
+  {
+   "id": "s1-none-04",
+   "set": "s1",
+   "label": "none",
+   "text": "We transcribe hour-long user research interviews and highlight the moments where participants hesitate or correct themselves."
+  },
+  {
+   "id": "s1-none-05",
+   "set": "s1",
+   "label": "none",
+   "text": "Our appliance watches network traffic for unusual patterns and quarantines a laptop the moment it talks to a suspicious address."
+  },
+  {
+   "id": "s1-none-06",
+   "set": "s1",
+   "label": "none",
+   "text": "Vibration sensors feed our model, which predicts which conveyor motors in the plant will fail this month so crews service them first."
+  },
+  {
+   "id": "s1-none-07",
+   "set": "s1",
+   "label": "none",
+   "text": "Our filter catches phishing and spam before it reaches anyone's inbox and learns from every message users mark as junk."
+  },
+  {
+   "id": "s1-none-08",
+   "set": "s1",
+   "label": "none",
+   "text": "The editor underlines grammar slips and awkward phrasing as you type and suggests tighter wording for each sentence."
+  },
+  {
+   "id": "s1-none-09",
+   "set": "s1",
+   "label": "none",
+   "text": "We suggest what to watch next based on the films a subscriber finished, abandoned or rated highly."
+  },
+  {
+   "id": "s1-none-10",
+   "set": "s1",
+   "label": "none",
+   "text": "Our forecast predicts how many units of each product the warehouse will ship next quarter, so purchasing knows what to stock."
+  },
+  {
+   "id": "s1-none-11",
+   "set": "s1",
+   "label": "none",
+   "text": "We read supplier invoices as they arrive, pull out the amounts and VAT numbers, and push them into accounting."
+  },
+  {
+   "id": "s1-none-12",
+   "set": "s1",
+   "label": "none",
+   "text": "Our translation layer converts support tickets from German and Polish into English so agents in one hub can answer everything."
+  },
+  {
+   "id": "s1-none-13",
+   "set": "s1",
+   "label": "none",
+   "text": "As the developer types, our assistant completes whole functions from the docstring and offers unit test stubs."
+  },
+  {
+   "id": "s1-none-14",
+   "set": "s1",
+   "label": "none",
+   "text": "We combine satellite imagery and soil sensors to tell each farmer which fields need watering and which will yield best."
+  },
+  {
+   "id": "s1-none-15",
+   "set": "s1",
+   "label": "none",
+   "text": "Our model reads product reviews and labels each one positive, negative or neutral so merchandisers can track reactions to a launch."
+  },
+  {
+   "id": "s1-none-16",
+   "set": "s1",
+   "label": "none",
+   "text": "Cameras over the filling line spot bottles with crooked caps or low fill levels and pull them before packing."
+  },
+  {
+   "id": "s1-none-17",
+   "set": "s1",
+   "label": "none",
+   "text": "Our storefront search reorders results for each shopper based on what similar customers clicked and bought."
+  },
+  {
+   "id": "s1-none-18",
+   "set": "s1",
+   "label": "none",
+   "text": "After each standup, our bot turns the recording into short notes with owners and due dates for every action item."
+  },
+  {
+   "id": "s1-none-19",
+   "set": "s1",
+   "label": "none",
+   "text": "Our planner sequences every van's drop-offs to cut fuel use and keep each delivery inside its promised window."
+  },
+  {
+   "id": "s1-none-20",
+   "set": "s1",
+   "label": "none",
+   "text": "We pick the next track for each listener by matching tempo and energy to the songs they skipped or replayed."
+  },
+  {
+   "id": "s2-annex_iii_1-01",
+   "set": "s2",
+   "label": "annex_iii_1",
+   "text": "Our stadium security platform scans recorded surveillance footage after events to locate and identify banned individuals across multiple camera angles."
+  },
+  {
+   "id": "s2-annex_iii_1-02",
+   "set": "s2",
+   "label": "annex_iii_1",
+   "text": "We deploy a shopping mall visitor analytics system that estimates shopper age brackets and gender from overhead camera footage."
+  },
+  {
+   "id": "s2-annex_iii_1-03",
+   "set": "s2",
+   "label": "annex_iii_1",
+   "text": "The venue management software matches faces from retrospective concert recordings against an internal watch list of known ticket fraudsters."
+  },
+  {
+   "id": "s2-annex_iii_1-04",
+   "set": "s2",
+   "label": "annex_iii_1",
+   "text": "Our interactive museum installation detects the moods and attention levels of gallery visitors to dynamically adjust lighting and ambient sound."
+  },
+  {
+   "id": "s2-annex_iii_1-05",
+   "set": "s2",
+   "label": "annex_iii_1",
+   "text": "We built an airport lounge camera tool that groups waiting passengers into demographic segments based on their physical features."
+  },
+  {
+   "id": "s2-annex_iii_2-01",
+   "set": "s2",
+   "label": "annex_iii_2",
+   "text": "Our SCADA automation module controls emergency shutoff valves across municipal drinking water pipelines when pressure spikes threaten structural failure."
+  },
+  {
+   "id": "s2-annex_iii_2-02",
+   "set": "s2",
+   "label": "annex_iii_2",
+   "text": "The smart grid software autonomously redistributes high-voltage electricity loads between regional substations to prevent widespread blackouts during peak demand."
+  },
+  {
+   "id": "s2-annex_iii_2-03",
+   "set": "s2",
+   "label": "annex_iii_2",
+   "text": "We supply an urban traffic management system that modifies motorway speed limits and lane signals in real time to prevent collisions."
+  },
+  {
+   "id": "s2-annex_iii_2-04",
+   "set": "s2",
+   "label": "annex_iii_2",
+   "text": "Our industrial control system regulates safety dampers and burner pressures across the city's central district heating network."
+  },
+  {
+   "id": "s2-annex_iii_2-05",
+   "set": "s2",
+   "label": "annex_iii_2",
+   "text": "The software manages automated routing failovers and core router switching to keep critical regional internet exchange points operating safely."
+  },
+  {
+   "id": "s2-annex_iii_3-01",
+   "set": "s2",
+   "label": "annex_iii_3",
+   "text": "Our university admissions platform scores applicant high school records and personal statements to automatically decide which candidates receive offers."
+  },
+  {
+   "id": "s2-annex_iii_3-02",
+   "set": "s2",
+   "label": "annex_iii_3",
+   "text": "We provide an automated exam proctoring plugin that flags suspicious head movements and background audio to detect cheating during remote tests."
+  },
+  {
+   "id": "s2-annex_iii_3-03",
+   "set": "s2",
+   "label": "annex_iii_3",
+   "text": "The LMS engine evaluates written student essays, assigns final letter grades, and records them directly into the school's academic registry."
+  },
+  {
+   "id": "s2-annex_iii_3-04",
+   "set": "s2",
+   "label": "annex_iii_3",
+   "text": "Our tool allocates incoming secondary school pupils across specialized vocational tracks or academic streams based on their aptitude test scores."
+  },
+  {
+   "id": "s2-annex_iii_3-05",
+   "set": "s2",
+   "label": "annex_iii_3",
+   "text": "We use an adaptive learning platform that determines which advanced curriculum tier a pupil is placed into for mathematics."
+  },
+  {
+   "id": "s2-annex_iii_4-01",
+   "set": "s2",
+   "label": "annex_iii_4",
+   "text": "Our ATS automatically parses incoming CVs, screens candidates against job specs, and shortlists applicants for interview rounds."
+  },
+  {
+   "id": "s2-annex_iii_4-02",
+   "set": "s2",
+   "label": "annex_iii_4",
+   "text": "The workforce management tool tracks call centre agent keystrokes, breaks, and call handling times to generate monthly performance reviews."
+  },
+  {
+   "id": "s2-annex_iii_4-03",
+   "set": "s2",
+   "label": "annex_iii_4",
+   "text": "We use a video interviewing platform that analyzes candidate speech patterns, gestures, and tone to generate suitability scores for hiring managers."
+  },
+  {
+   "id": "s2-annex_iii_4-04",
+   "set": "s2",
+   "label": "annex_iii_4",
+   "text": "Our platform assigns warehouse packing shifts and daily delivery routes by analyzing individual workers' historical productivity and stamina metrics."
+  },
+  {
+   "id": "s2-annex_iii_4-05",
+   "set": "s2",
+   "label": "annex_iii_4",
+   "text": "The HR analytics software evaluates employee retention risk and recommends staff for promotion or contract termination during quarterly restructuring."
+  },
+  {
+   "id": "s2-annex_iii_5-01",
+   "set": "s2",
+   "label": "annex_iii_5",
+   "text": "Our municipal portal evaluates citizen financial records and household size to decide eligibility for housing subsidies and heating allowances."
+  },
+  {
+   "id": "s2-annex_iii_5-02",
+   "set": "s2",
+   "label": "annex_iii_5",
+   "text": "We provide consumer lending software that scores personal loan applicants and sets individualized interest rates based on banking history."
+  },
+  {
+   "id": "s2-annex_iii_5-03",
+   "set": "s2",
+   "label": "annex_iii_5",
+   "text": "The underwriting engine calculates personalized monthly premiums for private health and life insurance applicants using individual medical histories."
+  },
+  {
+   "id": "s2-annex_iii_5-04",
+   "set": "s2",
+   "label": "annex_iii_5",
+   "text": "Our 999 call handling software evaluates caller descriptions to automatically assign urgency levels and dispatch ambulances to critical emergencies."
+  },
+  {
+   "id": "s2-annex_iii_5-05",
+   "set": "s2",
+   "label": "annex_iii_5",
+   "text": "The government welfare system verifies unemployment support claims and determines whether recipients continue to meet entitlement criteria."
+  },
+  {
+   "id": "s2-annex_iii_6-01",
+   "set": "s2",
+   "label": "annex_iii_6",
+   "text": "Our investigative toolkit analyzes financial transactions and phone logs to identify suspect networks and profile potential accomplices."
+  },
+  {
+   "id": "s2-annex_iii_6-02",
+   "set": "s2",
+   "label": "annex_iii_6",
+   "text": "The custody management tool assesses the likelihood that an arrested suspect will commit another violent crime if released on pre-trial bail."
+  },
+  {
+   "id": "s2-annex_iii_6-03",
+   "set": "s2",
+   "label": "annex_iii_6",
+   "text": "Police detectives use our software to evaluate the credibility and consistency of witness audio statements during homicide investigations."
+  },
+  {
+   "id": "s2-annex_iii_6-04",
+   "set": "s2",
+   "label": "annex_iii_6",
+   "text": "We built a risk assessment system for police officers to predict whether a domestic abuse victim is in immediate danger of severe harm."
+  },
+  {
+   "id": "s2-annex_iii_6-05",
+   "set": "s2",
+   "label": "annex_iii_6",
+   "text": "The forensic analytics application tests digital evidence for signs of tampering and calculates a reliability score for court proceedings."
+  },
+  {
+   "id": "s2-annex_iii_7-01",
+   "set": "s2",
+   "label": "annex_iii_7",
+   "text": "Our automated border e-gates match passenger passports with live camera snapshots to verify identities and clear travellers for entry."
+  },
+  {
+   "id": "s2-annex_iii_7-02",
+   "set": "s2",
+   "label": "annex_iii_7",
+   "text": "The immigration authority uses our system to screen asylum applications, checking supporting documents and flagging discrepancies in refugee travel routes."
+  },
+  {
+   "id": "s2-annex_iii_7-03",
+   "set": "s2",
+   "label": "annex_iii_7",
+   "text": "Our passenger screening tool analyzes advance passenger data before flight departures to assess security and immigration risks for arriving visa holders."
+  },
+  {
+   "id": "s2-annex_iii_7-04",
+   "set": "s2",
+   "label": "annex_iii_7",
+   "text": "The border agency deployed our system to examine tourist visa applications and identify applicants who might overstay their permitted duration."
+  },
+  {
+   "id": "s2-annex_iii_7-05",
+   "set": "s2",
+   "label": "annex_iii_7",
+   "text": "We provide border checkpoints with an identity verification system that authenticates travel documents and detects fraudulent residency permits."
+  },
+  {
+   "id": "s2-annex_iii_8-01",
+   "set": "s2",
+   "label": "annex_iii_8",
+   "text": "Our judicial assistant software searches case jurisprudence and drafts recommended legal rulings on statutory claims for presiding judges."
+  },
+  {
+   "id": "s2-annex_iii_8-02",
+   "set": "s2",
+   "label": "annex_iii_8",
+   "text": "We run a political campaign platform that microtargets swing voters with personalized messages designed to alter their voting choices in upcoming parliamentary elections."
+  },
+  {
+   "id": "s2-annex_iii_8-03",
+   "set": "s2",
+   "label": "annex_iii_8",
+   "text": "The legal analytics tool interprets court filings and statutory precedents to advise magistrates on standard sentence lengths for criminal charges."
+  },
+  {
+   "id": "s2-annex_iii_8-04",
+   "set": "s2",
+   "label": "annex_iii_8",
+   "text": "Our election marketing software models individual voter anxieties to deploy customized social media ad campaigns aimed at swaying referendum votes."
+  },
+  {
+   "id": "s2-annex_iii_8-05",
+   "set": "s2",
+   "label": "annex_iii_8",
+   "text": "The appellate court uses our research assistant to analyze case facts against conflicting precedents and propose formal legal findings."
+  },
+  {
+   "id": "s2-art5_1a-01",
+   "set": "s2",
+   "label": "art5_1a",
+   "text": "Our mobile game plays inaudible high-frequency audio cues during play to induce compulsive in-app purchases among players who cannot hear them."
+  },
+  {
+   "id": "s2-art5_1a-02",
+   "set": "s2",
+   "label": "art5_1a",
+   "text": "We built an e-commerce checkout tool that uses imperceptible micro-flashes and hidden cues to trick users into signing recurring subscription debts."
+  },
+  {
+   "id": "s2-art5_1a-03",
+   "set": "s2",
+   "label": "art5_1a",
+   "text": "The app delivers covert subliminal visual prompts below conscious perception to drive users to take dangerous unprescribed weight loss supplements."
+  },
+  {
+   "id": "s2-art5_1b-01",
+   "set": "s2",
+   "label": "art5_1b",
+   "text": "Our connected toy uses synthetic companionship to persuade young children into performing dangerous physical stunts around the house."
+  },
+  {
+   "id": "s2-art5_1b-02",
+   "set": "s2",
+   "label": "art5_1b",
+   "text": "We created an app that targets financially desperate, impoverished people with deceptive high-cost predatory microloans, driving them into severe insolvency."
+  },
+  {
+   "id": "s2-art5_1b-03",
+   "set": "s2",
+   "label": "art5_1b",
+   "text": "The platform exploits cognitive declines in elderly dementia patients to coax them into transferring their life savings into risky offshore funds."
+  },
+  {
+   "id": "s2-art5_1c-01",
+   "set": "s2",
+   "label": "art5_1c",
+   "text": "The municipal platform tracks citizens' recycling habits, driving infractions, and online comments to assign a civic score that limits their access to public transport."
+  },
+  {
+   "id": "s2-art5_1c-02",
+   "set": "s2",
+   "label": "art5_1c",
+   "text": "Our corporate platform rates customers on their personal lifestyle habits and shopping choices, using the score to deny them access to unrelated rental housing."
+  },
+  {
+   "id": "s2-art5_1c-03",
+   "set": "s2",
+   "label": "art5_1c",
+   "text": "We aggregate social media posts and neighbourhood dispute reports into a general citizen trust rating used by local authorities to downgrade school placements."
+  },
+  {
+   "id": "s2-art5_1d-01",
+   "set": "s2",
+   "label": "art5_1d",
+   "text": "The police tool predicts whether a specific citizen will commit a future burglary based entirely on their neighbourhood profile and psychological questionnaire scores."
+  },
+  {
+   "id": "s2-art5_1d-02",
+   "set": "s2",
+   "label": "art5_1d",
+   "text": "We developed an algorithm for detectives that flags individual citizens as prospective drug offenders using personality traits and lifestyle assessments without prior offences."
+  },
+  {
+   "id": "s2-art5_1d-03",
+   "set": "s2",
+   "label": "art5_1d",
+   "text": "Our system assigns criminal risk ratings to individuals based solely on their leisure habits, social circles, and personality traits to justify proactive surveillance."
+  },
+  {
+   "id": "s2-art5_1e-01",
+   "set": "s2",
+   "label": "art5_1e",
+   "text": "Our web crawler systematically scrapes photos from public social media profiles and websites across the internet to expand our massive facial recognition database."
+  },
+  {
+   "id": "s2-art5_1e-02",
+   "set": "s2",
+   "label": "art5_1e",
+   "text": "We build commercial face databases by mass downloading unindexed portrait images and personal photos across billions of web pages without specific targets."
+  },
+  {
+   "id": "s2-art5_1e-03",
+   "set": "s2",
+   "label": "art5_1e",
+   "text": "The software ingests untargeted, continuous live streams from municipal CCTV cameras to harvest and catalog millions of random faces for our matching index."
+  },
+  {
+   "id": "s2-art5_1f-01",
+   "set": "s2",
+   "label": "art5_1f",
+   "text": "Our monitoring software analyzes webcam video feeds of remote employees during work hours to determine if they are frustrated, bored, or content."
+  },
+  {
+   "id": "s2-art5_1f-02",
+   "set": "s2",
+   "label": "art5_1f",
+   "text": "We installed cameras in high school classrooms that track students' facial expressions to deduce their emotional engagement and mood during lectures."
+  },
+  {
+   "id": "s2-art5_1f-03",
+   "set": "s2",
+   "label": "art5_1f",
+   "text": "The company uses an audio analysis plugin on staff conference calls to detect when team members feel stressed or unhappy at work."
+  },
+  {
+   "id": "s2-art5_1g-01",
+   "set": "s2",
+   "label": "art5_1g",
+   "text": "Our software scans facial features and skin tone variations from uploaded portraits to classify individuals by racial background and ethnic origin."
+  },
+  {
+   "id": "s2-art5_1g-02",
+   "set": "s2",
+   "label": "art5_1g",
+   "text": "We built a computer vision tool that analyzes users' facial geometry and eye movements to predict their political party affiliations and voting leanings."
+  },
+  {
+   "id": "s2-art5_1g-03",
+   "set": "s2",
+   "label": "art5_1g",
+   "text": "The image processing app examines physical facial traits in profile pictures to determine a person's religious beliefs and sexual orientation."
+  },
+  {
+   "id": "s2-art5_1h-01",
+   "set": "s2",
+   "label": "art5_1h",
+   "text": "Police units use our system to perform live facial identification of pedestrians passing through public city squares using real-time CCTV streams."
+  },
+  {
+   "id": "s2-art5_1h-02",
+   "set": "s2",
+   "label": "art5_1h",
+   "text": "Our mobile surveillance van feeds live public street camera footage to police algorithms that instantly identify citizens walking along downtown pavements."
+  },
+  {
+   "id": "s2-art5_1h-03",
+   "set": "s2",
+   "label": "art5_1h",
+   "text": "Law enforcement officers run our real-time facial recognition tool on body-worn cameras to identify individuals live in crowded public train stations."
+  },
+  {
+   "id": "s2-art50_1-01",
+   "set": "s2",
+   "label": "art50_1",
+   "text": "We built an automated conversational voice agent that answers incoming customer support telephone calls and helps users troubleshoot billing questions."
+  },
+  {
+   "id": "s2-art50_1-02",
+   "set": "s2",
+   "label": "art50_1",
+   "text": "Our website includes an interactive shopping chatbot that talks directly to store visitors and answers product inquiries in real time."
+  },
+  {
+   "id": "s2-art50_1-03",
+   "set": "s2",
+   "label": "art50_1",
+   "text": "The banking app features a virtual conversational assistant that interacts directly with account holders to help them execute transfers."
+  },
+  {
+   "id": "s2-art50_2-01",
+   "set": "s2",
+   "label": "art50_2",
+   "text": "Our content engine generates synthetic product descriptions, blog posts, and marketing imagery at scale for online retail catalogues."
+  },
+  {
+   "id": "s2-art50_2-02",
+   "set": "s2",
+   "label": "art50_2",
+   "text": "We developed an AI platform that produces synthetic background music tracks and stock illustrations for video game studios."
+  },
+  {
+   "id": "s2-art50_2-03",
+   "set": "s2",
+   "label": "art50_2",
+   "text": "The publishing tool generates full-length synthetic audiobook narrations and illustrative cover art from raw book manuscripts."
+  },
+  {
+   "id": "s2-art50_3-01",
+   "set": "s2",
+   "label": "art50_3",
+   "text": "Our retail display camera detects whether shoppers look pleased or confused when looking at promotional store endcaps."
+  },
+  {
+   "id": "s2-art50_3-02",
+   "set": "s2",
+   "label": "art50_3",
+   "text": "We use an in-store sensor that categorizes passing supermarket shoppers by estimated age group to display targeted digital advertisements."
+  },
+  {
+   "id": "s2-art50_3-03",
+   "set": "s2",
+   "label": "art50_3",
+   "text": "The market research platform scans focus group participants' expressions during movie trailers to record moment-by-moment emotional reactions."
+  },
+  {
+   "id": "s2-art50_4-01",
+   "set": "s2",
+   "label": "art50_4",
+   "text": "Our video editing suite generates realistic synthetic videos of real television presenters reading breaking news scripts in multiple foreign languages."
+  },
+  {
+   "id": "s2-art50_4-02",
+   "set": "s2",
+   "label": "art50_4",
+   "text": "We built a tool that replaces actors' faces with realistic digital likenesses of real historical figures in cinematic footage."
+  },
+  {
+   "id": "s2-art50_4-03",
+   "set": "s2",
+   "label": "art50_4",
+   "text": "The voice cloning application generates photorealistic audio clips mimicking the exact voices of famous celebrities reading user-submitted messages."
+  },
+  {
+   "id": "s2-none-01",
+   "set": "s2",
+   "label": "none",
+   "text": "Our payment gateway monitors credit card transactions for anomalous purchasing locations and unusual amounts to prevent payment fraud."
+  },
+  {
+   "id": "s2-none-02",
+   "set": "s2",
+   "label": "none",
+   "text": "The CRM platform ranks inbound enterprise sales leads based on corporate website visits, company headcount, and downloaded whitepapers."
+  },
+  {
+   "id": "s2-none-03",
+   "set": "s2",
+   "label": "none",
+   "text": "Our biotech platform screens and ranks millions of candidate chemical molecules to predict their binding affinity with target viral proteins."
+  },
+  {
+   "id": "s2-none-04",
+   "set": "s2",
+   "label": "none",
+   "text": "We use an automated speech-to-text service that transcribes recorded user research interviews for our product design team."
+  },
+  {
+   "id": "s2-none-05",
+   "set": "s2",
+   "label": "none",
+   "text": "The cybersecurity software inspects outgoing network packets for known malware signatures and prevents data exfiltration from office workstations."
+  },
+  {
+   "id": "s2-none-06",
+   "set": "s2",
+   "label": "none",
+   "text": "Vibration sensors on factory conveyor belts feed our predictive maintenance software to schedule bearing replacements before mechanical breakdowns occur."
+  },
+  {
+   "id": "s2-none-07",
+   "set": "s2",
+   "label": "none",
+   "text": "Our mail server filters incoming corporate emails into quarantine folders if they contain deceptive sender headers or known phishing links."
+  },
+  {
+   "id": "s2-none-08",
+   "set": "s2",
+   "label": "none",
+   "text": "We provide a desktop writing assistant that highlights typographical errors, suggests synonyms, and corrects punctuation mistakes in drafted reports."
+  },
+  {
+   "id": "s2-none-09",
+   "set": "s2",
+   "label": "none",
+   "text": "Our streaming service recommends comedy films and documentaries to subscribers based on their previous viewing history and genre ratings."
+  },
+  {
+   "id": "s2-none-10",
+   "set": "s2",
+   "label": "none",
+   "text": "The supply chain module forecasts pallet replenishment schedules for warehouse logistics by analyzing historical sales volumes and seasonal supplier lead times."
+  },
+  {
+   "id": "s2-none-11",
+   "set": "s2",
+   "label": "none",
+   "text": "Our accounting utility extracts vendor names, line items, and invoice totals from scanned receipts to populate ERP payment entries."
+  },
+  {
+   "id": "s2-none-12",
+   "set": "s2",
+   "label": "none",
+   "text": "We use an automated neural engine that translates English technical user manuals into Spanish and German for industrial equipment exports."
+  },
+  {
+   "id": "s2-none-13",
+   "set": "s2",
+   "label": "none",
+   "text": "The developer plugin suggests boilerplate code snippets and auto-completes function arguments inside the software engineer's code editor."
+  },
+  {
+   "id": "s2-none-14",
+   "set": "s2",
+   "label": "none",
+   "text": "Our agritech system analyzes satellite soil moisture data and regional weather forecasts to help farmers plan optimal wheat harvest dates."
+  },
+  {
+   "id": "s2-none-15",
+   "set": "s2",
+   "label": "none",
+   "text": "The marketing dashboard groups thousands of public Amazon reviews into positive and negative feedback categories for our consumer electronics line."
+  },
+  {
+   "id": "s2-none-16",
+   "set": "s2",
+   "label": "none",
+   "text": "Our studio software analyzes raw multi-track music recordings to automatically equalize audio frequencies and normalize volume levels for streaming release."
+  },
+  {
+   "id": "s2-none-17",
+   "set": "s2",
+   "label": "none",
+   "text": "The robotic vacuum cleaner builds a 2D floorplan of home living rooms using infrared bumper sensors to optimize cleaning routes."
+  },
+  {
+   "id": "s2-none-18",
+   "set": "s2",
+   "label": "none",
+   "text": "Our commercial aviation platform adjusts ticket prices for scheduled flights based on route search volume, competitor fares, and remaining seat capacity."
+  },
+  {
+   "id": "s2-none-19",
+   "set": "s2",
+   "label": "none",
+   "text": "The web developer tool audits HTML pages against web accessibility guidelines to flag low color contrast and missing image alt tags."
+  },
+  {
+   "id": "s2-none-20",
+   "set": "s2",
+   "label": "none",
+   "text": "Our mobile gallery app automatically groups pet photos into cat and dog albums by recognizing animal shapes in stored images."
+  },
+  {
+   "id": "s3-annex_iii_1-01",
+   "set": "s3",
+   "label": "annex_iii_1",
+   "text": "We use a camera system that scans faces from street corners to match visitors against a government watchlist in real time."
+  },
+  {
+   "id": "s3-annex_iii_1-02",
+   "set": "s3",
+   "label": "annex_iii_1",
+   "text": "Our tool analyzes body temperature and heart rate from shoppers in a mall to infer stress levels and categorize them by perceived anxiety."
+  },
+  {
+   "id": "s3-annex_iii_1-03",
+   "set": "s3",
+   "label": "annex_iii_1",
+   "text": "A system that captures gait patterns from pedestrians in a park and groups them by age and gender without explicit consent."
+  },
+  {
+   "id": "s3-annex_iii_1-04",
+   "set": "s3",
+   "label": "annex_iii_1",
+   "text": "We deploy drones that record facial expressions of festival attendees to sort crowds by happiness and excitement for marketing sponsors."
+  },
+  {
+   "id": "s3-annex_iii_1-05",
+   "set": "s3",
+   "label": "annex_iii_1",
+   "text": "Our platform reads micro‑movements from shoppers’ eyes in a retail aisle to determine interest levels and rank them for personalized offers."
+  },
+  {
+   "id": "s3-annex_iii_2-01",
+   "set": "s3",
+   "label": "annex_iii_2",
+   "text": "We operate an AI controller that adjusts electricity grid load balancing in response to real‑time demand spikes to prevent blackouts."
+  },
+  {
+   "id": "s3-annex_iii_2-02",
+   "set": "s3",
+   "label": "annex_iii_2",
+   "text": "Our system monitors water pressure in municipal pipelines and automatically closes valves when leak risk exceeds predefined thresholds."
+  },
+  {
+   "id": "s3-annex_iii_2-03",
+   "set": "s3",
+   "label": "annex_iii_2",
+   "text": "A platform that predicts gas flow anomalies in a refinery and triggers emergency shut‑down procedures to avoid explosions."
+  },
+  {
+   "id": "s3-annex_iii_2-04",
+   "set": "s3",
+   "label": "annex_iii_2",
+   "text": "We use AI to coordinate traffic light timing across a city, reducing congestion and preventing accidents at busy intersections."
+  },
+  {
+   "id": "s3-annex_iii_2-05",
+   "set": "s3",
+   "label": "annex_iii_2",
+   "text": "Our tool continuously scans cybersecurity logs of a data centre and isolates compromised servers before they affect critical services."
+  },
+  {
+   "id": "s3-annex_iii_3-01",
+   "set": "s3",
+   "label": "annex_iii_3",
+   "text": "We run an AI that evaluates high‑school transcripts and test scores to rank applicants for university scholarships."
+  },
+  {
+   "id": "s3-annex_iii_3-02",
+   "set": "s3",
+   "label": "annex_iii_3",
+   "text": "Our platform automatically grades multiple‑choice exams for online courses and flags unusual answer patterns for possible cheating."
+  },
+  {
+   "id": "s3-annex_iii_3-03",
+   "set": "s3",
+   "label": "annex_iii_3",
+   "text": "A system that assigns students to language‑learning groups based on initial placement test results and learning speed."
+  },
+  {
+   "id": "s3-annex_iii_3-04",
+   "set": "s3",
+   "label": "annex_iii_3",
+   "text": "We use AI to monitor webcam feeds during remote exams, detecting suspicious movements and alerting proctors in real time."
+  },
+  {
+   "id": "s3-annex_iii_3-05",
+   "set": "s3",
+   "label": "annex_iii_3",
+   "text": "Our tool predicts which freshmen are at risk of dropping out after the first semester and recommends targeted tutoring."
+  },
+  {
+   "id": "s3-annex_iii_4-01",
+   "set": "s3",
+   "label": "annex_iii_4",
+   "text": "We employ an AI that scans CVs and social profiles to shortlist candidates whose skills match a software‑engineer vacancy."
+  },
+  {
+   "id": "s3-annex_iii_4-02",
+   "set": "s3",
+   "label": "annex_iii_4",
+   "text": "Our system rates employee performance from daily activity logs and suggests promotions for the top‑ranked staff each quarter."
+  },
+  {
+   "id": "s3-annex_iii_4-03",
+   "set": "s3",
+   "label": "annex_iii_4",
+   "text": "A platform that allocates warehouse picking tasks to workers based on their speed and error history to optimise throughput."
+  },
+  {
+   "id": "s3-annex_iii_4-04",
+   "set": "s3",
+   "label": "annex_iii_4",
+   "text": "We use AI to monitor call‑center agents’ voice tone and pause length, providing real‑time coaching to improve customer satisfaction."
+  },
+  {
+   "id": "s3-annex_iii_4-05",
+   "set": "s3",
+   "label": "annex_iii_4",
+   "text": "Our tool analyses employee survey responses to identify burnout risk and recommends workload adjustments for at‑risk teams."
+  },
+  {
+   "id": "s3-annex_iii_5-01",
+   "set": "s3",
+   "label": "annex_iii_5",
+   "text": "We run an AI that determines eligibility for housing subsidies based on income, family size, and rental market data."
+  },
+  {
+   "id": "s3-annex_iii_5-02",
+   "set": "s3",
+   "label": "annex_iii_5",
+   "text": "Our platform calculates life‑insurance premiums by analysing medical history, lifestyle habits, and regional health statistics."
+  },
+  {
+   "id": "s3-annex_iii_5-03",
+   "set": "s3",
+   "label": "annex_iii_5",
+   "text": "A system that prioritises emergency calls by assessing caller location, injury severity, and available ambulance resources."
+  },
+  {
+   "id": "s3-annex_iii_5-04",
+   "set": "s3",
+   "label": "annex_iii_5",
+   "text": "We use AI to evaluate applications for unemployment benefits, automatically approving those who meet income and work‑history criteria."
+  },
+  {
+   "id": "s3-annex_iii_5-05",
+   "set": "s3",
+   "label": "annex_iii_5",
+   "text": "Our tool predicts credit risk for small businesses by combining transaction data, cash‑flow trends, and sector performance indicators."
+  },
+  {
+   "id": "s3-annex_iii_6-01",
+   "set": "s3",
+   "label": "annex_iii_6",
+   "text": "We deploy an AI that estimates a suspect’s likelihood of re‑offending based on prior convictions and demographic factors."
+  },
+  {
+   "id": "s3-annex_iii_6-02",
+   "set": "s3",
+   "label": "annex_iii_6",
+   "text": "Our system analyses interview recordings to detect stress cues that may indicate deception during police interrogations."
+  },
+  {
+   "id": "s3-annex_iii_6-03",
+   "set": "s3",
+   "label": "annex_iii_6",
+   "text": "A tool that scores the reliability of digital evidence by cross‑checking timestamps, metadata, and source authenticity."
+  },
+  {
+   "id": "s3-annex_iii_6-04",
+   "set": "s3",
+   "label": "annex_iii_6",
+   "text": "We use AI to identify victims at high risk of domestic violence by monitoring social‑media activity and emergency‑call patterns."
+  },
+  {
+   "id": "s3-annex_iii_6-05",
+   "set": "s3",
+   "label": "annex_iii_6",
+   "text": "Our platform creates offender profiles by clustering past crime reports, helping investigators focus on likely perpetrators."
+  },
+  {
+   "id": "s3-annex_iii_7-01",
+   "set": "s3",
+   "label": "annex_iii_7",
+   "text": "We operate a system that scores visa applicants by analysing travel history, employment records, and language proficiency to flag high‑risk entries."
+  },
+  {
+   "id": "s3-annex_iii_7-02",
+   "set": "s3",
+   "label": "annex_iii_7",
+   "text": "Our AI evaluates asylum seekers’ statements and supporting documents to assess credibility and prioritize case reviews."
+  },
+  {
+   "id": "s3-annex_iii_7-03",
+   "set": "s3",
+   "label": "annex_iii_7",
+   "text": "A platform that matches facial images captured at border checkpoints with a watchlist to alert officers in real time."
+  },
+  {
+   "id": "s3-annex_iii_7-04",
+   "set": "s3",
+   "label": "annex_iii_7",
+   "text": "We use machine learning to predict the likelihood that a traveller will overstay their visa based on entry patterns."
+  },
+  {
+   "id": "s3-annex_iii_7-05",
+   "set": "s3",
+   "label": "annex_iii_7",
+   "text": "Our tool analyses biometric data from e‑gates to identify individuals attempting to use forged documents at international airports."
+  },
+  {
+   "id": "s3-annex_iii_8-01",
+   "set": "s3",
+   "label": "annex_iii_8",
+   "text": "We provide an AI that suggests relevant case law and statutes to judges based on the facts entered in a docket."
+  },
+  {
+   "id": "s3-annex_iii_8-02",
+   "set": "s3",
+   "label": "annex_iii_8",
+   "text": "Our platform generates personalized political ads by analyzing voter preferences and tailoring messages to sway election outcomes."
+  },
+  {
+   "id": "s3-annex_iii_8-03",
+   "set": "s3",
+   "label": "annex_iii_8",
+   "text": "A system that drafts summary opinions for magistrates by extracting key arguments from trial transcripts."
+  },
+  {
+   "id": "s3-annex_iii_8-04",
+   "set": "s3",
+   "label": "annex_iii_8",
+   "text": "We use AI to monitor social‑media sentiment during campaigns and recommend strategic communication adjustments to candidates."
+  },
+  {
+   "id": "s3-annex_iii_8-05",
+   "set": "s3",
+   "label": "annex_iii_8",
+   "text": "Our tool evaluates the consistency of jury deliberations by analysing spoken language patterns for bias indicators."
+  },
+  {
+   "id": "s3-art5_1a-01",
+   "set": "s3",
+   "label": "art5_1a",
+   "text": "We run a chatbot that subtly nudges users to click on phishing links by presenting them as urgent security alerts."
+  },
+  {
+   "id": "s3-art5_1a-02",
+   "set": "s3",
+   "label": "art5_1a",
+   "text": "Our system embeds hidden messages in video ads that trigger impulse purchases without the viewer realizing the influence."
+  },
+  {
+   "id": "s3-art5_1a-03",
+   "set": "s3",
+   "label": "art5_1a",
+   "text": "A platform delivers personalized news feeds that mask sponsored content, leading readers to adopt harmful health practices."
+  },
+  {
+   "id": "s3-art5_1b-01",
+   "set": "s3",
+   "label": "art5_1b",
+   "text": "We use AI to target low‑income households with predatory loan offers disguised as emergency assistance."
+  },
+  {
+   "id": "s3-art5_1b-02",
+   "set": "s3",
+   "label": "art5_1b",
+   "text": "Our tool sends push notifications to elderly users, urging them to purchase unnecessary medical devices through fear‑based messaging."
+  },
+  {
+   "id": "s3-art5_1b-03",
+   "set": "s3",
+   "label": "art5_1b",
+   "text": "A system analyses disability benefit claim forms to identify applicants likely to accept higher‑priced insurance add‑ons."
+  },
+  {
+   "id": "s3-art5_1c-01",
+   "set": "s3",
+   "label": "art5_1c",
+   "text": "We maintain a loyalty score that lowers credit limits for customers who frequently shop at discount stores."
+  },
+  {
+   "id": "s3-art5_1c-02",
+   "set": "s3",
+   "label": "art5_1c",
+   "text": "Our platform reduces insurance premiums for drivers who consistently post travel photos on social media, regardless of driving record."
+  },
+  {
+   "id": "s3-art5_1c-03",
+   "set": "s3",
+   "label": "art5_1c",
+   "text": "A system downgrades tenant applications if renters have previously used free Wi‑Fi services, affecting housing eligibility."
+  },
+  {
+   "id": "s3-art5_1d-01",
+   "set": "s3",
+   "label": "art5_1d",
+   "text": "We deploy an AI that flags individuals as potential burglars solely based on their social media interests and neighborhood."
+  },
+  {
+   "id": "s3-art5_1d-02",
+   "set": "s3",
+   "label": "art5_1d",
+   "text": "Our tool generates a risk score for teenagers to predict future violent behavior using only personality quiz responses."
+  },
+  {
+   "id": "s3-art5_1d-03",
+   "set": "s3",
+   "label": "art5_1d",
+   "text": "A system assesses the likelihood of shoplifting by analysing shoppers’ browsing patterns without any prior criminal record."
+  },
+  {
+   "id": "s3-art5_1e-01",
+   "set": "s3",
+   "label": "art5_1e",
+   "text": "We collect publicly available Instagram images to compile a facial recognition database for future marketing analytics."
+  },
+  {
+   "id": "s3-art5_1e-02",
+   "set": "s3",
+   "label": "art5_1e",
+   "text": "Our platform continuously scrapes street‑level CCTV feeds to amass a repository of pedestrian faces for law‑enforcement licensing."
+  },
+  {
+   "id": "s3-art5_1e-03",
+   "set": "s3",
+   "label": "art5_1e",
+   "text": "A system aggregates profile pictures from professional networking sites to build a global face dataset without user consent."
+  },
+  {
+   "id": "s3-art5_1f-01",
+   "set": "s3",
+   "label": "art5_1f",
+   "text": "We use webcam analysis to gauge employee stress levels during virtual meetings and suggest break intervals."
+  },
+  {
+   "id": "s3-art5_1f-02",
+   "set": "s3",
+   "label": "art5_1f",
+   "text": "Our tool monitors classroom facial expressions to infer student engagement and alerts teachers when attention drops."
+  },
+  {
+   "id": "s3-art5_1f-03",
+   "set": "s3",
+   "label": "art5_1f",
+   "text": "A system evaluates typing speed and error patterns to estimate worker satisfaction in a call centre."
+  },
+  {
+   "id": "s3-art5_1g-01",
+   "set": "s3",
+   "label": "art5_1g",
+   "text": "We analyze gait and posture captured by retail cameras to infer customers’ cultural background for targeted advertising."
+  },
+  {
+   "id": "s3-art5_1g-02",
+   "set": "s3",
+   "label": "art5_1g",
+   "text": "Our AI predicts political affiliation from facial micro‑expressions during televised debates for market research."
+  },
+  {
+   "id": "s3-art5_1g-03",
+   "set": "s3",
+   "label": "art5_1g",
+   "text": "A system extracts likely religious affiliation from voice tone and language use in customer service calls."
+  },
+  {
+   "id": "s3-art5_1h-01",
+   "set": "s3",
+   "label": "art5_1h",
+   "text": "We provide live facial matching for police to identify individuals walking in a city park from surveillance cameras."
+  },
+  {
+   "id": "s3-art5_1h-02",
+   "set": "s3",
+   "label": "art5_1h",
+   "text": "Our system alerts officers when a person of interest appears on a subway platform camera in real time."
+  },
+  {
+   "id": "s3-art5_1h-03",
+   "set": "s3",
+   "label": "art5_1h",
+   "text": "A platform streams CCTV footage to law enforcement, automatically flagging faces that match a watchlist during public events."
+  },
+  {
+   "id": "s3-art50_1-01",
+   "set": "s3",
+   "label": "art50_1",
+   "text": "We operate a virtual assistant that answers customer queries about bank balances via text chat on our website."
+  },
+  {
+   "id": "s3-art50_1-02",
+   "set": "s3",
+   "label": "art50_1",
+   "text": "Our voice agent handles inbound calls for a utility company, guiding callers through outage reporting steps."
+  },
+  {
+   "id": "s3-art50_1-03",
+   "set": "s3",
+   "label": "art50_1",
+   "text": "A chatbot provides real‑time travel advice, recommending routes and ticket options based on user preferences."
+  },
+  {
+   "id": "s3-art50_2-01",
+   "set": "s3",
+   "label": "art50_2",
+   "text": "We generate thousands of product description paragraphs daily using an AI language model trained on e‑commerce data."
+  },
+  {
+   "id": "s3-art50_2-02",
+   "set": "s3",
+   "label": "art50_2",
+   "text": "Our platform creates realistic portrait images of fictional characters for video game concept art."
+  },
+  {
+   "id": "s3-art50_2-03",
+   "set": "s3",
+   "label": "art50_2",
+   "text": "A system synthesizes natural‑sounding podcast episodes by stitching together AI‑generated speech and background music."
+  },
+  {
+   "id": "s3-art50_3-01",
+   "set": "s3",
+   "label": "art50_3",
+   "text": "We analyze shoppers’ facial expressions in a department store to segment customers by excitement level for product placement."
+  },
+  {
+   "id": "s3-art50_3-02",
+   "set": "s3",
+   "label": "art50_3",
+   "text": "Our tool measures foot traffic pressure patterns in a mall to infer visitor mood and adjust ambient lighting."
+  },
+  {
+   "id": "s3-art50_3-03",
+   "set": "s3",
+   "label": "art50_3",
+   "text": "A system sorts conference attendees by perceived confidence from posture analysis to tailor networking suggestions."
+  },
+  {
+   "id": "s3-art50_4-01",
+   "set": "s3",
+   "label": "art50_4",
+   "text": "We create synthetic videos of politicians delivering scripted messages for political satire productions."
+  },
+  {
+   "id": "s3-art50_4-02",
+   "set": "s3",
+   "label": "art50_4",
+   "text": "Our AI generates synthetic audio clips that mimic a celebrity’s voice for advertising jingles."
+  },
+  {
+   "id": "s3-art50_4-03",
+   "set": "s3",
+   "label": "art50_4",
+   "text": "A platform produces lifelike images of historical figures in modern settings for educational documentaries."
+  },
+  {
+   "id": "s3-none-01",
+   "set": "s3",
+   "label": "none",
+   "text": "We use machine learning to detect fraudulent credit‑card transactions by analysing spending patterns and device fingerprints."
+  },
+  {
+   "id": "s3-none-02",
+   "set": "s3",
+   "label": "none",
+   "text": "Our system ranks sales leads based on engagement scores to prioritize outreach for the marketing team."
+  },
+  {
+   "id": "s3-none-03",
+   "set": "s3",
+   "label": "none",
+   "text": "A platform predicts the binding affinity of candidate molecules in early‑stage drug discovery using neural networks."
+  },
+  {
+   "id": "s3-none-04",
+   "set": "s3",
+   "label": "none",
+   "text": "We transcribe user‑research interview recordings into detailed text files for qualitative analysis."
+  },
+  {
+   "id": "s3-none-05",
+   "set": "s3",
+   "label": "none",
+   "text": "Our tool scans network traffic to identify potential intrusion attempts and alerts the security operations center."
+  },
+  {
+   "id": "s3-none-06",
+   "set": "s3",
+   "label": "none",
+   "text": "We apply predictive maintenance models to forecast equipment failures in a manufacturing plant, scheduling repairs proactively."
+  },
+  {
+   "id": "s3-none-07",
+   "set": "s3",
+   "label": "none",
+   "text": "Our spam filter classifies incoming emails as junk or legitimate using natural‑language features."
+  },
+  {
+   "id": "s3-none-08",
+   "set": "s3",
+   "label": "none",
+   "text": "We provide spell‑checking functionality in a word processor, suggesting corrections for misspelled words."
+  },
+  {
+   "id": "s3-none-09",
+   "set": "s3",
+   "label": "none",
+   "text": "Our recommendation engine suggests movies to users based on viewing history and genre preferences."
+  },
+  {
+   "id": "s3-none-10",
+   "set": "s3",
+   "label": "none",
+   "text": "We forecast warehouse inventory demand for seasonal products using time‑series analysis accurately."
+  },
+  {
+   "id": "s3-none-11",
+   "set": "s3",
+   "label": "none",
+   "text": "Our OCR solution extracts invoice data such as totals and dates for automated accounting entry."
+  },
+  {
+   "id": "s3-none-12",
+   "set": "s3",
+   "label": "none",
+   "text": "We translate technical manuals from English to German using a neural machine translation model."
+  },
+  {
+   "id": "s3-none-13",
+   "set": "s3",
+   "label": "none",
+   "text": "Our code completion assistant suggests API calls while developers write software in an IDE."
+  },
+  {
+   "id": "s3-none-14",
+   "set": "s3",
+   "label": "none",
+   "text": "We generate weather forecasts for agricultural regions to help farmers plan irrigation schedules."
+  },
+  {
+   "id": "s3-none-15",
+   "set": "s3",
+   "label": "none",
+   "text": "Our sentiment analysis tool evaluates product reviews to gauge customer satisfaction levels."
+  },
+  {
+   "id": "s3-none-16",
+   "set": "s3",
+   "label": "none",
+   "text": "We predict crop yields based on satellite imagery and soil moisture data for agribusiness planning."
+  },
+  {
+   "id": "s3-none-17",
+   "set": "s3",
+   "label": "none",
+   "text": "Our system monitors social media for brand mentions and alerts the PR team to emerging trends."
+  },
+  {
+   "id": "s3-none-18",
+   "set": "s3",
+   "label": "none",
+   "text": "We use AI to optimize routing of delivery trucks, reducing fuel consumption and travel time."
+  },
+  {
+   "id": "s3-none-19",
+   "set": "s3",
+   "label": "none",
+   "text": "Our platform automates the generation of legal contract drafts based on user‑provided clauses."
+  },
+  {
+   "id": "s3-none-20",
+   "set": "s3",
+   "label": "none",
+   "text": "We analyze financial statements to produce credit risk ratings for corporate bond issuers."
+  },
+  {
+   "id": "s4-critical_infrastructure-01",
+   "set": "s4",
+   "label": "none",
+   "sector": "critical_infrastructure",
+   "text": "Our utility's chatbot answers customers' questions about their water bill and books meter readings.",
+   "why": "Customer service. Annex III(2) covers safety components in the management and operation of the supply, not everything a utility runs."
+  },
+  {
+   "id": "s4-critical_infrastructure-02",
+   "set": "s4",
+   "label": "none",
+   "sector": "critical_infrastructure",
+   "text": "We forecast next year's electricity demand per region so the sales team can plan tariffs.",
+   "why": "Commercial planning, not a safety component in the operation of the supply (Annex III(2))."
+  },
+  {
+   "id": "s4-critical_infrastructure-03",
+   "set": "s4",
+   "label": "none",
+   "sector": "critical_infrastructure",
+   "text": "The tool drafts marketing emails for a gas supplier's loyalty programme.",
+   "why": "Marketing for a utility; no safety component (Annex III(2))."
+  },
+  {
+   "id": "s4-critical_infrastructure-04",
+   "set": "s4",
+   "label": "none",
+   "sector": "critical_infrastructure",
+   "text": "We count vehicles from roadside cameras to produce yearly traffic statistics for the transport ministry's report.",
+   "why": "Statistics, not a safety component in the management and operation of road traffic (Annex III(2))."
+  },
+  {
+   "id": "s4-education-05",
+   "set": "s4",
+   "label": "none",
+   "sector": "education",
+   "text": "Our scheduler builds the weekly timetable for a secondary school from teacher availability and room sizes.",
+   "why": "None of the four uses of Annex III(3): admission or assignment, evaluating learning outcomes, assessing the level of education, monitoring behaviour in tests."
+  },
+  {
+   "id": "s4-education-06",
+   "set": "s4",
+   "label": "none",
+   "sector": "education",
+   "text": "The canteen app predicts how many lunches the school kitchen should cook each day.",
+   "why": "Operates in a school; none of the uses of Annex III(3)."
+  },
+  {
+   "id": "s4-education-07",
+   "set": "s4",
+   "label": "none",
+   "sector": "education",
+   "text": "We translate lecture slides and course handouts from English into Polish for a university's exchange students.",
+   "why": "Translation of teaching material; none of the uses of Annex III(3)."
+  },
+  {
+   "id": "s4-education-08",
+   "set": "s4",
+   "label": "none",
+   "sector": "education",
+   "text": "A chatbot answers questions about the university library's opening hours and how to renew a loan.",
+   "why": "Information service; none of the uses of Annex III(3). Art. 50(1) transparency may apply."
+  },
+  {
+   "id": "s4-employment-09",
+   "set": "s4",
+   "label": "none",
+   "sector": "employment",
+   "text": "Our payroll add-on checks each month's salary run for calculation errors before the bank file goes out.",
+   "why": "Payroll arithmetic; neither recruitment or selection nor a decision on terms, promotion, termination, task allocation or performance (Annex III(4))."
+  },
+  {
+   "id": "s4-employment-10",
+   "set": "s4",
+   "label": "none",
+   "sector": "employment",
+   "text": "An HR chatbot answers employees' questions about the holiday policy and where to find the travel expense form.",
+   "why": "Information service for staff; none of the uses of Annex III(4). Art. 50(1) transparency may apply."
+  },
+  {
+   "id": "s4-employment-11",
+   "set": "s4",
+   "label": "none",
+   "sector": "employment",
+   "text": "The assistant books meeting rooms and desks for staff based on the calendar invitations they send.",
+   "why": "Facility booking; none of the uses of Annex III(4)."
+  },
+  {
+   "id": "s4-employment-12",
+   "set": "s4",
+   "label": "none",
+   "sector": "employment",
+   "text": "We translate our internal job postings into French and Dutch for the Belgian offices.",
+   "why": "Translation; it neither targets job advertisements nor filters or evaluates applicants (Annex III(4)(a))."
+  },
+  {
+   "id": "s4-law_enforcement-13",
+   "set": "s4",
+   "label": "none",
+   "sector": "law_enforcement",
+   "text": "The police force's website chatbot tells citizens how to report lost property and which station is open.",
+   "why": "Citizen information; none of the uses of Annex III(6). Art. 50(1) transparency may apply."
+  },
+  {
+   "id": "s4-law_enforcement-14",
+   "set": "s4",
+   "label": "none",
+   "sector": "law_enforcement",
+   "text": "We schedule maintenance for the police department's patrol cars from mileage and fault codes.",
+   "why": "Fleet maintenance; none of the uses of Annex III(6)."
+  },
+  {
+   "id": "s4-law_enforcement-15",
+   "set": "s4",
+   "label": "none",
+   "sector": "law_enforcement",
+   "text": "Our tool transcribes officers' dictated incident notes into the report template.",
+   "why": "Clerical transcription; it does not evaluate evidence, assess risk or profile persons (Annex III(6))."
+  },
+  {
+   "id": "s4-law_enforcement-16",
+   "set": "s4",
+   "label": "none",
+   "sector": "law_enforcement",
+   "text": "A dashboard shows aggregated burglary counts per district and month from historical reports, with no information about individuals.",
+   "why": "Aggregated statistics without any assessment of natural persons (Annex III(6))."
+  },
+  {
+   "id": "s4-migration-17",
+   "set": "s4",
+   "label": "none",
+   "sector": "migration",
+   "text": "The immigration office uses our tool to book and reschedule appointment slots and send reminders by text message.",
+   "why": "Appointment logistics; none of the uses of Annex III(7)."
+  },
+  {
+   "id": "s4-migration-18",
+   "set": "s4",
+   "label": "none",
+   "sector": "migration",
+   "text": "We translate the migration agency's information leaflets into Arabic, Dari and Ukrainian.",
+   "why": "Translation of public information; none of the uses of Annex III(7)."
+  },
+  {
+   "id": "s4-migration-19",
+   "set": "s4",
+   "label": "none",
+   "sector": "migration",
+   "text": "Border officers use our scanner software to check whether a passport's security features are authentic.",
+   "why": "Annex III(7)(d) expressly excepts the verification of travel documents."
+  },
+  {
+   "id": "s4-migration-20",
+   "set": "s4",
+   "label": "none",
+   "sector": "migration",
+   "text": "Our model forecasts how many staff the visa section needs each month from past visitor numbers.",
+   "why": "Staff planning; it examines no application and assesses no person (Annex III(7))."
+  },
+  {
+   "id": "s4-justice-21",
+   "set": "s4",
+   "label": "none",
+   "sector": "justice",
+   "text": "The court uses our software to remove names and addresses from judgments before they are published online.",
+   "why": "Recital 61 names anonymisation or pseudonymisation of judicial decisions as a purely ancillary administrative activity outside Annex III(8)(a)."
+  },
+  {
+   "id": "s4-justice-22",
+   "set": "s4",
+   "label": "none",
+   "sector": "justice",
+   "text": "Our scheduler assigns court rooms and hearing times and notifies the parties of changes.",
+   "why": "An administrative task in the sense of recital 61; it does not assist in researching or applying the law."
+  },
+  {
+   "id": "s4-justice-23",
+   "set": "s4",
+   "label": "none",
+   "sector": "justice",
+   "text": "A legal research assistant helps associates at our law firm find relevant case law for their briefs.",
+   "why": "Annex III(8)(a) covers use by a judicial authority or on its behalf; a law firm is neither."
+  },
+  {
+   "id": "s4-justice-24",
+   "set": "s4",
+   "label": "none",
+   "sector": "justice",
+   "text": "We route incoming mail at the court registry to the right department by reading the letterhead.",
+   "why": "An administrative task in the sense of recital 61."
+  },
+  {
+   "id": "s5-critical_infrastructure-04",
+   "set": "s5",
+   "label": "none",
+   "sector": "critical_infrastructure",
+   "text": "Railway signaling system simulation tool that models traffic flow for planning upgrades, not controlling real-time operations.",
+   "why": "Not a safety component in the management and operation of the infrastructure (Annex III(2))."
+  },
+  {
+   "id": "s5-critical_infrastructure-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "critical_infrastructure",
+   "text": "Facility management AI that monitors HVAC performance in data centers to reduce energy use, not safety-critical controls.",
+   "why": "Not a safety component in the management and operation of the infrastructure (Annex III(2))."
+  },
+  {
+   "id": "s5-education-01",
+   "set": "s5",
+   "label": "none",
+   "sector": "education",
+   "text": "Automatic translation engine that converts curriculum textbooks from English to Spanish for multilingual classrooms.",
+   "why": "None of the four uses of Annex III(3)."
+  },
+  {
+   "id": "s5-education-02",
+   "set": "s5",
+   "label": "none",
+   "sector": "education",
+   "text": "AI tool that generates weekly lesson plan outlines for teachers based on curriculum standards.",
+   "why": "None of the four uses of Annex III(3)."
+  },
+  {
+   "id": "s5-education-03",
+   "set": "s5",
+   "label": "none",
+   "sector": "education",
+   "text": "Document summarisation system that condenses research articles for faculty weekly reading lists.",
+   "why": "None of the four uses of Annex III(3)."
+  },
+  {
+   "id": "s5-education-04",
+   "set": "s5",
+   "label": "none",
+   "sector": "education",
+   "text": "Scheduling assistant that allocates classroom resources and equipment for school events throughout the academic year.",
+   "why": "None of the four uses of Annex III(3)."
+  },
+  {
+   "id": "s5-education-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "education",
+   "text": "Inventory management AI that tracks and orders school supplies based on consumption trends.",
+   "why": "None of the four uses of Annex III(3)."
+  },
+  {
+   "id": "s5-employment-02",
+   "set": "s5",
+   "label": "none",
+   "sector": "employment",
+   "text": "Automated expense report classification system that extracts cost categories from receipts for accounting.",
+   "why": "None of the uses of Annex III(4); it neither selects nor evaluates, allocates work to or monitors persons."
+  },
+  {
+   "id": "s5-employment-03",
+   "set": "s5",
+   "label": "none",
+   "sector": "employment",
+   "text": "Predictive model for corporate travel demand to optimize each fleet leasing contract.",
+   "why": "None of the uses of Annex III(4); it neither selects nor evaluates, allocates work to or monitors persons."
+  },
+  {
+   "id": "s5-employment-04",
+   "set": "s5",
+   "label": "none",
+   "sector": "employment",
+   "text": "Document translation service for internal corporate policies across global offices to ensure compliance.",
+   "why": "None of the uses of Annex III(4); it neither selects nor evaluates, allocates work to or monitors persons."
+  },
+  {
+   "id": "s5-employment-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "employment",
+   "text": "Facility maintenance scheduler that plans HVAC service visits for corporate buildings on a quarterly basis.",
+   "why": "None of the uses of Annex III(4); it neither selects nor evaluates, allocates work to or monitors persons."
+  },
+  {
+   "id": "s5-law_enforcement-01",
+   "set": "s5",
+   "label": "none",
+   "sector": "law_enforcement",
+   "text": "Evidence archive indexing AI that tags and organizes digital files for quick retrieval by investigators.",
+   "why": "None of the uses of Annex III(6); it assesses no person and evaluates no evidence."
+  },
+  {
+   "id": "s5-law_enforcement-02",
+   "set": "s5",
+   "label": "none",
+   "sector": "law_enforcement",
+   "text": "Automated translation system for foreign-language statements used in report writing by law enforcement agencies.",
+   "why": "None of the uses of Annex III(6); it assesses no person and evaluates no evidence."
+  },
+  {
+   "id": "s5-law_enforcement-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "law_enforcement",
+   "text": "Resource allocation model that predicts needed number of patrol units for public events based on attendance forecasts.",
+   "why": "None of the uses of Annex III(6); it assesses no person and evaluates no evidence."
+  },
+  {
+   "id": "s5-migration-02",
+   "set": "s5",
+   "label": "none",
+   "sector": "migration",
+   "text": "Document translation platform that converts immigration forms into multiple languages for applicants.",
+   "why": "None of the uses of Annex III(7); it examines no application and assesses or identifies no person."
+  },
+  {
+   "id": "s5-migration-03",
+   "set": "s5",
+   "label": "none",
+   "sector": "migration",
+   "text": "Workflow optimizer that balances case loads among immigration officers to reduce processing delays.",
+   "why": "None of the uses of Annex III(7); it examines no application and assesses or identifies no person."
+  },
+  {
+   "id": "s5-migration-04",
+   "set": "s5",
+   "label": "none",
+   "sector": "migration",
+   "text": "Predictive system for estimating staffing needs at border checkpoints during holiday seasons.",
+   "why": "None of the uses of Annex III(7); it examines no application and assesses or identifies no person."
+  },
+  {
+   "id": "s5-migration-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "migration",
+   "text": "Inventory tracker for immigration office supplies that automatically reorders forms and brochures when stock runs low.",
+   "why": "None of the uses of Annex III(7); it examines no application and assesses or identifies no person."
+  },
+  {
+   "id": "s5-justice-01",
+   "set": "s5",
+   "label": "none",
+   "sector": "justice",
+   "text": "Courtroom audio transcription AI that produces searchable text records of proceedings for clerks.",
+   "why": "A purely ancillary administrative activity in the sense of recital 61; it does not assist in researching or applying the law."
+  },
+  {
+   "id": "s5-justice-03",
+   "set": "s5",
+   "label": "none",
+   "sector": "justice",
+   "text": "Document management AI that archives and indexes case files for long-term storage and retrieval.",
+   "why": "A purely ancillary administrative activity in the sense of recital 61; it does not assist in researching or applying the law."
+  },
+  {
+   "id": "s5-justice-04",
+   "set": "s5",
+   "label": "none",
+   "sector": "justice",
+   "text": "Automated translation of legal documents for parties requiring language assistance in civil proceedings.",
+   "why": "A purely ancillary administrative activity in the sense of recital 61; it does not assist in researching or applying the law."
+  },
+  {
+   "id": "s5-justice-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "justice",
+   "text": "AI-driven budgeting tool that forecasts court operational expenses for the upcoming fiscal year.",
+   "why": "A purely ancillary administrative activity in the sense of recital 61; it does not assist in researching or applying the law."
+  },
+  {
+   "id": "s6-A01",
+   "set": "s6",
+   "label": "annex_iii_2",
+   "text": "Our traffic management dashboard suggests dynamic green-wave timing adjustments for downtown traffic signals during rush hour to prevent gridlock and vehicle pile-ups.",
+   "listed_use": "Annex III, point 2(a) - Safety component in the management and operation of road traffic",
+   "why_misjudged": "The agent may treat it as municipal traffic scheduling or municipal operational efficiency rather than an active safety component controlling road infrastructure."
+  },
+  {
+   "id": "s6-A02",
+   "set": "s6",
+   "label": "annex_iii_2",
+   "text": "The control room assistant monitors municipal power sub-station loads and automatically flags microgrid switching options to operators to prevent feeder circuit overloads.",
+   "listed_use": "Annex III, point 2(a) - Safety component in the management and operation of electricity supply",
+   "why_misjudged": "The agent may view load monitoring and switching suggestions as back-office utility analytics rather than a grid safety control component."
+  },
+  {
+   "id": "s6-A03",
+   "set": "s6",
+   "label": "annex_iii_2",
+   "text": "A pressure optimization module continuously adjusts distribution valves across the municipal water network to stabilize pipe pressure and reduce leak risks during peak hours.",
+   "listed_use": "Annex III, point 2(a) - Safety component in the management and operation of water supply",
+   "why_misjudged": "Described as pressure optimization and asset maintenance, which sounds like standard utility operations rather than a public water supply safety component."
+  },
+  {
+   "id": "s6-A04",
+   "set": "s6",
+   "label": "annex_iii_2",
+   "text": "Our pipeline monitoring module suggests automated pressure regulator setpoints to field controllers across the city gas network to maintain steady distribution during winter spikes.",
+   "listed_use": "Annex III, point 2(a) - Safety component in the management and operation of gas supply",
+   "why_misjudged": "Framed as seasonal throughput tuning and operational support, obscuring that it acts as a safety component in hazardous gas distribution."
+  },
+  {
+   "id": "s6-A05",
+   "set": "s6",
+   "label": "annex_iii_3",
+   "text": "Our admissions intake assistant scores and pre-ranks incoming community college applications against course prerequisite criteria to help staff assemble initial class rosters.",
+   "listed_use": "Annex III, point 3(a) - Determining admission or assigning natural persons to educational and vocational training institutions",
+   "why_misjudged": "Described as an administrative pre-sorting helper for roster assembly, which the agent may mistake for general office productivity software."
+  },
+  {
+   "id": "s6-A06",
+   "set": "s6",
+   "label": "annex_iii_3",
+   "text": "The classroom companion scans student short-answer quiz submissions and drafts preliminary rubric scores with feedback notes for teacher review.",
+   "listed_use": "Annex III, point 3(b) - Evaluating learning outcomes, including steering the learning process",
+   "why_misjudged": "Framed as drafting provisional feedback and suggestions for human teacher sign-off, making it appear as a low-stakes drafting aid."
+  },
+  {
+   "id": "s6-A07",
+   "set": "s6",
+   "label": "annex_iii_3",
+   "text": "Our placement advisor analyzes a student's diagnostic test answers to suggest the most suitable vocational training track and math level to academic counselors.",
+   "listed_use": "Annex III, point 3(c) - Assessing the appropriate level of education for an individual",
+   "why_misjudged": "Framed as an advisory diagnostic tool offering suggestions to counselors, which looks like routine student advising rather than formal educational level determination."
+  },
+  {
+   "id": "s6-A08",
+   "set": "s6",
+   "label": "annex_iii_3",
+   "text": "Our online exam proctoring plugin flags unusual background audio spikes and webcam head movements during remote midterms for subsequent instructor review.",
+   "listed_use": "Annex III, point 3(d) - Monitoring and detecting prohibited behavior of students during tests",
+   "why_misjudged": "Described as a background plugin that merely flags anomalies for later human check, sounding like passive test session logging."
+  },
+  {
+   "id": "s6-A09",
+   "set": "s6",
+   "label": "annex_iii_4",
+   "text": "Our HR inbox tool scans incoming CVs, extracts key skills, and groups applicants into priority buckets to help recruiters organize screening calls.",
+   "listed_use": "Annex III, point 4(a) - Screening and filtering job applications and evaluating candidates",
+   "why_misjudged": "Phrased as clerical inbox management and resume grouping, masking that prioritizing applicants is automated candidate screening."
+  },
+  {
+   "id": "s6-A10",
+   "set": "s6",
+   "label": "annex_iii_4",
+   "text": "Our delivery dispatch system assigns daily customer delivery routes and vehicle tasks to drivers based on their past completion speeds and handling history.",
+   "listed_use": "Annex III, point 4(b) - Allocating tasks based on individual behavior or personal traits or performance",
+   "why_misjudged": "Looks like routine fleet logistics and route optimization, concealing that it allocates work tasks based on individual worker performance data."
+  },
+  {
+   "id": "s6-A11",
+   "set": "s6",
+   "label": "annex_iii_4",
+   "text": "A support team plugin tracks agent call durations and customer sentiment trends to draft quarterly performance summaries for team leads.",
+   "listed_use": "Annex III, point 4(b) - Monitoring and evaluating performance and behavior of persons in employment",
+   "why_misjudged": "Framed as drafting summaries for team leads, which resembles internal reporting and customer service metrics tracking."
+  },
+  {
+   "id": "s6-A12",
+   "set": "s6",
+   "label": "annex_iii_4",
+   "text": "Our talent analytics module flags underperforming contractors based on monthly milestone delivery rates to prompt vendor manager contract renewal reviews.",
+   "listed_use": "Annex III, point 4(b) - Decisions on promotion and termination of work-related contractual relationships",
+   "why_misjudged": "Framed as milestone tracking and renewal reminders, which sounds like vendor operations rather than contractual evaluation affecting employment relationships."
+  },
+  {
+   "id": "s6-A13",
+   "set": "s6",
+   "label": "annex_iii_6",
+   "text": "Our forensics assistant cross-checks witness interview transcripts against surveillance timestamps and highlights conflicting statements for investigative detectives.",
+   "listed_use": "Annex III, point 6(c) - Evaluation of the reliability of evidence in the course of investigation or prosecution of criminal offences",
+   "why_misjudged": "Framed as text cross-checking and transcript comparison, which sounds like administrative note organization rather than evidence reliability evaluation."
+  },
+  {
+   "id": "s6-A14",
+   "set": "s6",
+   "label": "annex_iii_6",
+   "text": "The station intake helper calculates a flight-risk score from an arrestee's prior appearance history to assist custody officers with bail scheduling notes.",
+   "listed_use": "Annex III, point 6(a) - Individual risk assessment of a natural person concerning offending or reoffending",
+   "why_misjudged": "Described as generating scheduling notes from historical appearances, sounding like calendar and docket preparation."
+  },
+  {
+   "id": "s6-A15",
+   "set": "s6",
+   "label": "annex_iii_6",
+   "text": "An investigative analytics tool analyzes transactional records and suspect communication metadata to flag behavioral anomalies to the financial crimes unit.",
+   "listed_use": "Annex III, point 6(e) - Profiling natural persons in the course of detection, investigation or prosecution of criminal offences",
+   "why_misjudged": "Phrased as metadata and transaction analytics, sounding like general data querying or IT security log auditing."
+  },
+  {
+   "id": "s6-A16",
+   "set": "s6",
+   "label": "annex_iii_6",
+   "text": "Our interview verification tool analyzes pitch variations and speech hesitation patterns in witness audio recordings to generate stress indicators for investigators.",
+   "listed_use": "Annex III, point 6(b) - Polygraphs and similar tools",
+   "why_misjudged": "Framed as acoustic signal processing and stress indication, which the agent might treat as audio analysis rather than a lie-detection tool."
+  },
+  {
+   "id": "s6-A17",
+   "set": "s6",
+   "label": "annex_iii_7",
+   "text": "Our consular intake helper pre-checks tourist visa application packets for completeness and computes a risk score on supporting financial documents for visa officers.",
+   "listed_use": "Annex III, point 7(c) - Examining applications for asylum, visa and residence permits and associated complaints",
+   "why_misjudged": "Presented as administrative completeness checking and clerical triage for consular front-desk staff."
+  },
+  {
+   "id": "s6-A18",
+   "set": "s6",
+   "label": "annex_iii_7",
+   "text": "The border control assistant flags passenger travel itineraries with irregular transit patterns to help customs officers select travellers for secondary baggage inspection.",
+   "listed_use": "Annex III, point 7(b) - Assessing a risk, including a security risk or a risk of irregular entry",
+   "why_misjudged": "Appears to be travel itinerary checking and schedule filtering for customs queue management."
+  },
+  {
+   "id": "s6-A19",
+   "set": "s6",
+   "label": "annex_iii_7",
+   "text": "An asylum intake portal compares applicant statements against regional country-of-origin reports and flags inconsistencies to assist caseworkers during preliminary eligibility reviews.",
+   "listed_use": "Annex III, point 7(c) - Examining applications for asylum and associated complaints with regard to the eligibility",
+   "why_misjudged": "Framed as document comparison and reference assistance for caseworkers, which looks like administrative workflow support."
+  },
+  {
+   "id": "s6-A20",
+   "set": "s6",
+   "label": "annex_iii_7",
+   "text": "Our perimeter surveillance system analyzes thermal sensor feeds along restricted border fence zones to alert station guards to moving human silhouettes.",
+   "listed_use": "Annex III, point 7(d) - Detecting, recognising or identifying natural persons at borders",
+   "why_misjudged": "Framed as facility perimeter security monitoring and sensor alerting, which sounds like physical facility management."
+  },
+  {
+   "id": "s6-A21",
+   "set": "s6",
+   "label": "annex_iii_8",
+   "text": "Our judicial clerk tool summarizes case briefs, retrieves applicable precedent, and drafts recommended legal reasoning paragraphs for a judge's draft ruling.",
+   "listed_use": "Annex III, point 8(a) - Assisting a judicial authority in researching and interpreting facts and the law and in applying the law to facts",
+   "why_misjudged": "Framed as clerical legal research and summary drafting for law clerks, which the agent may treat as standard legal research software."
+  },
+  {
+   "id": "s6-A22",
+   "set": "s6",
+   "label": "annex_iii_8",
+   "text": "The municipal court assistant cross-references tenant eviction case filings with local rent-control statutes to draft preliminary factual findings for magistrate hearings.",
+   "listed_use": "Annex III, point 8(a) - Assisting a judicial authority in researching and interpreting facts and the law and in applying the law to facts",
+   "why_misjudged": "Described as filing cross-referencing and hearing preparation for municipal court staff, resembling administrative court management."
+  },
+  {
+   "id": "s6-A23",
+   "set": "s6",
+   "label": "annex_iii_8",
+   "text": "Our political campaign platform analyzes voter demographic data to generate personalized messaging variations aimed at undecided voters in upcoming parliamentary elections.",
+   "listed_use": "Annex III, point 8(b) - Influencing the outcome of an election or referendum or the voting behaviour of natural persons",
+   "why_misjudged": "Sounds like standard digital marketing automation and copywriting customization for election outreach."
+  },
+  {
+   "id": "s6-A24",
+   "set": "s6",
+   "label": "annex_iii_8",
+   "text": "A small-claims dispute resolver extracts key facts from claimant submissions and suggests statutory compensation figures to the presiding adjudicator.",
+   "listed_use": "Annex III, point 8(a) - Assisting a judicial authority in researching and interpreting facts and the law and in applying the law to facts",
+   "why_misjudged": "Looks like an administrative calculator and claim intake summarizer for dispute caseworkers."
+  }
+ ]
+}

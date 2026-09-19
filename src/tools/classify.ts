@@ -64,7 +64,7 @@ const ROUTE_DETERMINATIVE_SIGNAL_KEYS: Array<keyof ClassifySignals> = [
 ];
 
 const SIGNAL_QUESTIONS: Record<keyof ClassifySignals, string> = {
-  domain: "What is the primary sector this AI system operates in (employment, education, biometrics, critical infrastructure, law enforcement, migration, justice, essential services, health, GPAI, product safety, other)?",
+  domain: "Does the system itself perform one of the uses Annex III lists, and in which area (biometrics, critical infrastructure, education, employment, essential services, law enforcement, migration, justice)? Annex III regulates specific uses such as filtering job applications, evaluating learning outcomes or examining visa applications; a system that merely operates in such a sector counts as 'other'.",
   uses_biometrics: "Does the system process biometric data such as face, fingerprint, iris, voice or gait?",
   biometric_sole_purpose_verification: "Is the biometric use solely one-to-one verification that a specific person is who they claim to be?",
   biometric_remote_identification: "Does the biometric system perform remote biometric identification rather than only biometric verification?",
@@ -810,7 +810,7 @@ export function registerClassifyTool(server: McpServer): void {
     {
       title: "Classify AI System Under EU AI Act",
       description:
-        "Classify an AI system's risk level under the EU AI Act (Regulation 2024/1689). Accepts a free-text description, a use_case, and/or structured signals (domain, biometric flags, synthetic content, etc.). Signals take precedence over text matching for deterministic classification. Returns risk classification, applicable Annex III category, relevant articles, provider/deployer determination, matched signals, and follow-up questions the agent should relay. Note: Art. 6(3) exceptions require documented justification and cannot be auto-applied; use euaiact_assess_art6_3_exception.",
+        "Classify an AI system's risk level under the EU AI Act (Regulation 2024/1689). HOW TO CALL: derive the structured `signals` from the user's description yourself and pass them together with `description`. The result is decided deterministically on the signals; free text alone is only matched against keywords and often returns insufficient_information. Set a signal only when the description supports it and leave it out otherwise; never guess, and never infer `signals.domain` from the sector a system operates in (read that field's description). A decisive signal you could not set comes back in missing_signals with the question to ask the user; ask, then call again. Returns risk classification, applicable Annex III category, relevant articles, provider/deployer determination, matched signals, and follow-up questions the agent should relay. Note: Art. 6(3) exceptions require documented justification and cannot be auto-applied; use euaiact_assess_art6_3_exception.",
       annotations: {
         readOnlyHint: true,
         idempotentHint: true,
