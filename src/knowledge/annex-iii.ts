@@ -211,6 +211,7 @@ export const annexIIICategories: HighRiskCategory[] = [
       "irregular migration",
       "asylum application", "asylum claim", "visa application risk", "visa application assessment",
       "visa application examination", "examine visa application", "residence permit application",
+      "asylum seeker", "asylum applicant", "visa applicant", "visa overstay",
     ],
     relevantArticles: ["Annex III(7)", "Art. 6(2)"],
   },
