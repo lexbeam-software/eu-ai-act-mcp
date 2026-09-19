@@ -13,6 +13,7 @@ import {
   prohibitedPractices,
   annexIIICategories,
   transparencyTriggers,
+  decisiveSingleWordKeywords,
   type HighRiskCategory,
   type ProhibitedPractice,
   type TransparencyTrigger,
@@ -180,6 +181,42 @@ function isTravelDocumentVerificationOnly(text: string): boolean {
   const verification = includesAny(normalized, [/\bverification\b/, /\bverify\b/, /\bauthenticity\b/, /\bauthentication\b/, /\bdocument check\b/]);
   const personRiskOrIdentification = includesAny(normalized, [/\brisk assessment\b/, /\bsecurity risk\b/, /\birregular migration\b/, /\bhealth risk\b/, /\bidentify natural persons\b/, /\bidentifying natural persons\b/]);
   return travelDocument && verification && !personRiskOrIdentification;
+}
+
+/**
+ * Art. 5(1)(ba) and (bb) prohibit AI systems that GENERATE OR MANIPULATE the material. A
+ * system that detects, moderates, blocks or reports it does neither, so a description of
+ * one must not come back as a prohibited practice. "Generated" as a participle describes
+ * the material ("detects AI-generated ..."), not the system, and is deliberately absent.
+ */
+function isDetectionOfAbusiveMaterialOnly(text: string): boolean {
+  const normalized = text.toLowerCase();
+  const detection = includesAny(normalized, [
+    /\bdetect(?:s|ing|ion|or)?\b/, /\bmoderat(?:e|es|ing|ion|ors?)\b/, /\bremov(?:e|es|ing|al)\b/,
+    /\bblock(?:s|ing)?\b/, /\bfilter(?:s|ing)?\b/, /\bflag(?:s|ging)?\b/, /\breport(?:s|ing)?\b/,
+    /\bhash matching\b/,
+  ]);
+  const generation = includesAny(normalized, [
+    /\bgenerat(?:e|es|ing|ion|or)\b/, /\bcreat(?:e|es|ing)\b/, /\bproduc(?:e|es|ing)\b/,
+    /\bsynthesi[sz](?:e|es|ing)\b/, /\bmanipulat(?:e|es|ing|ion)\b/, /\bundress(?:es|ing)?\b/,
+    /\bnudif(?:y|ies|ication)\b/,
+  ]);
+  return detection && !generation;
+}
+
+/**
+ * Annex III(5)(b) covers creditworthiness and credit scores "with the exception of AI
+ * systems used for the purpose of detecting financial fraud". Fraud scoring of card
+ * transactions shares the vocabulary ("scores credit card transactions") and nothing else.
+ */
+function isFinancialFraudDetectionOnly(text: string): boolean {
+  const normalized = text.toLowerCase();
+  const fraud = includesAny(normalized, [/\bfraud\b/, /\bfraudulent\b/]);
+  const creditDecision = includesAny(normalized, [
+    /\bcreditworthiness\b/, /\bcredit scor(?:e|es|ing)\b/, /\bloan approvals?\b/,
+    /\bloan applications?\b/, /\blending decisions?\b/,
+  ]);
+  return fraud && !creditDecision;
 }
 
 function isNegatedCriminalProfiling(text: string): boolean {
@@ -600,11 +637,15 @@ interface TextHit<T> {
   result: KeywordMatchResult;
 }
 
-function bestStrongHit<T extends { keywords: string[] }>(text: string, items: T[]): TextHit<T> | null {
+function bestStrongHit<T extends { keywords: string[] }>(
+  text: string,
+  items: T[],
+  options: { requireStrong?: boolean } = {},
+): TextHit<T> | null {
   let best: TextHit<T> | null = null;
   for (const item of items) {
-    const result = scoreKeywordMatch(text, item.keywords);
-    if (result.strongCount === 0 && result.weakCount < 2) continue;
+    const result = scoreKeywordMatch(text, item.keywords, decisiveSingleWordKeywords);
+    if (result.strongCount === 0 && (options.requireStrong || result.weakCount < 2)) continue;
     if (!best) {
       best = { item, result };
       continue;
@@ -651,8 +692,17 @@ function classifyFromText(input: ClassifyInput): ClassifyOutput {
   }
 
   // Step 1a: prohibited practices
-  let prohibitedHit = bestStrongHit<ProhibitedPractice>(combined, prohibitedPractices);
+  // A prohibited practice is never concluded from weak single words alone.
+  let prohibitedHit = bestStrongHit<ProhibitedPractice>(combined, prohibitedPractices, {
+    requireStrong: true,
+  });
   if (prohibitedHit?.item.id === "art5-1d" && isNegatedCriminalProfiling(combined)) {
+    prohibitedHit = null;
+  }
+  if (
+    (prohibitedHit?.item.id === "art5-1ba" || prohibitedHit?.item.id === "art5-1bb") &&
+    isDetectionOfAbusiveMaterialOnly(combined)
+  ) {
     prohibitedHit = null;
   }
   if (prohibitedHit) {
@@ -679,6 +729,9 @@ function classifyFromText(input: ClassifyInput): ClassifyOutput {
     annexHit &&
     (
       (annexHit.item.number === 1 && isSolePurposeBiometricVerification(combined)) ||
+      (annexHit.item.number === 5 &&
+        annexHit.result.matches.every((match) => /credit|loan/i.test(match.keyword)) &&
+        isFinancialFraudDetectionOnly(combined)) ||
       (annexHit.item.number === 6 && isGenericAggregatedCrimeAnalytics(combined)) ||
       (annexHit.item.number === 7 && isTravelDocumentVerificationOnly(combined))
     )

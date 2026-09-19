@@ -13,7 +13,7 @@ import { gpaiSystemicInputSchema } from "./dist/schemas/gpai-systemic.js";
 import { art6ExceptionInputSchema } from "./dist/schemas/art6.js";
 import { annexIvInputSchema } from "./dist/schemas/annex-iv.js";
 import { scoreKeywordMatch, calculateKeywordOverlap, findBestMatch } from "./dist/utils/matching.js";
-import { prohibitedPractices, annexIIICategories, transparencyTriggers } from "./dist/knowledge/annex-iii.js";
+import { prohibitedPractices, annexIIICategories, transparencyTriggers, decisiveSingleWordKeywords } from "./dist/knowledge/annex-iii.js";
 import {
   getMilestonesWithDaysRemaining,
   digitalOmnibus,
@@ -181,9 +181,9 @@ console.log("\n🛠️ MATCHING BUG REGRESSIONS");
 {
   const chatbotText = "ai chatbot for customer support that handles returns e commerce service";
   const emotionPractice = prohibitedPractices.find((p) => p.article === "Art. 5(1)(f)");
-  const hit = scoreKeywordMatch(chatbotText, emotionPractice.keywords);
+  const hit = scoreKeywordMatch(chatbotText, emotionPractice.keywords, decisiveSingleWordKeywords);
   test("chatbot text does NOT match Art. 5(1)(f) emotion keywords", hit.strongCount === 0);
-  test("chatbot text does NOT match ANY prohibited practice strongly", prohibitedPractices.every((p) => scoreKeywordMatch(chatbotText, p.keywords).strongCount === 0));
+  test("chatbot text does NOT match ANY prohibited practice strongly", prohibitedPractices.every((p) => scoreKeywordMatch(chatbotText, p.keywords, decisiveSingleWordKeywords).strongCount === 0));
 }
 
 // BUG 2: the old scoring divided matches by total keyword count, so realistic
@@ -193,7 +193,7 @@ console.log("\n🛠️ MATCHING BUG REGRESSIONS");
 {
   const recruitment = "ai system screens cvs and ranks candidates for hiring decisions recruitment";
   const ann4 = annexIIICategories.find((c) => c.number === 4);
-  const hit = scoreKeywordMatch(recruitment, ann4.keywords);
+  const hit = scoreKeywordMatch(recruitment, ann4.keywords, decisiveSingleWordKeywords);
   test("recruitment text strongly hits Annex III(4)", hit.strongCount >= 1);
 }
 
@@ -728,7 +728,7 @@ console.log("\n🚫 ART. 5 PROHIBITION KEYWORDS");
   for (const [text, practice] of shouldMatch) {
     test(
       `Art. 5 keywords match: "${text.slice(0, 44)}"`,
-      scoreKeywordMatch(text, practice.keywords).strongCount > 0,
+      scoreKeywordMatch(text, practice.keywords, decisiveSingleWordKeywords).strongCount > 0,
     );
   }
   const mustNotMatch = [
@@ -739,8 +739,8 @@ console.log("\n🚫 ART. 5 PROHIBITION KEYWORDS");
   for (const text of mustNotMatch) {
     test(
       `Art. 5 keywords do NOT match: "${text.slice(0, 44)}"`,
-      scoreKeywordMatch(text, ba.keywords).strongCount === 0 &&
-        scoreKeywordMatch(text, bb.keywords).strongCount === 0,
+      scoreKeywordMatch(text, ba.keywords, decisiveSingleWordKeywords).strongCount === 0 &&
+        scoreKeywordMatch(text, bb.keywords, decisiveSingleWordKeywords).strongCount === 0,
     );
   }
 }
@@ -2106,6 +2106,59 @@ console.log("\n🧩 ASSESS SYSTEM 1.5");
   } finally {
     globalThis.Date = RealDate;
   }
+}
+
+// ─── FREE-TEXT GUARDS ───────────────────────────────────────────────────────
+// 1.5.0 matched keywords as raw substrings and treated every single word as decisive, so
+// "for example" came back as high-risk education and "fix minor layout bugs" as a
+// prohibited practice, while natural descriptions of the canonical recruitment case came
+// back as insufficient_information. The fixture pins both directions.
+console.log("\n🧷 FREE-TEXT GUARDS");
+{
+  const guards = JSON.parse(readFileSync("tests/fixtures/classify/free-text-guards.json", "utf8"));
+  const classify = async (description) =>
+    (await callTool("euaiact_classify_system", { description })).structuredContent;
+
+  const mustAbstain = [
+    ...guards.must_abstain.regressions.map((entry) => entry.text),
+    ...guards.must_abstain.hard_negatives.texts,
+  ];
+  const wronglyRegulated = [];
+  for (const text of mustAbstain) {
+    const result = await classify(text);
+    if (result.risk_classification === "high-risk" || result.risk_classification === "prohibited") {
+      wronglyRegulated.push(`${result.risk_classification}: ${text}`);
+    }
+  }
+  for (const line of wronglyRegulated) console.log(`     ${line}`);
+  test(`free text: none of ${mustAbstain.length} everyday descriptions is high-risk or prohibited`,
+    mustAbstain.length === 46 && wronglyRegulated.length === 0);
+
+  for (const entry of guards.canonical) {
+    const result = await classify(entry.text);
+    test(`free text canonical: ${entry.basis.split(":")[0]} <- "${entry.text.slice(0, 48)}"`,
+      result.risk_classification === entry.risk_classification &&
+      (entry.annex_iii_category === undefined ||
+        result.annex_iii_category?.number === entry.annex_iii_category));
+  }
+
+  const strength = (text, keyword) =>
+    scoreKeywordMatch(text, [keyword], decisiveSingleWordKeywords).matches[0]?.strength ?? "none";
+  test("matcher: a keyword inside a longer word is not a match",
+    strength("for example", "exam") === "none" &&
+    strength("menu selection", "election") === "none" &&
+    strength("determination of the rate", "termination") === "none");
+  test("matcher: an everyday single word is weak, a decisive term of art is strong",
+    strength("eye exams", "exam") === "weak" &&
+    strength("minor bugs", "minor") === "weak" &&
+    strength("remote proctoring", "proctoring") === "strong");
+  test("matcher: a multi-word keyword still matches across inflection and word order",
+    strength("the tool screens incoming CVs", "screen CVs") === "strong" &&
+    strength("CVs are screened overnight", "screen CVs") === "strong");
+  // A new decisive single word is a reviewed decision, not a convenience.
+  test("matcher: the decisive single-word set is the reviewed one",
+    [...decisiveSingleWordKeywords].sort().join(",") ===
+      "chatbot,creditworthiness,csam,deepfake,hiring,nudification,nudify,polygraph,proctoring,recruitment,sentencing,subliminal,undress");
 }
 
 // ─── SITE LINKS ─────────────────────────────────────────────────────────────
