@@ -19,13 +19,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
+      - name: Use Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: 22.x
-          cache: npm
+          node-version: 24
 
       - name: Install dependencies
         run: npm ci
@@ -54,7 +53,9 @@ jobs:
             echo "Fix the link in \`src/\` or restore the page, update \`tests/fixtures/site/known-live-urls.json\`, and release."
             echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
           } > issue-body.md
-          existing="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')"
+          # Compared exactly, so the search syntax never gets to interpret the colon in the title.
+          existing="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 200 --json number,title \
+            | jq -r --arg title "$title" '[.[] | select(.title == $title)][0].number // empty')"
           if [ -n "$existing" ]; then
             gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body-file issue-body.md
           else

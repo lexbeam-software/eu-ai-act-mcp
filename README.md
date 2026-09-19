@@ -17,9 +17,9 @@ Version 1.6.0 corrects what a calling agent is told, and measures what it then d
   system itself performs a use Annex III lists for it. Until now the field read as the
   sector a system operates in, and an agent that filled it faithfully got a school
   timetable, a payroll check and a court budgeting tool back as high-risk. Measured with
-  one agent model on 334 descriptions: 46 of 106 non-regulated systems were wrongly
+  one agent model on 358 descriptions: 46 of 106 non-regulated systems were wrongly
   regulated under the old tool definition and none under the new one, while recognition
-  of regulated systems held (157 and 155 of 228). See [evals/front-door](evals/front-door).
+  of regulated systems held (181 and 179 of 252). See [evals/front-door](evals/front-door).
 - **Signals first:** the tool description tells the agent to derive the structured
   signals from the user's description itself. Free text alone is only keyword-matched.
 - **A callable assessment:** the `euaiact_assess_system` description states the fact

@@ -2201,14 +2201,25 @@ console.log("\n🚪 FRONT DOOR");
         (wantArea === undefined || result.annex_iii_category?.number === wantArea)) recognised += 1;
   }
   if (wronglyRegulated.length > 0) console.log(`     wrongly regulated: ${wronglyRegulated.join(", ")}`);
-  test("front door: all 334 recorded agent calls satisfy the input schema",
-    corpus.length === 334 && invalid === 0);
+  test("front door: all 358 recorded agent calls satisfy the input schema",
+    corpus.length === 358 && invalid === 0);
   test("front door: none of 106 non-regulated systems comes back high-risk or prohibited",
     corpus.filter((item) => item.label === "none").length === 106 && wronglyRegulated.length === 0);
-  // Measured 155 of 228. The labels are model-written and partly arguable, so this is a
+  // Measured 179 of 252. The labels are model-written and partly arguable, so this is a
   // floor for a metric, never an assertion about a single description.
-  test(`front door: regulated descriptions recognised stays at or above 150 of 228 (now ${recognised})`,
-    recognised >= 150);
+  test(`front door: regulated descriptions recognised stays at or above 172 of 252 (now ${recognised})`,
+    recognised >= 172);
+  // The dangerous direction of the listed-use rule: a regulated use worded as merely assistive
+  // ("pre-ranks applications for staff") must not be waved through as `other`.
+  const assistive = corpus.filter((item) => item.set === "s6");
+  let assistiveRecognised = 0;
+  for (const item of assistive) {
+    const result = (await callTool("euaiact_classify_system", recording[item.id])).structuredContent;
+    if (result.risk_classification === "high-risk" &&
+        result.annex_iii_category?.number === Number(item.label.split("_")[2])) assistiveRecognised += 1;
+  }
+  test("front door: all 24 regulated uses in assistive wording are still recognised",
+    assistive.length === 24 && assistiveRecognised === 24);
 }
 
 // ─── SITE LINKS ─────────────────────────────────────────────────────────────

@@ -62,7 +62,7 @@ const summary = {
   regulated: { total: count((r) => r.regulated), recognised: count((r) => r.regulated && r.outcome === "correct"),
     wrong_tier: count((r) => r.outcome === "wrong_tier"), abstained: count((r) => r.outcome === "abstained") },
   hard_negatives: { total: count((r) => !r.regulated), wrongly_regulated: count((r) => r.outcome === "false_positive") },
-  by_set: Object.fromEntries(["s1", "s2", "s3", "s4", "s5"].map((set) => [set, {
+  by_set: Object.fromEntries(["s1", "s2", "s3", "s4", "s5", "s6"].map((set) => [set, {
     recognised: count((r) => r.set === set && r.regulated && r.outcome === "correct"),
     of: count((r) => r.set === set && r.regulated),
     wrongly_regulated: count((r) => r.set === set && r.outcome === "false_positive"),

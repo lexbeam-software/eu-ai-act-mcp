@@ -47,3 +47,6 @@ Record again whenever the tool description, the input schema or the signal path 
 - `s5`: 22 more of the same kind, written by a model that never saw a tool definition and
   was forbidden the examples the field description uses. It exists so that `s4`, whose
   wording overlaps those examples, is not the only evidence.
+- `s6`: 24 systems that genuinely perform a listed use, worded as merely assistive, partial
+  or administrative, written by a model acting as adversary. It tests the dangerous
+  direction of the listed-use rule: a regulated use that an agent waves through as `other`.

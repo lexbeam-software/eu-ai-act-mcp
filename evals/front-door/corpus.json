@@ -1,5 +1,5 @@
 {
- "purpose": "Natural descriptions of AI systems, written the way a business user talks to an assistant, for measuring the front door of euaiact_classify_system end to end. 228 describe a regulated system. 106 must never come back high-risk or prohibited: 60 hard negatives that share vocabulary with a regulated category, and 46 systems that sit inside a regulated sector without performing a listed use.",
+ "purpose": "Natural descriptions of AI systems, written the way a business user talks to an assistant, for measuring the front door of euaiact_classify_system end to end. 252 describe a regulated system, 24 of them in deliberately assistive wording. 106 must never come back high-risk or prohibited: 60 hard negatives that share vocabulary with a regulated category, and 46 systems that sit inside a regulated sector without performing a listed use.",
  "caveats": [
   "Synthetic. Written by three language models on 2026-09-19 under one brief that forbade the regulation's own terms of art and asked for the decisive facts to be stated.",
   "The labels of the 228 regulated descriptions are the writing model's and were not verified one by one; some, notably under annex_iii_1, are arguable. Aggregate recognition over them is a metric, never a legal assertion about a single description.",
@@ -31,6 +31,11 @@
    "id": "s5",
    "written_by": "openai/gpt-oss-120b",
    "history": "In-sector negatives written under a brief that named the listed uses and banned the examples the 1.6.0 field description uses. 30 written, 22 kept after a hand review that dropped every item a careful reader could argue into a listed use (grid and water operations, workplace occupancy sensing, attendance tracking) and three that repeated a banned example. Never used to word anything."
+  },
+  {
+   "id": "s6",
+   "written_by": "google/gemini-3.7-flash, as adversary",
+   "history": "24 systems that genuinely perform a listed use, worded as merely assistive, partial or administrative, written in an adversarial review of 1.6.0 to test the dangerous direction of its fix: an agent that reads the new field description and answers `other` for a regulated use. Labels reviewed by hand. Several may qualify for the Art. 6(3) exception, which is a separate documented assessment and does not change the Annex III route."
   }
  ],
  "labels": {
@@ -2135,6 +2140,198 @@
    "sector": "justice",
    "text": "AI-driven budgeting tool that forecasts court operational expenses for the upcoming fiscal year.",
    "why": "A purely ancillary administrative activity in the sense of recital 61; it does not assist in researching or applying the law."
+  },
+  {
+   "id": "s6-A01",
+   "set": "s6",
+   "label": "annex_iii_2",
+   "text": "Our traffic management dashboard suggests dynamic green-wave timing adjustments for downtown traffic signals during rush hour to prevent gridlock and vehicle pile-ups.",
+   "listed_use": "Annex III, point 2(a) - Safety component in the management and operation of road traffic",
+   "why_misjudged": "The agent may treat it as municipal traffic scheduling or municipal operational efficiency rather than an active safety component controlling road infrastructure."
+  },
+  {
+   "id": "s6-A02",
+   "set": "s6",
+   "label": "annex_iii_2",
+   "text": "The control room assistant monitors municipal power sub-station loads and automatically flags microgrid switching options to operators to prevent feeder circuit overloads.",
+   "listed_use": "Annex III, point 2(a) - Safety component in the management and operation of electricity supply",
+   "why_misjudged": "The agent may view load monitoring and switching suggestions as back-office utility analytics rather than a grid safety control component."
+  },
+  {
+   "id": "s6-A03",
+   "set": "s6",
+   "label": "annex_iii_2",
+   "text": "A pressure optimization module continuously adjusts distribution valves across the municipal water network to stabilize pipe pressure and reduce leak risks during peak hours.",
+   "listed_use": "Annex III, point 2(a) - Safety component in the management and operation of water supply",
+   "why_misjudged": "Described as pressure optimization and asset maintenance, which sounds like standard utility operations rather than a public water supply safety component."
+  },
+  {
+   "id": "s6-A04",
+   "set": "s6",
+   "label": "annex_iii_2",
+   "text": "Our pipeline monitoring module suggests automated pressure regulator setpoints to field controllers across the city gas network to maintain steady distribution during winter spikes.",
+   "listed_use": "Annex III, point 2(a) - Safety component in the management and operation of gas supply",
+   "why_misjudged": "Framed as seasonal throughput tuning and operational support, obscuring that it acts as a safety component in hazardous gas distribution."
+  },
+  {
+   "id": "s6-A05",
+   "set": "s6",
+   "label": "annex_iii_3",
+   "text": "Our admissions intake assistant scores and pre-ranks incoming community college applications against course prerequisite criteria to help staff assemble initial class rosters.",
+   "listed_use": "Annex III, point 3(a) - Determining admission or assigning natural persons to educational and vocational training institutions",
+   "why_misjudged": "Described as an administrative pre-sorting helper for roster assembly, which the agent may mistake for general office productivity software."
+  },
+  {
+   "id": "s6-A06",
+   "set": "s6",
+   "label": "annex_iii_3",
+   "text": "The classroom companion scans student short-answer quiz submissions and drafts preliminary rubric scores with feedback notes for teacher review.",
+   "listed_use": "Annex III, point 3(b) - Evaluating learning outcomes, including steering the learning process",
+   "why_misjudged": "Framed as drafting provisional feedback and suggestions for human teacher sign-off, making it appear as a low-stakes drafting aid."
+  },
+  {
+   "id": "s6-A07",
+   "set": "s6",
+   "label": "annex_iii_3",
+   "text": "Our placement advisor analyzes a student's diagnostic test answers to suggest the most suitable vocational training track and math level to academic counselors.",
+   "listed_use": "Annex III, point 3(c) - Assessing the appropriate level of education for an individual",
+   "why_misjudged": "Framed as an advisory diagnostic tool offering suggestions to counselors, which looks like routine student advising rather than formal educational level determination."
+  },
+  {
+   "id": "s6-A08",
+   "set": "s6",
+   "label": "annex_iii_3",
+   "text": "Our online exam proctoring plugin flags unusual background audio spikes and webcam head movements during remote midterms for subsequent instructor review.",
+   "listed_use": "Annex III, point 3(d) - Monitoring and detecting prohibited behavior of students during tests",
+   "why_misjudged": "Described as a background plugin that merely flags anomalies for later human check, sounding like passive test session logging."
+  },
+  {
+   "id": "s6-A09",
+   "set": "s6",
+   "label": "annex_iii_4",
+   "text": "Our HR inbox tool scans incoming CVs, extracts key skills, and groups applicants into priority buckets to help recruiters organize screening calls.",
+   "listed_use": "Annex III, point 4(a) - Screening and filtering job applications and evaluating candidates",
+   "why_misjudged": "Phrased as clerical inbox management and resume grouping, masking that prioritizing applicants is automated candidate screening."
+  },
+  {
+   "id": "s6-A10",
+   "set": "s6",
+   "label": "annex_iii_4",
+   "text": "Our delivery dispatch system assigns daily customer delivery routes and vehicle tasks to drivers based on their past completion speeds and handling history.",
+   "listed_use": "Annex III, point 4(b) - Allocating tasks based on individual behavior or personal traits or performance",
+   "why_misjudged": "Looks like routine fleet logistics and route optimization, concealing that it allocates work tasks based on individual worker performance data."
+  },
+  {
+   "id": "s6-A11",
+   "set": "s6",
+   "label": "annex_iii_4",
+   "text": "A support team plugin tracks agent call durations and customer sentiment trends to draft quarterly performance summaries for team leads.",
+   "listed_use": "Annex III, point 4(b) - Monitoring and evaluating performance and behavior of persons in employment",
+   "why_misjudged": "Framed as drafting summaries for team leads, which resembles internal reporting and customer service metrics tracking."
+  },
+  {
+   "id": "s6-A12",
+   "set": "s6",
+   "label": "annex_iii_4",
+   "text": "Our talent analytics module flags underperforming contractors based on monthly milestone delivery rates to prompt vendor manager contract renewal reviews.",
+   "listed_use": "Annex III, point 4(b) - Decisions on promotion and termination of work-related contractual relationships",
+   "why_misjudged": "Framed as milestone tracking and renewal reminders, which sounds like vendor operations rather than contractual evaluation affecting employment relationships."
+  },
+  {
+   "id": "s6-A13",
+   "set": "s6",
+   "label": "annex_iii_6",
+   "text": "Our forensics assistant cross-checks witness interview transcripts against surveillance timestamps and highlights conflicting statements for investigative detectives.",
+   "listed_use": "Annex III, point 6(c) - Evaluation of the reliability of evidence in the course of investigation or prosecution of criminal offences",
+   "why_misjudged": "Framed as text cross-checking and transcript comparison, which sounds like administrative note organization rather than evidence reliability evaluation."
+  },
+  {
+   "id": "s6-A14",
+   "set": "s6",
+   "label": "annex_iii_6",
+   "text": "The station intake helper calculates a flight-risk score from an arrestee's prior appearance history to assist custody officers with bail scheduling notes.",
+   "listed_use": "Annex III, point 6(a) - Individual risk assessment of a natural person concerning offending or reoffending",
+   "why_misjudged": "Described as generating scheduling notes from historical appearances, sounding like calendar and docket preparation."
+  },
+  {
+   "id": "s6-A15",
+   "set": "s6",
+   "label": "annex_iii_6",
+   "text": "An investigative analytics tool analyzes transactional records and suspect communication metadata to flag behavioral anomalies to the financial crimes unit.",
+   "listed_use": "Annex III, point 6(e) - Profiling natural persons in the course of detection, investigation or prosecution of criminal offences",
+   "why_misjudged": "Phrased as metadata and transaction analytics, sounding like general data querying or IT security log auditing."
+  },
+  {
+   "id": "s6-A16",
+   "set": "s6",
+   "label": "annex_iii_6",
+   "text": "Our interview verification tool analyzes pitch variations and speech hesitation patterns in witness audio recordings to generate stress indicators for investigators.",
+   "listed_use": "Annex III, point 6(b) - Polygraphs and similar tools",
+   "why_misjudged": "Framed as acoustic signal processing and stress indication, which the agent might treat as audio analysis rather than a lie-detection tool."
+  },
+  {
+   "id": "s6-A17",
+   "set": "s6",
+   "label": "annex_iii_7",
+   "text": "Our consular intake helper pre-checks tourist visa application packets for completeness and computes a risk score on supporting financial documents for visa officers.",
+   "listed_use": "Annex III, point 7(c) - Examining applications for asylum, visa and residence permits and associated complaints",
+   "why_misjudged": "Presented as administrative completeness checking and clerical triage for consular front-desk staff."
+  },
+  {
+   "id": "s6-A18",
+   "set": "s6",
+   "label": "annex_iii_7",
+   "text": "The border control assistant flags passenger travel itineraries with irregular transit patterns to help customs officers select travellers for secondary baggage inspection.",
+   "listed_use": "Annex III, point 7(b) - Assessing a risk, including a security risk or a risk of irregular entry",
+   "why_misjudged": "Appears to be travel itinerary checking and schedule filtering for customs queue management."
+  },
+  {
+   "id": "s6-A19",
+   "set": "s6",
+   "label": "annex_iii_7",
+   "text": "An asylum intake portal compares applicant statements against regional country-of-origin reports and flags inconsistencies to assist caseworkers during preliminary eligibility reviews.",
+   "listed_use": "Annex III, point 7(c) - Examining applications for asylum and associated complaints with regard to the eligibility",
+   "why_misjudged": "Framed as document comparison and reference assistance for caseworkers, which looks like administrative workflow support."
+  },
+  {
+   "id": "s6-A20",
+   "set": "s6",
+   "label": "annex_iii_7",
+   "text": "Our perimeter surveillance system analyzes thermal sensor feeds along restricted border fence zones to alert station guards to moving human silhouettes.",
+   "listed_use": "Annex III, point 7(d) - Detecting, recognising or identifying natural persons at borders",
+   "why_misjudged": "Framed as facility perimeter security monitoring and sensor alerting, which sounds like physical facility management."
+  },
+  {
+   "id": "s6-A21",
+   "set": "s6",
+   "label": "annex_iii_8",
+   "text": "Our judicial clerk tool summarizes case briefs, retrieves applicable precedent, and drafts recommended legal reasoning paragraphs for a judge's draft ruling.",
+   "listed_use": "Annex III, point 8(a) - Assisting a judicial authority in researching and interpreting facts and the law and in applying the law to facts",
+   "why_misjudged": "Framed as clerical legal research and summary drafting for law clerks, which the agent may treat as standard legal research software."
+  },
+  {
+   "id": "s6-A22",
+   "set": "s6",
+   "label": "annex_iii_8",
+   "text": "The municipal court assistant cross-references tenant eviction case filings with local rent-control statutes to draft preliminary factual findings for magistrate hearings.",
+   "listed_use": "Annex III, point 8(a) - Assisting a judicial authority in researching and interpreting facts and the law and in applying the law to facts",
+   "why_misjudged": "Described as filing cross-referencing and hearing preparation for municipal court staff, resembling administrative court management."
+  },
+  {
+   "id": "s6-A23",
+   "set": "s6",
+   "label": "annex_iii_8",
+   "text": "Our political campaign platform analyzes voter demographic data to generate personalized messaging variations aimed at undecided voters in upcoming parliamentary elections.",
+   "listed_use": "Annex III, point 8(b) - Influencing the outcome of an election or referendum or the voting behaviour of natural persons",
+   "why_misjudged": "Sounds like standard digital marketing automation and copywriting customization for election outreach."
+  },
+  {
+   "id": "s6-A24",
+   "set": "s6",
+   "label": "annex_iii_8",
+   "text": "A small-claims dispute resolver extracts key facts from claimant submissions and suggests statutory compensation figures to the presiding adjudicator.",
+   "listed_use": "Annex III, point 8(a) - Assisting a judicial authority in researching and interpreting facts and the law and in applying the law to facts",
+   "why_misjudged": "Looks like an administrative calculator and claim intake summarizer for dispute caseworkers."
   }
  ]
 }

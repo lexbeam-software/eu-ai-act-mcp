@@ -35,6 +35,8 @@ if (!handler) throw new Error("euaiact_assess_system did not register a handler"
 
 function flatten(value, prefix = "", out = new Map()) {
   if (value !== null && typeof value === "object") {
+    // An empty container is a value of its own: [] turning into null must show up.
+    if (Object.keys(value).length === 0) out.set(prefix, Array.isArray(value) ? "[]" : "{}");
     for (const [key, child] of Object.entries(value)) flatten(child, `${prefix}/${key}`, out);
   } else {
     out.set(prefix, value);
@@ -57,11 +59,16 @@ for (const fixture of index.cases) {
     throw new Error(`${fixture.case_id} is not deterministic; refusing to pin`);
   }
 
-  const committed = flatten(deterministicResponseProjection(readJson(join(GOLDEN_ROOT, fixture.golden))));
+  const committedGolden = deterministicResponseProjection(readJson(join(GOLDEN_ROOT, fixture.golden)));
+  const committed = flatten(committedGolden);
   const current = flatten(deterministicResponseProjection(first));
   const changed = [...new Set([...committed.keys(), ...current.keys()])]
     .filter((path) => committed.get(path) !== current.get(path));
-  if (changed.length > 0) {
+  // The decision rests on the canonical form, which is what the hash speaks for. The path
+  // list is only the explanation.
+  const pinnedContentChanged =
+    canonicalize(committedGolden) !== canonicalize(deterministicResponseProjection(first));
+  if (pinnedContentChanged) {
     contentChanges += 1;
     console.log(`${fixture.case_id}: ${changed.length} pinned value(s) differ`);
     for (const path of changed.slice(0, 12)) {

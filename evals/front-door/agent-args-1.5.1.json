@@ -2054,5 +2054,150 @@
   "signals": {
    "domain": "justice"
   }
+ },
+ "s6-A01": {
+  "description": "Our traffic management dashboard suggests dynamic green-wave timing adjustments for downtown traffic signals during rush hour to prevent gridlock and vehicle pile-ups.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s6-A02": {
+  "description": "The control room assistant monitors municipal power sub-station loads and automatically flags microgrid switching options to operators to prevent feeder circuit overloads.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s6-A03": {
+  "description": "A pressure optimization module continuously adjusts distribution valves across the municipal water network to stabilize pipe pressure and reduce leak risks during peak hours.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s6-A04": {
+  "description": "Our pipeline monitoring module suggests automated pressure regulator setpoints to field controllers across the city gas network to maintain steady distribution during winter spikes.",
+  "signals": {
+   "domain": "critical_infrastructure"
+  }
+ },
+ "s6-A05": {
+  "description": "Our admissions intake assistant scores and pre-ranks incoming community college applications against course prerequisite criteria to help staff assemble initial class rosters.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s6-A06": {
+  "description": "The classroom companion scans student short-answer quiz submissions and drafts preliminary rubric scores with feedback notes for teacher review.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s6-A07": {
+  "description": "Our placement advisor analyzes a student's diagnostic test answers to suggest the most suitable vocational training track and math level to academic counselors.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s6-A08": {
+  "description": "Our online exam proctoring plugin flags unusual background audio spikes and webcam head movements during remote midterms for subsequent instructor review.",
+  "signals": {
+   "domain": "education"
+  }
+ },
+ "s6-A09": {
+  "description": "Our HR inbox tool scans incoming CVs, extracts key skills, and groups applicants into priority buckets to help recruiters organize screening calls.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s6-A10": {
+  "description": "Our delivery dispatch system assigns daily customer delivery routes and vehicle tasks to drivers based on their past completion speeds and handling history.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s6-A11": {
+  "description": "A support team plugin tracks agent call durations and customer sentiment trends to draft quarterly performance summaries for team leads.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s6-A12": {
+  "description": "Our talent analytics module flags underperforming contractors based on monthly milestone delivery rates to prompt vendor manager contract renewal reviews.",
+  "signals": {
+   "domain": "employment"
+  }
+ },
+ "s6-A13": {
+  "description": "Our forensics assistant cross-checks witness interview transcripts against surveillance timestamps and highlights conflicting statements for investigative detectives.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s6-A14": {
+  "description": "The station intake helper calculates a flight-risk score from an arrestee's prior appearance history to assist custody officers with bail scheduling notes.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s6-A15": {
+  "description": "An investigative analytics tool analyzes transactional records and suspect communication metadata to flag behavioral anomalies to the financial crimes unit.",
+  "signals": {
+   "domain": "law_enforcement"
+  }
+ },
+ "s6-A16": {
+  "description": "Our interview verification tool analyzes pitch variations and speech hesitation patterns in witness audio recordings to generate stress indicators for investigators.",
+  "signals": {
+   "domain": "law_enforcement",
+   "uses_biometrics": true
+  }
+ },
+ "s6-A17": {
+  "description": "Our consular intake helper pre-checks tourist visa application packets for completeness and computes a risk score on supporting financial documents for visa officers.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s6-A18": {
+  "description": "The border control assistant flags passenger travel itineraries with irregular transit patterns to help customs officers select travellers for secondary baggage inspection.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s6-A19": {
+  "description": "An asylum intake portal compares applicant statements against regional country-of-origin reports and flags inconsistencies to assist caseworkers during preliminary eligibility reviews.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s6-A20": {
+  "description": "Our perimeter surveillance system analyzes thermal sensor feeds along restricted border fence zones to alert station guards to moving human silhouettes.",
+  "signals": {
+   "domain": "migration"
+  }
+ },
+ "s6-A21": {
+  "description": "Our judicial clerk tool summarizes case briefs, retrieves applicable precedent, and drafts recommended legal reasoning paragraphs for a judge's draft ruling.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s6-A22": {
+  "description": "The municipal court assistant cross-references tenant eviction case filings with local rent-control statutes to draft preliminary factual findings for magistrate hearings.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s6-A23": {
+  "description": "Our political campaign platform analyzes voter demographic data to generate personalized messaging variations aimed at undecided voters in upcoming parliamentary elections.",
+  "signals": {
+   "domain": "justice"
+  }
+ },
+ "s6-A24": {
+  "description": "A small-claims dispute resolver extracts key facts from claimant submissions and suggests statutory compensation figures to the presiding adjudicator.",
+  "signals": {
+   "domain": "justice"
+  }
  }
 }

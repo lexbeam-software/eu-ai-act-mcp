@@ -43,7 +43,7 @@ unchanged.
 
 ### Added
 
-- `evals/front-door`: 334 natural descriptions, the tool definitions of 1.5.1 and 1.6.0 as
+- `evals/front-door`: 358 natural descriptions, the tool definitions of 1.5.1 and 1.6.0 as
   an agent sees them, the arguments one agent model passed on its first call under each,
   and an offline scorer. The 1.6.0 recording is pinned in the behavior suite.
 - `Publish to npm` workflow: a published GitHub release publishes the package over npm
@@ -57,12 +57,16 @@ unchanged.
 
 ### Verification
 
-- One agent model, the same 334 descriptions, scored offline by the deterministic
-  classifier. Under the 1.5.1 tool definition 157 of 228 regulated descriptions are
+- One agent model, the same 358 descriptions, scored offline by the deterministic
+  classifier. Under the 1.5.1 tool definition 181 of 252 regulated descriptions are
   recognised and 46 of 106 non-regulated systems are wrongly regulated, all 46 of them
-  in-sector systems. Under the 1.6.0 definition: 155 of 228, and none of 106. The 22
+  in-sector systems. Under the 1.6.0 definition: 179 of 252, and none of 106. The 22
   in-sector systems written by a model that never saw the new wording go from 22 wrong to
   none.
+- The dangerous direction was tested on purpose: a second model wrote 24 systems that
+  genuinely perform a listed use in wording that sounds merely assistive ("pre-ranks
+  applications for staff", "drafts preliminary rubric scores for teacher review"), to
+  tempt an agent into answering `other`. All 24 are recognised under both definitions.
 - One-time regeneration under the new hash definition: `tests/golden/hashes.json` and the
   `day-4-baseline` evaluation record. No golden response, metric or verdict changed. The
   bump from 1.5.1 to 1.6.0 itself moved no hash.

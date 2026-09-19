@@ -34,18 +34,27 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      # Trusted publishing needs Node 22.14 or later and npm 11.5.1 or later.
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
+      # Follows the workflow in the npm trusted-publishing documentation: the registry URL
+      # without a token, and no package cache in a release build.
+      - name: Use Node.js 24
+        uses: actions/setup-node@v6
         with:
-          node-version: 22.x
+          node-version: 24
           registry-url: https://registry.npmjs.org
-          cache: npm
+          package-manager-cache: false
 
-      - name: Use an npm that supports trusted publishing
-        run: npm install --global npm@^11.5.1
+      # Trusted publishing needs Node 22.14 or later and npm 11.5.1 or later. Node 24 ships
+      # such an npm; fail with a clear message instead of installing one at release time.
+      - name: npm must support trusted publishing
+        run: |
+          required="11.5.1"
+          current="$(npm --version)"
+          if [ "$(printf '%s\n%s\n' "$required" "$current" | sort -V | head -n 1)" != "$required" ]; then
+            echo "npm $current is older than $required, which trusted publishing needs."
+            exit 1
+          fi
 
       - name: Install dependencies
         run: npm ci
@@ -71,10 +80,12 @@ jobs:
           fi
 
       - name: Verify packed release
+        id: verify
         run: npm run verify:release
 
+      # Only when the verification ran: an earlier refusal leaves no evidence to upload.
       - name: Upload release evidence
-        if: always()
+        if: always() && (steps.verify.outcome == 'success' || steps.verify.outcome == 'failure')
         uses: actions/upload-artifact@v4
         with:
           name: release-evidence-${{ github.sha }}
