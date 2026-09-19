@@ -1,0 +1,62 @@
+name: Site links
+
+# The release gate checks every lexbeam.com URL the package publishes, but only at release
+# time. In 1.5.0 the links died between releases, when the site changed while the package sat
+# published. This runs the same check every week and opens an issue when a link stops resolving.
+
+on:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Request every published lexbeam.com URL
+        shell: bash
+        run: npm run check:links 2>&1 | tee link-check.log
+
+      - name: Open or update an issue when a link is dead
+        if: failure()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Site links: a lexbeam.com URL the server publishes no longer resolves"
+          {
+            echo "The weekly link check failed on \`${GITHUB_SHA:0:7}\`. Callers of the published package receive these URLs."
+            echo
+            echo '```'
+            grep -E "^(DEAD|  https)|do not resolve" link-check.log || tail -n 20 link-check.log
+            echo '```'
+            echo
+            echo "Fix the link in \`src/\` or restore the page, update \`tests/fixtures/site/known-live-urls.json\`, and release."
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          } > issue-body.md
+          existing="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "in:title \"$title\"" --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body-file issue-body.md
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file issue-body.md
+          fi

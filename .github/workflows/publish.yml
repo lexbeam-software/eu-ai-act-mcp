@@ -1,0 +1,91 @@
+name: Publish to npm
+
+# Publishes the package when a GitHub release is published, over npm trusted publishing
+# (OIDC). No npm token exists on any machine or in this repository, and npm attaches a
+# provenance attestation on its own because the repository and the package are public.
+#
+# One-time setup on npmjs.com, package Settings, Trusted Publisher, GitHub Actions:
+#   organization or user: lexbeam-software   repository: eu-ai-act-mcp
+#   workflow filename: publish.yml            environment: (empty)
+#
+# Run it by hand with "dry run" ticked to rehearse everything except the upload.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Rehearse without uploading to npm
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Trusted publishing needs Node 22.14 or later and npm 11.5.1 or later.
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - name: Use an npm that supports trusted publishing
+        run: npm install --global npm@^11.5.1
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Release tag must match the package version
+        if: github.event_name == 'release'
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "${GITHUB_REF_NAME#v}" != "$version" ]; then
+            echo "Release tag $GITHUB_REF_NAME does not match package version $version."
+            exit 1
+          fi
+
+      # A rehearsal may run on a version that is already out; a real publish may not.
+      - name: Version must not be on npm yet
+        if: github.event_name == 'release' || inputs.dry_run == false
+        run: |
+          name="$(node -p "require('./package.json').name")"
+          version="$(node -p "require('./package.json').version")"
+          if npm view "$name@$version" version >/dev/null 2>&1; then
+            echo "$name@$version is already published."
+            exit 1
+          fi
+
+      - name: Verify packed release
+        run: npm run verify:release
+
+      - name: Upload release evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-evidence-${{ github.sha }}
+          path: release-evidence/
+          if-no-files-found: error
+
+      # prepublishOnly reruns the canonical gates; never pass --ignore-scripts.
+      - name: Publish
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            npm publish --access public --dry-run
+          else
+            npm publish --access public
+          fi
