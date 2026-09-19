@@ -705,7 +705,14 @@ if (options.output) {
 }
 if (options.check) {
   const existing = readFileSync(options.check, "utf8");
-  baselineMatch = existing === serialized;
+  // The baseline records the package version it was generated with. That is provenance, not
+  // a result, so a version bump alone does not invalidate it.
+  const withoutPackageVersion = (text) => {
+    const parsed = JSON.parse(text);
+    delete parsed.subject.package_version;
+    return JSON.stringify(parsed);
+  };
+  baselineMatch = withoutPackageVersion(existing) === withoutPackageVersion(serialized);
   console.log(`Baseline reproduction: ${baselineMatch ? "MATCH" : "MISMATCH"}`);
 }
 printSummary(results);

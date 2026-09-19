@@ -75,16 +75,23 @@ export function canonicalSha256(value: JsonValue): string {
   return createHash("sha256").update(canonicalize(value), "utf8").digest("hex");
 }
 
-export function deterministicResponseProjection<T extends { runtime_metadata?: unknown }>(
-  response: T,
-): Omit<T, "runtime_metadata"> {
-  const { runtime_metadata: _runtimeMetadata, ...stable } = response;
+/**
+ * The part of a response that a pinned hash speaks for. Runtime metadata varies per call.
+ * `server_version` varies per release and says nothing about the assessment: while it was
+ * hashed, every version bump moved all twelve golden hashes and the evaluation baseline
+ * without a single result changing. The version is still asserted, by the version-identity
+ * gate and by the behavior suite, just not through the hash.
+ */
+export function deterministicResponseProjection<
+  T extends { runtime_metadata?: unknown; server_version?: unknown },
+>(response: T): Omit<T, "runtime_metadata" | "server_version"> {
+  const { runtime_metadata: _runtimeMetadata, server_version: _serverVersion, ...stable } = response;
   return stable;
 }
 
-export function canonicalResponseHash<T extends { runtime_metadata?: unknown }>(
-  response: T,
-): string {
+export function canonicalResponseHash<
+  T extends { runtime_metadata?: unknown; server_version?: unknown },
+>(response: T): string {
   return canonicalSha256(
     deterministicResponseProjection(response) as unknown as JsonValue,
   );

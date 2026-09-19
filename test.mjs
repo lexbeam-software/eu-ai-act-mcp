@@ -13,6 +13,7 @@ import { gpaiSystemicInputSchema } from "./dist/schemas/gpai-systemic.js";
 import { art6ExceptionInputSchema } from "./dist/schemas/art6.js";
 import { annexIvInputSchema } from "./dist/schemas/annex-iv.js";
 import { scoreKeywordMatch, calculateKeywordOverlap, findBestMatch } from "./dist/utils/matching.js";
+import { SERVER_VERSION } from "./dist/constants.js";
 import { prohibitedPractices, annexIIICategories, transparencyTriggers, decisiveSingleWordKeywords } from "./dist/knowledge/annex-iii.js";
 import {
   getMilestonesWithDaysRemaining,
@@ -49,6 +50,7 @@ import {
 import {
   canonicalResponseHash,
   canonicalize,
+  deterministicResponseProjection,
 } from "./dist/utils/canonical-json.js";
 
 let pass = 0;
@@ -2034,9 +2036,14 @@ console.log("\n🧩 ASSESS SYSTEM 1.5");
     const expected = hashes.goldens.find((item) => item.case_id === fixture.case_id);
     test(`assess golden: ${fixture.case_id}`,
       assessSystemResponseSchema.safeParse(output).success &&
-      canonicalize(output) === canonicalize(golden) &&
+      canonicalize(deterministicResponseProjection(output)) ===
+        canonicalize(deterministicResponseProjection(golden)) &&
       canonicalResponseHash(output) === expected?.canonical_sha256);
   }
+  test("assess: every response reports the running server version, outside the pinned hash",
+    goldenOutputs.every((output) => output.server_version === SERVER_VERSION) &&
+    canonicalResponseHash({ ...goldenOutputs[0], server_version: "0.0.0" }) ===
+      canonicalResponseHash(goldenOutputs[0]));
   test("assess: all normative response ordering rules hold across the golden set",
     goldenOutputs.every(orderingConforms));
   test("assess: every canonical golden response stays within the 64 KiB bound",
