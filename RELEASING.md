@@ -83,10 +83,18 @@ and uploads that directory as a workflow artifact. It does not publish the packa
 into `SERVER_VERSION`, which feeds the MCP handshake and HTTP health response. The
 first released entry below `[Unreleased]` in `CHANGELOG.md` must carry the same
 version. The final verification gate imports the freshly built server constant and
-compares all three values.
+compares it with every file that states the version: `package.json`, both version
+fields of `package-lock.json`, `smithery.yaml`, and the changelog head. Bump with
+`npm version <x.y.z> --no-git-tag-version`, which keeps the lockfile in step, then
+edit `smithery.yaml` and the changelog.
 
-`smithery.yaml` is deployment metadata and must also be reviewed when the package
-version changes, but it is not part of the npm artifact identity check.
+A version bump moves no pinned artefact. `server_version` is outside the pinned
+response hash, the suite compares goldens through the same projection, and the
+evaluation grader ignores the package version recorded in its baseline. Goldens and
+hashes change only when an assessment result changes. For that case
+`scripts/regen-goldens.mjs` is the one way to regenerate: it prints every differing
+pinned value and writes nothing until `--allow-content-changes` confirms that the
+differences are the intended ones.
 
 ## Publication checklist
 
@@ -98,13 +106,42 @@ version changes, but it is not part of the npm artifact identity check.
 4. Review `release-evidence/manifest.json`, `digests.sha256`, the package manifest,
    the black-box golden log, and the SBOM.
 5. Commit the release changes. Obtain the required review and approval.
-6. Use the standard `npm publish` command only from the approved commit. Its
-   `prepublishOnly` hook reruns `npm run verify`.
-7. Confirm the published package version and hosted MCP version only after an
+6. Publish by publishing a GitHub release whose tag is `v` plus the package version.
+   The `Publish to npm` workflow refuses a tag that does not match, refuses a version
+   that is already on npm, runs `npm run verify:release`, keeps the evidence bundle as
+   a workflow artifact, and then runs the standard `npm publish`, whose
+   `prepublishOnly` hook reruns `npm run verify`. It authenticates over npm trusted
+   publishing, so no npm token exists on any machine, and npm attaches a provenance
+   attestation. Run the workflow by hand with "dry run" ticked to rehearse everything
+   except the upload. The trusted publisher is a one-time setting on npmjs.com (package
+   Settings, Trusted Publisher, GitHub Actions: `lexbeam-software`, `eu-ai-act-mcp`,
+   `publish.yml`, no environment).
+7. If the workflow is unavailable, the standard `npm publish` from the approved commit
+   on a logged-in machine remains valid. Never publish with `--ignore-scripts`.
+8. Confirm the published package version and hosted MCP version only after an
    authorized publication or deployment.
 
 Pushing to `main`, deploying the hosted service, and publishing to npm remain three
 independent actions. Verification authorizes none of them by itself.
+
+## Between releases
+
+The `Site links` workflow runs `npm run check:links` every Monday and opens or updates
+one issue when a lexbeam.com URL stops resolving. The release gate cannot see a page
+that disappears while a version sits published; this can.
+
+## The front door, measured
+
+`evals/front-door/` measures what a calling agent makes of `euaiact_classify_system`.
+`corpus.json` holds natural descriptions of regulated systems and two kinds of
+negatives. A recording (`agent-args-<label>.json`) holds the arguments an agent model
+passed on its first call for each description, given only the tool definition of that
+version (`tool-<label>.json`). `node evals/front-door/score.mjs <recording>` feeds a
+recording to the built classifier, offline and deterministically. Recordings need a
+language model and are therefore made by hand, never in CI; `README.md` in that
+directory states the procedure. Re-record when the tool description, the input schema
+or the signal path changes, and read both numbers: regulated descriptions recognised,
+and negatives wrongly regulated.
 
 ## Generated and tracked content
 

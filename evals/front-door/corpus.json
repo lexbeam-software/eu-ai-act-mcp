@@ -1,9 +1,10 @@
 {
- "purpose": "Natural descriptions of AI systems, written the way a business user talks to an assistant, for measuring the front door of euaiact_classify_system end to end. 228 describe a regulated system. 84 must never come back high-risk or prohibited: 60 hard negatives that share vocabulary with a regulated category, and 24 systems that sit inside a regulated sector without performing a listed use.",
+ "purpose": "Natural descriptions of AI systems, written the way a business user talks to an assistant, for measuring the front door of euaiact_classify_system end to end. 228 describe a regulated system. 106 must never come back high-risk or prohibited: 60 hard negatives that share vocabulary with a regulated category, and 46 systems that sit inside a regulated sector without performing a listed use.",
  "caveats": [
   "Synthetic. Written by three language models on 2026-09-19 under one brief that forbade the regulation's own terms of art and asked for the decisive facts to be stated.",
   "The labels of the 228 regulated descriptions are the writing model's and were not verified one by one; some, notably under annex_iii_1, are arguable. Aggregate recognition over them is a metric, never a legal assertion about a single description.",
-  "The 84 negatives were reviewed by hand; the 24 in-sector ones were written by hand against the Annex wording. None may come back high-risk or prohibited."
+  "The 106 negatives were reviewed by hand. Of the 46 in-sector ones, 24 were written by hand against the Annex wording and 22 by a model that never saw the tool definition. None may come back high-risk or prohibited.",
+  "Known wrong labels, left in place so that recordings stay comparable: s2-annex_iii_7-05 describes the verification of travel documents, which Annex III(7)(d) expressly excepts; s3-annex_iii_8-04 describes campaign analytics that voters are never exposed to, which Annex III(8)(b) excludes; s2-annex_iii_7-01 describes one-to-one verification of a traveller against a passport and is arguable. An agent that declines to call these high-risk is right, and the score counts it as a miss."
  ],
  "sets": [
   {
@@ -25,6 +26,11 @@
    "id": "s4",
    "written_by": "hand",
    "history": "24 systems that operate inside a sector Annex III names while performing none of the uses it lists; each carries the provision it rests on, read in the pinned text. Written for 1.6.0 to measure what the `domain` signal concludes."
+  },
+  {
+   "id": "s5",
+   "written_by": "openai/gpt-oss-120b",
+   "history": "In-sector negatives written under a brief that named the listed uses and banned the examples the 1.6.0 field description uses. 30 written, 22 kept after a hand review that dropped every item a careful reader could argue into a listed use (grid and water operations, workplace occupancy sensing, attendance tracking) and three that repeated a banned example. Never used to word anything."
   }
  ],
  "labels": {
@@ -1953,6 +1959,182 @@
    "sector": "justice",
    "text": "We route incoming mail at the court registry to the right department by reading the letterhead.",
    "why": "An administrative task in the sense of recital 61."
+  },
+  {
+   "id": "s5-critical_infrastructure-04",
+   "set": "s5",
+   "label": "none",
+   "sector": "critical_infrastructure",
+   "text": "Railway signaling system simulation tool that models traffic flow for planning upgrades, not controlling real-time operations.",
+   "why": "Not a safety component in the management and operation of the infrastructure (Annex III(2))."
+  },
+  {
+   "id": "s5-critical_infrastructure-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "critical_infrastructure",
+   "text": "Facility management AI that monitors HVAC performance in data centers to reduce energy use, not safety-critical controls.",
+   "why": "Not a safety component in the management and operation of the infrastructure (Annex III(2))."
+  },
+  {
+   "id": "s5-education-01",
+   "set": "s5",
+   "label": "none",
+   "sector": "education",
+   "text": "Automatic translation engine that converts curriculum textbooks from English to Spanish for multilingual classrooms.",
+   "why": "None of the four uses of Annex III(3)."
+  },
+  {
+   "id": "s5-education-02",
+   "set": "s5",
+   "label": "none",
+   "sector": "education",
+   "text": "AI tool that generates weekly lesson plan outlines for teachers based on curriculum standards.",
+   "why": "None of the four uses of Annex III(3)."
+  },
+  {
+   "id": "s5-education-03",
+   "set": "s5",
+   "label": "none",
+   "sector": "education",
+   "text": "Document summarisation system that condenses research articles for faculty weekly reading lists.",
+   "why": "None of the four uses of Annex III(3)."
+  },
+  {
+   "id": "s5-education-04",
+   "set": "s5",
+   "label": "none",
+   "sector": "education",
+   "text": "Scheduling assistant that allocates classroom resources and equipment for school events throughout the academic year.",
+   "why": "None of the four uses of Annex III(3)."
+  },
+  {
+   "id": "s5-education-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "education",
+   "text": "Inventory management AI that tracks and orders school supplies based on consumption trends.",
+   "why": "None of the four uses of Annex III(3)."
+  },
+  {
+   "id": "s5-employment-02",
+   "set": "s5",
+   "label": "none",
+   "sector": "employment",
+   "text": "Automated expense report classification system that extracts cost categories from receipts for accounting.",
+   "why": "None of the uses of Annex III(4); it neither selects nor evaluates, allocates work to or monitors persons."
+  },
+  {
+   "id": "s5-employment-03",
+   "set": "s5",
+   "label": "none",
+   "sector": "employment",
+   "text": "Predictive model for corporate travel demand to optimize each fleet leasing contract.",
+   "why": "None of the uses of Annex III(4); it neither selects nor evaluates, allocates work to or monitors persons."
+  },
+  {
+   "id": "s5-employment-04",
+   "set": "s5",
+   "label": "none",
+   "sector": "employment",
+   "text": "Document translation service for internal corporate policies across global offices to ensure compliance.",
+   "why": "None of the uses of Annex III(4); it neither selects nor evaluates, allocates work to or monitors persons."
+  },
+  {
+   "id": "s5-employment-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "employment",
+   "text": "Facility maintenance scheduler that plans HVAC service visits for corporate buildings on a quarterly basis.",
+   "why": "None of the uses of Annex III(4); it neither selects nor evaluates, allocates work to or monitors persons."
+  },
+  {
+   "id": "s5-law_enforcement-01",
+   "set": "s5",
+   "label": "none",
+   "sector": "law_enforcement",
+   "text": "Evidence archive indexing AI that tags and organizes digital files for quick retrieval by investigators.",
+   "why": "None of the uses of Annex III(6); it assesses no person and evaluates no evidence."
+  },
+  {
+   "id": "s5-law_enforcement-02",
+   "set": "s5",
+   "label": "none",
+   "sector": "law_enforcement",
+   "text": "Automated translation system for foreign-language statements used in report writing by law enforcement agencies.",
+   "why": "None of the uses of Annex III(6); it assesses no person and evaluates no evidence."
+  },
+  {
+   "id": "s5-law_enforcement-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "law_enforcement",
+   "text": "Resource allocation model that predicts needed number of patrol units for public events based on attendance forecasts.",
+   "why": "None of the uses of Annex III(6); it assesses no person and evaluates no evidence."
+  },
+  {
+   "id": "s5-migration-02",
+   "set": "s5",
+   "label": "none",
+   "sector": "migration",
+   "text": "Document translation platform that converts immigration forms into multiple languages for applicants.",
+   "why": "None of the uses of Annex III(7); it examines no application and assesses or identifies no person."
+  },
+  {
+   "id": "s5-migration-03",
+   "set": "s5",
+   "label": "none",
+   "sector": "migration",
+   "text": "Workflow optimizer that balances case loads among immigration officers to reduce processing delays.",
+   "why": "None of the uses of Annex III(7); it examines no application and assesses or identifies no person."
+  },
+  {
+   "id": "s5-migration-04",
+   "set": "s5",
+   "label": "none",
+   "sector": "migration",
+   "text": "Predictive system for estimating staffing needs at border checkpoints during holiday seasons.",
+   "why": "None of the uses of Annex III(7); it examines no application and assesses or identifies no person."
+  },
+  {
+   "id": "s5-migration-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "migration",
+   "text": "Inventory tracker for immigration office supplies that automatically reorders forms and brochures when stock runs low.",
+   "why": "None of the uses of Annex III(7); it examines no application and assesses or identifies no person."
+  },
+  {
+   "id": "s5-justice-01",
+   "set": "s5",
+   "label": "none",
+   "sector": "justice",
+   "text": "Courtroom audio transcription AI that produces searchable text records of proceedings for clerks.",
+   "why": "A purely ancillary administrative activity in the sense of recital 61; it does not assist in researching or applying the law."
+  },
+  {
+   "id": "s5-justice-03",
+   "set": "s5",
+   "label": "none",
+   "sector": "justice",
+   "text": "Document management AI that archives and indexes case files for long-term storage and retrieval.",
+   "why": "A purely ancillary administrative activity in the sense of recital 61; it does not assist in researching or applying the law."
+  },
+  {
+   "id": "s5-justice-04",
+   "set": "s5",
+   "label": "none",
+   "sector": "justice",
+   "text": "Automated translation of legal documents for parties requiring language assistance in civil proceedings.",
+   "why": "A purely ancillary administrative activity in the sense of recital 61; it does not assist in researching or applying the law."
+  },
+  {
+   "id": "s5-justice-05",
+   "set": "s5",
+   "label": "none",
+   "sector": "justice",
+   "text": "AI-driven budgeting tool that forecasts court operational expenses for the upcoming fiscal year.",
+   "why": "A purely ancillary administrative activity in the sense of recital 61; it does not assist in researching or applying the law."
   }
  ]
 }

@@ -1,4 +1,42 @@
 import { z } from "zod";
+import { annexIIICategories } from "../knowledge/annex-iii.js";
+
+/**
+ * What `signals.domain` asserts. Annex III does not regulate sectors; it lists uses inside
+ * eight areas. Until 1.6.0 the field read "Primary sector where the system operates" while
+ * the classifier concluded high-risk from it alone, so an agent that filled it faithfully got
+ * a school timetable, a payroll check and a court-room scheduler back as high-risk with high
+ * confidence. The text is built from the same per-area descriptions the classifier reports,
+ * so the two cannot drift apart.
+ */
+const DOMAIN_TO_AREA: Record<string, number> = {
+  biometrics: 1,
+  critical_infrastructure: 2,
+  education: 3,
+  employment: 4,
+  essential_services: 5,
+  law_enforcement: 6,
+  migration: 7,
+  justice: 8,
+};
+
+const listedUses = Object.entries(DOMAIN_TO_AREA)
+  .map(([domain, area]) => {
+    const category = annexIIICategories.find((candidate) => candidate.number === area)!;
+    return `${domain}: ${category.description.replace(/^AI systems intended (?:for use |to be used )?/, "")}`;
+  })
+  .join(" | ");
+
+export const DOMAIN_SIGNAL_DESCRIPTION =
+  "The Annex III area whose LISTED use the system itself performs. Annex III regulates specific " +
+  "uses, never a sector: choose an area only when the system does one of the uses listed for it " +
+  "below, and choose `other` when it merely operates in that sector (a utility's billing chatbot, " +
+  "a school timetable, a payroll check, fleet maintenance for the police, appointment booking at " +
+  "an immigration office, a court-room scheduler, legal research for a law firm). Leave it out " +
+  "when the description does not let you tell. Listed uses: " +
+  listedUses +
+  " | health, gpai, product_safety: not Annex III areas; use them for a health context, a " +
+  "general-purpose AI model, or a safety component of a product under Annex I.";
 
 /**
  * Structured classifier signals (all optional). When provided, the classifier
@@ -24,7 +62,7 @@ export const classifySignalsSchema = z
         "other",
       ])
       .optional()
-      .describe("Primary sector where the system operates"),
+      .describe(DOMAIN_SIGNAL_DESCRIPTION),
     uses_biometrics: z.boolean().optional().describe("System processes biometric data (face, fingerprint, iris, voice, gait)"),
     biometric_sole_purpose_verification: z
       .boolean()

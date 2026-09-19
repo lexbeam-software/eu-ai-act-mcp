@@ -2172,6 +2172,45 @@ console.log("\n🧷 FREE-TEXT GUARDS");
       "chatbot,creditworthiness,csam,deepfake,hiring,judicial,nudification,nudify,polygraph,proctoring,recruitment,sentencing,subliminal,undress");
 }
 
+// ─── FRONT DOOR ─────────────────────────────────────────────────────────────
+// Agents call this tool, and they fill `signals`. Under the 1.5.1 tool definition an agent
+// read `signals.domain` as the sector a system operates in, and the classifier concluded
+// high-risk from it alone: all 46 in-sector systems of this corpus came back high-risk with
+// high confidence (a school timetable, a payroll check, a court budgeting tool). The recorded
+// calls below were made under the 1.6.0 definition. They and the classifier are both
+// deterministic, so this pins the signal path against regressions. See evals/front-door.
+console.log("\n🚪 FRONT DOOR");
+{
+  const corpus = JSON.parse(readFileSync("evals/front-door/corpus.json", "utf8")).items;
+  const recording = JSON.parse(readFileSync("evals/front-door/agent-args-1.6.0.json", "utf8"));
+  let invalid = 0;
+  let recognised = 0;
+  const wronglyRegulated = [];
+  for (const item of corpus) {
+    const parsed = classifyInputSchema.safeParse(recording[item.id]);
+    if (!parsed.success) { invalid += 1; continue; }
+    const result = (await callTool("euaiact_classify_system", parsed.data)).structuredContent;
+    const regulated = result.risk_classification === "high-risk" || result.risk_classification === "prohibited";
+    if (item.label === "none") {
+      if (regulated) wronglyRegulated.push(item.id);
+      continue;
+    }
+    const wantRisk = item.label.startsWith("annex_iii_") ? "high-risk" : item.label.startsWith("art5_") ? "prohibited" : "limited";
+    const wantArea = item.label.startsWith("annex_iii_") ? Number(item.label.split("_")[2]) : undefined;
+    if (result.risk_classification === wantRisk &&
+        (wantArea === undefined || result.annex_iii_category?.number === wantArea)) recognised += 1;
+  }
+  if (wronglyRegulated.length > 0) console.log(`     wrongly regulated: ${wronglyRegulated.join(", ")}`);
+  test("front door: all 334 recorded agent calls satisfy the input schema",
+    corpus.length === 334 && invalid === 0);
+  test("front door: none of 106 non-regulated systems comes back high-risk or prohibited",
+    corpus.filter((item) => item.label === "none").length === 106 && wronglyRegulated.length === 0);
+  // Measured 155 of 228. The labels are model-written and partly arguable, so this is a
+  // floor for a metric, never an assertion about a single description.
+  test(`front door: regulated descriptions recognised stays at or above 150 of 228 (now ${recognised})`,
+    recognised >= 150);
+}
+
 // ─── SITE LINKS ─────────────────────────────────────────────────────────────
 // 1.5.0 shipped 23 lexbeam.com links to pages that do not exist. This runs offline: it
 // holds src/ to an allowlist of known live pages. scripts/check-links.mjs requests the
