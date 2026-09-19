@@ -2108,6 +2108,28 @@ console.log("\n🧩 ASSESS SYSTEM 1.5");
   }
 }
 
+// ─── SITE LINKS ─────────────────────────────────────────────────────────────
+// 1.5.0 shipped 23 lexbeam.com links to pages that do not exist. This runs offline: it
+// holds src/ to an allowlist of known live pages. scripts/check-links.mjs requests the
+// same pages over the network during release verification.
+console.log("\n🔗 SITE LINKS");
+{
+  const { collectSiteUrls } = await import("./scripts/site-links.mjs");
+  const { faqDatabase } = await import("./dist/knowledge/faq-database.js");
+  const knownLive = new Set(
+    JSON.parse(readFileSync("tests/fixtures/site/known-live-urls.json", "utf8")).urls,
+  );
+  const inSource = collectSiteUrls(["src"], [".ts"]);
+  const unknown = [...inSource.keys()].filter((url) => !knownLive.has(url));
+  if (unknown.length > 0) console.log(`     not in known-live-urls.json: ${unknown.join(", ")}`);
+  test("site links: every lexbeam.com URL in src/ is a known live page", unknown.length === 0);
+  test("site links: the scan sees literal URLs and BRANDING.baseUrl templates alike",
+    inSource.has("https://lexbeam.com/kontakt") &&
+    inSource.has("https://lexbeam.com/de/wissen/ki-verordnung-klassifizierung"));
+  test("site links: all 24 FAQ entries link to a known live page",
+    faqDatabase.length === 24 && faqDatabase.every((entry) => knownLive.has(entry.lexbeamUrl)));
+}
+
 // ─── SUMMARY ────────────────────────────────────────────────────────────────
 console.log(`\n${"=".repeat(50)}`);
 console.log(`RESULTS: ${pass} passed, ${fail} failed out of ${pass + fail} tests`);

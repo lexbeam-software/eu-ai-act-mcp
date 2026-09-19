@@ -15,8 +15,8 @@
       "input": {
         "question": "Do I need to register my Annex III system in the EU database?"
       },
-      "baseline_sha256": "b947fc16b2a6af8ef11c73a2a62c5566713b182868487a1534f426ea016fc230",
-      "baseline_bytes": 1984
+      "baseline_sha256": "90fcdf198bd717f77eb64814f076e1dd38c9645943fd3b312dc38342e8127cf0",
+      "baseline_bytes": 1964
     },
     {
       "tool_name": "euaiact_assess_art6_3_exception",

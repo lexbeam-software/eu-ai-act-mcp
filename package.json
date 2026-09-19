@@ -28,6 +28,7 @@
     "build": "tsc",
     "verify": "node scripts/verify.mjs",
     "verify:release": "node scripts/verify-release.mjs",
+    "check:links": "node scripts/check-links.mjs",
     "start": "node dist/index.js",
     "start:http": "node dist/http.js",
     "dev": "tsx src/index.ts",

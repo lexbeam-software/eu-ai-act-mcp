@@ -199,7 +199,15 @@ try {
     };
   });
 
-  await step("Runtime SBOM", "04-sbom", async () => {
+  await step("Site links", "04-site-links", async () => {
+    const result = commandResult(process.execPath, ["scripts/check-links.mjs"], { env });
+    return {
+      output: result.output,
+      detail: result.stdout.trim().split("\n").at(-1),
+    };
+  });
+
+  await step("Runtime SBOM", "05-sbom", async () => {
     const result = commandResult(NPM, [
       "sbom",
       "--omit=dev",
@@ -219,7 +227,7 @@ try {
     };
   });
 
-  await step("Evidence bundle", "05-evidence", async () => ({
+  await step("Evidence bundle", "06-evidence", async () => ({
     output: "Release evidence assembled. digests.sha256 covers every other evidence file.",
     detail: "manifest and SHA-256 digests",
   }));
