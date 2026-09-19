@@ -7,7 +7,7 @@ description: |-
   Sparse input fails closed: the server answers "undetermined" and names the decisive missing facts instead of guessing a classification.
 
   No API key, no telemetry, two runtime dependencies; installed locally it makes no network calls. MIT licensed. A first-pass technical output, not legal advice and not certification. By Lexbeam Software.
-version: 1.5.1
+version: 1.6.0
 command: npx
 args:
   - -y

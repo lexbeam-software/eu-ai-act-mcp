@@ -1,6 +1,6 @@
 {
   "name": "@lexbeam-software/eu-ai-act-mcp",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "EU AI Act compliance MCP server with bounded system assessment, structured classification, article grounding, GPAI, Art. 6(3), Annex III/IV, deadlines, obligations, penalties, and FAQ. By Lexbeam Software.",
   "keywords": [
     "mcp",
