@@ -2122,6 +2122,7 @@ console.log("\n🧷 FREE-TEXT GUARDS");
   const mustAbstain = [
     ...guards.must_abstain.regressions.map((entry) => entry.text),
     ...guards.must_abstain.hard_negatives.texts,
+    ...guards.must_abstain.adversarial_review.texts,
   ];
   const wronglyRegulated = [];
   for (const text of mustAbstain) {
@@ -2132,7 +2133,7 @@ console.log("\n🧷 FREE-TEXT GUARDS");
   }
   for (const line of wronglyRegulated) console.log(`     ${line}`);
   test(`free text: none of ${mustAbstain.length} everyday descriptions is high-risk or prohibited`,
-    mustAbstain.length === 46 && wronglyRegulated.length === 0);
+    mustAbstain.length === 56 && wronglyRegulated.length === 0);
 
   for (const entry of guards.canonical) {
     const result = await classify(entry.text);
@@ -2155,6 +2156,9 @@ console.log("\n🧷 FREE-TEXT GUARDS");
   test("matcher: a multi-word keyword still matches across inflection and word order",
     strength("the tool screens incoming CVs", "screen CVs") === "strong" &&
     strength("CVs are screened overnight", "screen CVs") === "strong");
+  test("matcher: a multi-word keyword does not match two unrelated words far apart",
+    strength("teaches children programming logic and encourages them to exploit puzzle shortcuts", "exploit children") === "none" &&
+    strength("inspects web traffic, detects spikes, and sends a control signal to firewalls", "traffic signal control") === "none");
   // A new decisive single word is a reviewed decision, not a convenience.
   test("matcher: the decisive single-word set is the reviewed one",
     [...decisiveSingleWordKeywords].sort().join(",") ===

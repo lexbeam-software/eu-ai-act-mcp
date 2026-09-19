@@ -196,7 +196,12 @@ function isDetectionOfAbusiveMaterialOnly(text: string): boolean {
     /\bblock(?:s|ing)?\b/, /\bfilter(?:s|ing)?\b/, /\bflag(?:s|ging)?\b/, /\breport(?:s|ing)?\b/,
     /\bhash matching\b/,
   ]);
-  const generation = includesAny(normalized, [
+  // "Detects the generation of ..." describes what is detected, not what the system does.
+  const withoutDetectedGeneration = normalized.replace(
+    /\bdetect(?:s|ing|ion)?\s+(?:the\s+)?(?:ai[- ])?generat(?:ion|ed)\b/g,
+    " ",
+  );
+  const generation = includesAny(withoutDetectedGeneration, [
     /\bgenerat(?:e|es|ing|ion|or)\b/, /\bcreat(?:e|es|ing)\b/, /\bproduc(?:e|es|ing)\b/,
     /\bsynthesi[sz](?:e|es|ing)\b/, /\bmanipulat(?:e|es|ing|ion)\b/, /\bundress(?:es|ing)?\b/,
     /\bnudif(?:y|ies|ication)\b/,
@@ -212,9 +217,11 @@ function isDetectionOfAbusiveMaterialOnly(text: string): boolean {
 function isFinancialFraudDetectionOnly(text: string): boolean {
   const normalized = text.toLowerCase();
   const fraud = includesAny(normalized, [/\bfraud\b/, /\bfraudulent\b/]);
+  // A credit score that is merely watched for anomalies is not one the system establishes.
   const creditDecision = includesAny(normalized, [
-    /\bcreditworthiness\b/, /\bcredit scor(?:e|es|ing)\b/, /\bloan approvals?\b/,
-    /\bloan applications?\b/, /\blending decisions?\b/,
+    /\bcreditworthiness\b/, /\bcredit scoring\b/, /\bloan approvals?\b/,
+    /\bloan applications?\b/, /\b(?:lending|credit) decisions?\b/,
+    /\b(?:establish|calculat|comput|assign|determin|produc)\w*\s+(?:an?\s+|the\s+|their\s+)?credit scores?\b/,
   ]);
   return fraud && !creditDecision;
 }

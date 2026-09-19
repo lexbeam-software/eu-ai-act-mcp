@@ -1,5 +1,5 @@
 {
-  "purpose": "Free-text guards for euaiact_classify_system. 'must_abstain' descriptions may never come back high-risk or prohibited; 'canonical' descriptions must reach their tier. Added in 1.5.1 after 1.5.0 classified everyday wording as high-risk or prohibited and missed natural descriptions of the canonical recruitment case.",
+  "purpose": "Free-text guards for euaiact_classify_system. 'must_abstain' descriptions (56) may never come back high-risk or prohibited; 'canonical' descriptions must reach their tier. Added in 1.5.1 after 1.5.0 classified everyday wording as high-risk or prohibited and missed natural descriptions of the canonical recruitment case.",
   "must_abstain": {
     "regressions": [
       {
@@ -131,6 +131,21 @@
         "Our planner sequences every van's drop-offs to cut fuel use and keep each delivery inside its promised window.",
         "We pick the next track for each listener by matching tempo and energy to the songs they skipped or replayed."
       ]
+    },
+    "adversarial_review": {
+      "provenance": "Sentences written by google/gemini-3.7-flash on 2026-09-19 in an adversarial review of the 1.5.1 patch itself. Each one came back high-risk or prohibited on the first version of the patch, because a multi-word keyword matched two unrelated words anywhere in the text. They led to the distance limit on multi-word keywords, the removal of the Art. 5(1)(b) phrases and two guard repairs.",
+      "texts": [
+        "Our educational coding game teaches children fundamental programming logic and encourages them to exploit puzzle shortcuts to earn bonus level badges.",
+        "Our interactive museum mobile application allows visiting children to manipulate 3D virtual planet models and mechanical exhibit simulations on their tablets.",
+        "Our analytics dashboard helps municipal case workers identify urban areas of concentrated poverty and exploit available state grant opportunities for community relief.",
+        "Our restaurant ordering platform analyzes weather trends to understand how sudden temperature drops influence customer election of warm soups over cold salads.",
+        "Our VoIP phone system automatically logs every customer support call and pages the on-call engineer during critical network emergency downtime incidents.",
+        "Our developer portal allows any registered API applicant to configure an automated cron job that retrieves updated weather observations every hour.",
+        "Our network monitoring appliance inspects web traffic, detects denial-of-service spikes, and sends a control signal to firewalls to throttle malicious IPs.",
+        "Our digital library search engine helps any history seeker locate digitised architectural blueprints of nineteenth-century lunatic asylum structures across Europe.",
+        "Our moderation platform detects the generation of CSAM and illegal imagery across user uploads, automatically blocking and reporting matching content to authorities.",
+        "Our banking security engine monitors credit score anomalies and sudden velocity shifts to detect synthetic identity fraud and unauthorized account takeover attempts."
+      ]
     }
   },
   "canonical": [
@@ -188,7 +203,7 @@
       "basis": "Art. 50(1): interacts directly with natural persons"
     },
     {
-      "text": "Our platform generates thousands of product descriptions and banner images every night for online shops, with no human writer involved.",
+      "text": "We run an image generation service that turns text prompts into marketing visuals for online shops.",
       "risk_classification": "limited",
       "basis": "Art. 50(2): generates synthetic text and image content"
     }

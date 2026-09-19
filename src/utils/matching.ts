@@ -86,10 +86,11 @@ export function scoreKeywordMatch(
     const kwWords = kw.split(" ").filter(Boolean);
 
     if (kwWords.length > 1) {
-      // 1. Multi-word keyword: require ALL words present as whole tokens (stem-tolerant).
-      //    A contiguous phrase satisfies this too, so no separate phrase check is needed.
-      const allPresent = kwWords.every((word) => textWords.some((tw) => stemMatches(tw, word)));
-      if (allPresent) matches.push({ keyword: rawKw, strength: "strong" });
+      // 1. Multi-word keyword: ALL words present as whole tokens (stem-tolerant), in any
+      //    order, and close together. Without the distance limit a two-word phrase is a bag
+      //    of words: "children ... exploit puzzle shortcuts" met "exploit children", and the
+      //    longer the description, the likelier two unrelated words were to meet.
+      if (wordsOccurTogether(textWords, kwWords)) matches.push({ keyword: rawKw, strength: "strong" });
       continue;
     }
 
@@ -105,6 +106,32 @@ export function scoreKeywordMatch(
   const score = (strongCount + weakCount * 0.5) / keywords.length;
 
   return { matches, strongCount, weakCount, score };
+}
+
+/**
+ * Extra tokens a multi-word keyword may spread over. "screens incoming CVs" and
+ * "applicants for the job" fit; "children ... and encourages them to exploit" does not.
+ */
+const PHRASE_SLACK = 3;
+
+/** True when every keyword word matches a token inside one window of the text. */
+function wordsOccurTogether(textWords: string[], kwWords: string[]): boolean {
+  const hits: { position: number; word: number }[] = [];
+  textWords.forEach((token, position) => {
+    kwWords.forEach((kwWord, word) => {
+      if (stemMatches(token, kwWord)) hits.push({ position, word });
+    });
+  });
+  const limit = kwWords.length + PHRASE_SLACK;
+  for (let start = 0; start < hits.length; start += 1) {
+    const seen = new Set<number>();
+    for (let end = start; end < hits.length; end += 1) {
+      if (hits[end].position - hits[start].position + 1 > limit) break;
+      seen.add(hits[end].word);
+      if (seen.size === kwWords.length) return true;
+    }
+  }
+  return false;
 }
 
 /**

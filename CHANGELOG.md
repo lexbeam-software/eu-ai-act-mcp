@@ -18,8 +18,9 @@ classification, the links inside answers, and error handling.
   hit counted as decisive, single words included. "Fix minor layout bugs" and "demand for
   children's shoes" returned a prohibited practice; "for example", "determination",
   "menu selection", "cloud migration", "tennis court" and "Visa card" returned high-risk.
-  Keywords now match whole words only, a single everyday or sector word is weak evidence,
-  and a prohibited practice is never concluded from weak evidence alone.
+  Keywords now match whole words only, the words of a multi-word keyword must stand close
+  together, a single everyday or sector word is weak evidence, and a prohibited practice
+  is never concluded from weak evidence alone.
 - **Phrase keywords over-reached against the statutory text.** Card-fraud scoring returned
   high-risk although Annex III(5)(b) excepts systems used for detecting financial fraud.
   Private legal research returned high-risk although Annex III(8)(a) covers use by a
@@ -58,14 +59,27 @@ classification, the links inside answers, and error handling.
 
 ### Verification
 
-- `tests/fixtures/classify/free-text-guards.json` pins 46 everyday descriptions that may
+- `tests/fixtures/classify/free-text-guards.json` pins 56 everyday descriptions that may
   never be high-risk or prohibited and 10 canonical descriptions that must reach their
-  tier. Published 1.5.0 regulates 20 of the 46, five of them as prohibited, and recognises
-  4 of the 10; this release regulates none and recognises all ten.
+  tier. Published 1.5.0 regulates 25 of the 56, eight of them as prohibited, and
+  recognises 4 of the 10; this release regulates none and recognises all ten. Ten of the
+  56 come from an adversarial second-model review of this patch, which found that its
+  first version let multi-word keywords match unrelated words far apart.
 - Regenerated the twelve golden contract responses, their pinned RFC 8785 hashes and the
   `day-4-baseline` evaluation record for the version string only; no assessment result
   changed. The atomic-tools compatibility baseline moved for `euaiact_classify_system` and
   `euaiact_answer_question`, in each case in `lexbeam_url` alone.
+
+### Known limits
+
+- Free-text recall stays limited, by design and by measurement. On three sets of 76
+  natural descriptions of regulated systems, written by three other models under a brief
+  that forbade the regulation's own terms, 1.5.0 recognised 14, 32 and 17 and this release
+  recognises 17, 27 and 15; both reject all 60 hard negatives in those sets bar one in
+  1.5.0. The precision fixes cost a little recall where 1.5.0 relied on a single sector
+  word. A description the text path does not recognise returns
+  `insufficient_information` with the signals to supply; the structured-signals path
+  remains the deterministic route.
 
 ## [1.5.0] - 2026-08-14
 
