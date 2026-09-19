@@ -1,0 +1,211 @@
+{
+  "purpose": "Free-text guards for euaiact_classify_system. 'must_abstain' descriptions (56) may never come back high-risk or prohibited; 'canonical' descriptions must reach their tier. Added in 1.5.1 after 1.5.0 classified everyday wording as high-risk or prohibited and missed natural descriptions of the canonical recruitment case.",
+  "must_abstain": {
+    "regressions": [
+      {
+        "text": "We generate promotional videos for social media campaigns",
+        "why": "\"promotion\" matched inside \"promotional\": high-risk employment in 1.5.0"
+      },
+      {
+        "text": "Automatic determination of the correct VAT rate on invoices",
+        "why": "\"termination\" matched inside \"determination\": high-risk employment in 1.5.0"
+      },
+      {
+        "text": "A tool for the extermination scheduling of a pest control company",
+        "why": "\"termination\" matched inside \"extermination\""
+      },
+      {
+        "text": "Software that sends promotional emails with discount codes",
+        "why": "\"promotion\" matched inside \"promotional\""
+      },
+      {
+        "text": "Predictive maintenance for our fleet, with early determination of bearing wear",
+        "why": "\"termination\" matched inside \"determination\""
+      },
+      {
+        "text": "A recommender that handles sales promotion planning for supermarkets",
+        "why": "\"promotion\" as a whole word in its sales sense"
+      },
+      {
+        "text": "A tool that tags support tickets, for example billing questions and login problems",
+        "why": "\"exam\" matched inside \"example\": high-risk education in 1.5.0"
+      },
+      {
+        "text": "Menu selection assistant that suggests dishes to restaurant guests",
+        "why": "\"election\" matched inside \"selection\": high-risk justice in 1.5.0"
+      },
+      {
+        "text": "We automatically fix minor layout bugs in web pages",
+        "why": "\"minor\" returned a PROHIBITED practice in 1.5.0"
+      },
+      {
+        "text": "An app for booking a tennis court at the local club",
+        "why": "\"court\" in its everyday sense"
+      },
+      {
+        "text": "Fraud checks on Visa card payments in our web shop",
+        "why": "\"visa\" as a card brand"
+      },
+      {
+        "text": "Schedules eye exam appointments for an optician chain",
+        "why": "\"exam\" in its medical sense"
+      },
+      {
+        "text": "Summarises provenance documents for an art auction house",
+        "why": "\"provenance\" in its art-market sense"
+      },
+      {
+        "text": "A model that forecasts demand for children's shoes by season",
+        "why": "\"children\" returned a PROHIBITED practice in 1.5.0"
+      },
+      {
+        "text": "Adds a watermark with our logo to product photos",
+        "why": "\"watermark\" in its branding sense"
+      },
+      {
+        "text": "Our model scores credit card transactions in real time to stop payment fraud",
+        "why": "Annex III(5)(b) expressly excepts AI systems used for the purpose of detecting financial fraud"
+      },
+      {
+        "text": "A legal research assistant that helps law firm associates find relevant case law",
+        "why": "Annex III(8)(a) covers use by a judicial authority or on its behalf, not private legal research"
+      },
+      {
+        "text": "Case management software for child protection services, with AI summaries of visit reports",
+        "why": "\"child protection\" returned a PROHIBITED practice in 1.5.0; Art. 5(1)(bb) covers systems that generate or manipulate the material"
+      },
+      {
+        "text": "A classifier that detects CSAM in uploaded images so moderators can remove it",
+        "why": "detection is neither generation nor manipulation under Art. 5(1)(bb); PROHIBITED in 1.5.0"
+      },
+      {
+        "text": "Security scanner that finds vulnerable dependencies attackers could exploit",
+        "why": "security vocabulary shared with Art. 5(1)(b)"
+      },
+      {
+        "text": "Cloud migration assistant that plans the move of legacy databases",
+        "why": "\"migration\" in its IT sense"
+      },
+      {
+        "text": "Forecasts election outcomes for a news site",
+        "why": "forecasting is not influencing under Annex III(8)(b)"
+      },
+      {
+        "text": "A dashboard with traffic light status indicators for project risks",
+        "why": "\"traffic light\" as a status idiom"
+      },
+      {
+        "text": "A job scheduler that picks candidate nodes for each batch job",
+        "why": "\"job\" and \"candidate\" in their computing sense"
+      },
+      {
+        "text": "Speaker identification in meeting transcripts",
+        "why": "diarisation, not biometric identification of persons at a distance"
+      },
+      {
+        "text": "Transcribes witness statements for a law firm",
+        "why": "no law-enforcement use under Annex III(6)"
+      }
+    ],
+    "hard_negatives": {
+      "provenance": "20 synthetic descriptions written by z-ai/glm-5.3-flash on 2026-09-19 from a brief that asked for systems sharing surface vocabulary with a regulated category while clearly falling outside all of them. Reviewed by hand before pinning.",
+      "texts": [
+        "Our fraud engine flags card transactions that don't fit a customer's usual spending pattern and blocks the payment until they confirm in the app.",
+        "We rank incoming sales leads by how likely they are to close, using company size, past email replies and website visits.",
+        "The pipeline scores candidate molecules against the target protein and cuts the lab's shortlist from two million compounds to fifty.",
+        "We transcribe hour-long user research interviews and highlight the moments where participants hesitate or correct themselves.",
+        "Our appliance watches network traffic for unusual patterns and quarantines a laptop the moment it talks to a suspicious address.",
+        "Vibration sensors feed our model, which predicts which conveyor motors in the plant will fail this month so crews service them first.",
+        "Our filter catches phishing and spam before it reaches anyone's inbox and learns from every message users mark as junk.",
+        "The editor underlines grammar slips and awkward phrasing as you type and suggests tighter wording for each sentence.",
+        "We suggest what to watch next based on the films a subscriber finished, abandoned or rated highly.",
+        "Our forecast predicts how many units of each product the warehouse will ship next quarter, so purchasing knows what to stock.",
+        "We read supplier invoices as they arrive, pull out the amounts and VAT numbers, and push them into accounting.",
+        "Our translation layer converts support tickets from German and Polish into English so agents in one hub can answer everything.",
+        "As the developer types, our assistant completes whole functions from the docstring and offers unit test stubs.",
+        "We combine satellite imagery and soil sensors to tell each farmer which fields need watering and which will yield best.",
+        "Our model reads product reviews and labels each one positive, negative or neutral so merchandisers can track reactions to a launch.",
+        "Cameras over the filling line spot bottles with crooked caps or low fill levels and pull them before packing.",
+        "Our storefront search reorders results for each shopper based on what similar customers clicked and bought.",
+        "After each standup, our bot turns the recording into short notes with owners and due dates for every action item.",
+        "Our planner sequences every van's drop-offs to cut fuel use and keep each delivery inside its promised window.",
+        "We pick the next track for each listener by matching tempo and energy to the songs they skipped or replayed."
+      ]
+    },
+    "adversarial_review": {
+      "provenance": "Sentences written by google/gemini-3.7-flash on 2026-09-19 in an adversarial review of the 1.5.1 patch itself. Each one came back high-risk or prohibited on the first version of the patch, because a multi-word keyword matched two unrelated words anywhere in the text. They led to the distance limit on multi-word keywords, the removal of the Art. 5(1)(b) phrases and two guard repairs.",
+      "texts": [
+        "Our educational coding game teaches children fundamental programming logic and encourages them to exploit puzzle shortcuts to earn bonus level badges.",
+        "Our interactive museum mobile application allows visiting children to manipulate 3D virtual planet models and mechanical exhibit simulations on their tablets.",
+        "Our analytics dashboard helps municipal case workers identify urban areas of concentrated poverty and exploit available state grant opportunities for community relief.",
+        "Our restaurant ordering platform analyzes weather trends to understand how sudden temperature drops influence customer election of warm soups over cold salads.",
+        "Our VoIP phone system automatically logs every customer support call and pages the on-call engineer during critical network emergency downtime incidents.",
+        "Our developer portal allows any registered API applicant to configure an automated cron job that retrieves updated weather observations every hour.",
+        "Our network monitoring appliance inspects web traffic, detects denial-of-service spikes, and sends a control signal to firewalls to throttle malicious IPs.",
+        "Our digital library search engine helps any history seeker locate digitised architectural blueprints of nineteenth-century lunatic asylum structures across Europe.",
+        "Our moderation platform detects the generation of CSAM and illegal imagery across user uploads, automatically blocking and reporting matching content to authorities.",
+        "Our banking security engine monitors credit score anomalies and sudden velocity shifts to detect synthetic identity fraud and unauthorized account takeover attempts."
+      ]
+    }
+  },
+  "canonical": [
+    {
+      "text": "We use an AI tool that screens incoming CVs and ranks job applicants for our recruiters. It scores candidates against the job description and recommends who to invite to interview.",
+      "risk_classification": "high-risk",
+      "annex_iii_category": 4,
+      "basis": "Annex III(4)(a): analyse and filter job applications, evaluate candidates. Returned insufficient_information in 1.5.0."
+    },
+    {
+      "text": "Our ATS screens incoming CVs against the job spec and auto-rejects anyone missing the right keywords before a recruiter looks.",
+      "risk_classification": "high-risk",
+      "annex_iii_category": 4,
+      "basis": "Annex III(4)(a)"
+    },
+    {
+      "text": "We score candidates' recorded video interviews for confidence and word choice; only the top tenth reach a human panel.",
+      "risk_classification": "high-risk",
+      "annex_iii_category": 4,
+      "basis": "Annex III(4)(a): evaluate candidates"
+    },
+    {
+      "text": "Our console listens to incoming emergency calls, ranks them by urgency and assigns the nearest ambulance automatically.",
+      "risk_classification": "high-risk",
+      "annex_iii_category": 5,
+      "basis": "Annex III(5)(d): evaluate and classify emergency calls, dispatch"
+    },
+    {
+      "text": "The immigration office uses our tool to assess asylum applications and flag inconsistencies in each applicant's account.",
+      "risk_classification": "high-risk",
+      "annex_iii_category": 7,
+      "basis": "Annex III(7)(c): examination of asylum applications by a competent authority"
+    },
+    {
+      "text": "Credit scoring of loan applicants with built-in fraud checks",
+      "risk_classification": "high-risk",
+      "annex_iii_category": 5,
+      "basis": "Annex III(5)(b): the fraud exception does not swallow a system that also scores credit"
+    },
+    {
+      "text": "AI to assist judges with legal research on pending cases",
+      "risk_classification": "high-risk",
+      "annex_iii_category": 8,
+      "basis": "Annex III(8)(a): use by a judicial authority"
+    },
+    {
+      "text": "Our LMS marks the essay questions in the end-of-year exam and the mark goes straight into the report card.",
+      "risk_classification": "high-risk",
+      "annex_iii_category": 3,
+      "basis": "Annex III(3)(b): evaluate learning outcomes"
+    },
+    {
+      "text": "We built a phone voice assistant that handles password resets and account questions for our bank's callers around the clock.",
+      "risk_classification": "limited",
+      "basis": "Art. 50(1): interacts directly with natural persons"
+    },
+    {
+      "text": "We run an image generation service that turns text prompts into marketing visuals for online shops.",
+      "risk_classification": "limited",
+      "basis": "Art. 50(2): generates synthetic text and image content"
+    }
+  ]
+}

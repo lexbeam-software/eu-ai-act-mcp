@@ -1,0 +1,17 @@
+{
+  "purpose": "Every lexbeam.com URL that src/ may contain. The behavior suite rejects anything else offline; scripts/check-links.mjs requests each entry during release verification.",
+  "verified_at": "2026-09-19",
+  "urls": [
+    "https://lexbeam.com",
+    "https://lexbeam.com/kontakt",
+    "https://lexbeam.com/wissen/provider-deployer-pflichten",
+    "https://lexbeam.com/de/wissen",
+    "https://lexbeam.com/de/wissen/ki-verordnung-klassifizierung",
+    "https://lexbeam.com/de/wissen/ki-verordnung-august-2026",
+    "https://lexbeam.com/de/wissen/provider-deployer-pflichten",
+    "https://lexbeam.com/de/wissen/ki-governance-framework",
+    "https://lexbeam.com/de/wissen/dokumentationspflichten-hochrisiko-ki",
+    "https://lexbeam.com/de/wissen/ki-verordnung-bussgelder-sanktionen",
+    "https://lexbeam.com/de/wissen/gpai-modelle-pflichten"
+  ]
+}

@@ -16,6 +16,19 @@
  *    (21%) - well below the 0.3 threshold - so the textbook Annex III(4) case
  *    was mis-classified as minimal risk.
  *
+ * Revised in v1.5.1 for a third root cause, a wide class of false positives:
+ *
+ * 3. Raw substring matching: the first check was `normalized.includes(keyword)`, which
+ *    ignores word boundaries and marked every hit "strong", single words included. One
+ *    strong hit classifies, so "for example" contained "exam" and returned high-risk
+ *    education, "determination" contained "termination" and returned high-risk
+ *    employment, "menu selection" contained "election", and the whole words in
+ *    "fix minor layout bugs" and "children's shoes" returned a PROHIBITED practice.
+ *    Matching now runs on whole tokens only, and a single-word keyword is weak evidence
+ *    unless the caller names it as decisive: a term of art that denotes the regulated
+ *    function by itself ("proctoring", "polygraph"), as opposed to an everyday or
+ *    sector word ("minor", "court", "visa", "migration").
+ *
  * The new API returns *per-keyword* match information plus a strong/weak signal,
  * and the classifier consumes absolute match counts rather than a fraction.
  * Not a replacement for legal analysis - first-pass grounding only.
@@ -54,38 +67,38 @@ export interface KeywordMatchResult {
  * - Single-word keyword: a text token must be a stem variant of the keyword,
  *   AND the shared stem must be at least 3 characters. If so → weak.
  */
-export function scoreKeywordMatch(text: string, keywords: string[]): KeywordMatchResult {
+export function scoreKeywordMatch(
+  text: string,
+  keywords: string[],
+  decisiveSingleWords: ReadonlySet<string> = new Set(),
+): KeywordMatchResult {
   if (keywords.length === 0) {
     return { matches: [], strongCount: 0, weakCount: 0, score: 0 };
   }
 
-  const normalized = normalizeText(text);
-  const textWords = normalized.split(" ").filter(Boolean);
+  const textWords = normalizeText(text).split(" ").filter(Boolean);
   const matches: KeywordMatch[] = [];
 
   for (const rawKw of keywords) {
     const kw = normalizeText(rawKw);
     if (!kw) continue;
 
-    // 1. Exact substring (handles phrases like "social scoring" within the text)
-    if (normalized.includes(kw)) {
-      matches.push({ keyword: rawKw, strength: "strong" });
-      continue;
-    }
-
     const kwWords = kw.split(" ").filter(Boolean);
 
     if (kwWords.length > 1) {
-      // 2. Multi-word keyword: require ALL words present (stem-tolerant)
-      const allPresent = kwWords.every((word) => textWords.some((tw) => stemMatches(tw, word)));
-      if (allPresent) matches.push({ keyword: rawKw, strength: "strong" });
+      // 1. Multi-word keyword: ALL words present as whole tokens (stem-tolerant), in any
+      //    order, and close together. Without the distance limit a two-word phrase is a bag
+      //    of words: "children ... exploit puzzle shortcuts" met "exploit children", and the
+      //    longer the description, the likelier two unrelated words were to meet.
+      if (wordsOccurTogether(textWords, kwWords)) matches.push({ keyword: rawKw, strength: "strong" });
       continue;
     }
 
-    // 3. Single-word keyword: any text token that shares a stem of length ≥ 3
-    const kwWord = kwWords[0];
-    const hit = textWords.some((tw) => stemMatches(tw, kwWord));
-    if (hit) matches.push({ keyword: rawKw, strength: "weak" });
+    // 2. Single-word keyword: a whole token that equals it or shares a stem of length ≥ 3.
+    //    Strong only for a decisive term of art; an everyday or sector word stays weak and
+    //    needs company before it classifies anything.
+    const hit = textWords.some((tw) => stemMatches(tw, kw));
+    if (hit) matches.push({ keyword: rawKw, strength: decisiveSingleWords.has(kw) ? "strong" : "weak" });
   }
 
   const strongCount = matches.filter((m) => m.strength === "strong").length;
@@ -93,6 +106,32 @@ export function scoreKeywordMatch(text: string, keywords: string[]): KeywordMatc
   const score = (strongCount + weakCount * 0.5) / keywords.length;
 
   return { matches, strongCount, weakCount, score };
+}
+
+/**
+ * Extra tokens a multi-word keyword may spread over. "screens incoming CVs" and
+ * "applicants for the job" fit; "children ... and encourages them to exploit" does not.
+ */
+const PHRASE_SLACK = 3;
+
+/** True when every keyword word matches a token inside one window of the text. */
+function wordsOccurTogether(textWords: string[], kwWords: string[]): boolean {
+  const hits: { position: number; word: number }[] = [];
+  textWords.forEach((token, position) => {
+    kwWords.forEach((kwWord, word) => {
+      if (stemMatches(token, kwWord)) hits.push({ position, word });
+    });
+  });
+  const limit = kwWords.length + PHRASE_SLACK;
+  for (let start = 0; start < hits.length; start += 1) {
+    const seen = new Set<number>();
+    for (let end = start; end < hits.length; end += 1) {
+      if (hits[end].position - hits[start].position + 1 > limit) break;
+      seen.add(hits[end].word);
+      if (seen.size === kwWords.length) return true;
+    }
+  }
+  return false;
 }
 
 /**

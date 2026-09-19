@@ -13,7 +13,7 @@ import { gpaiSystemicInputSchema } from "./dist/schemas/gpai-systemic.js";
 import { art6ExceptionInputSchema } from "./dist/schemas/art6.js";
 import { annexIvInputSchema } from "./dist/schemas/annex-iv.js";
 import { scoreKeywordMatch, calculateKeywordOverlap, findBestMatch } from "./dist/utils/matching.js";
-import { prohibitedPractices, annexIIICategories, transparencyTriggers } from "./dist/knowledge/annex-iii.js";
+import { prohibitedPractices, annexIIICategories, transparencyTriggers, decisiveSingleWordKeywords } from "./dist/knowledge/annex-iii.js";
 import {
   getMilestonesWithDaysRemaining,
   digitalOmnibus,
@@ -181,9 +181,9 @@ console.log("\n🛠️ MATCHING BUG REGRESSIONS");
 {
   const chatbotText = "ai chatbot for customer support that handles returns e commerce service";
   const emotionPractice = prohibitedPractices.find((p) => p.article === "Art. 5(1)(f)");
-  const hit = scoreKeywordMatch(chatbotText, emotionPractice.keywords);
+  const hit = scoreKeywordMatch(chatbotText, emotionPractice.keywords, decisiveSingleWordKeywords);
   test("chatbot text does NOT match Art. 5(1)(f) emotion keywords", hit.strongCount === 0);
-  test("chatbot text does NOT match ANY prohibited practice strongly", prohibitedPractices.every((p) => scoreKeywordMatch(chatbotText, p.keywords).strongCount === 0));
+  test("chatbot text does NOT match ANY prohibited practice strongly", prohibitedPractices.every((p) => scoreKeywordMatch(chatbotText, p.keywords, decisiveSingleWordKeywords).strongCount === 0));
 }
 
 // BUG 2: the old scoring divided matches by total keyword count, so realistic
@@ -193,7 +193,7 @@ console.log("\n🛠️ MATCHING BUG REGRESSIONS");
 {
   const recruitment = "ai system screens cvs and ranks candidates for hiring decisions recruitment";
   const ann4 = annexIIICategories.find((c) => c.number === 4);
-  const hit = scoreKeywordMatch(recruitment, ann4.keywords);
+  const hit = scoreKeywordMatch(recruitment, ann4.keywords, decisiveSingleWordKeywords);
   test("recruitment text strongly hits Annex III(4)", hit.strongCount >= 1);
 }
 
@@ -728,7 +728,7 @@ console.log("\n🚫 ART. 5 PROHIBITION KEYWORDS");
   for (const [text, practice] of shouldMatch) {
     test(
       `Art. 5 keywords match: "${text.slice(0, 44)}"`,
-      scoreKeywordMatch(text, practice.keywords).strongCount > 0,
+      scoreKeywordMatch(text, practice.keywords, decisiveSingleWordKeywords).strongCount > 0,
     );
   }
   const mustNotMatch = [
@@ -739,8 +739,8 @@ console.log("\n🚫 ART. 5 PROHIBITION KEYWORDS");
   for (const text of mustNotMatch) {
     test(
       `Art. 5 keywords do NOT match: "${text.slice(0, 44)}"`,
-      scoreKeywordMatch(text, ba.keywords).strongCount === 0 &&
-        scoreKeywordMatch(text, bb.keywords).strongCount === 0,
+      scoreKeywordMatch(text, ba.keywords, decisiveSingleWordKeywords).strongCount === 0 &&
+        scoreKeywordMatch(text, bb.keywords, decisiveSingleWordKeywords).strongCount === 0,
     );
   }
 }
@@ -2049,6 +2049,34 @@ console.log("\n🧩 ASSESS SYSTEM 1.5");
   test("assess: input ID order is normalized before decisioning",
     canonicalResponseHash(orderedProfileResult) === canonicalResponseHash(permutedProfileResult));
 
+  // Material influence without a consequence or a decision subject gives the impact
+  // block nothing to describe. 1.5.0 threw a TypeError on this input; it must abstain
+  // on impact and leave the legal classification exactly as it was.
+  const influenceOnlyProfile = loadProfile("contract-high-risk.json");
+  delete influenceOnlyProfile.decision_context.decision_consequence;
+  delete influenceOnlyProfile.decision_context.decision_subject;
+  const influenceOnlyResult = structured(await callTool("euaiact_assess_system", influenceOnlyProfile));
+  const contractHighRiskResult = await runAssessment("contract-high-risk.json");
+  test("assess: material influence without consequence or subject abstains on impact",
+    assessSystemResponseSchema.safeParse(influenceOnlyResult).success &&
+    influenceOnlyResult.impact.status === "undetermined" &&
+    influenceOnlyResult.missing_facts.some((fact) =>
+      fact.missing_fact_id === "missing.impact.consequence" && fact.decisive));
+  test("assess: abstaining on impact leaves the legal classification unchanged",
+    canonicalize(influenceOnlyResult.legal_classification) ===
+      canonicalize(contractHighRiskResult.legal_classification));
+
+  let internalFailureMessage = "";
+  try {
+    await callTool("euaiact_assess_system", null);
+  } catch (error) {
+    internalFailureMessage = error.message;
+  }
+  test("assess: an unexpected exception is reported as a server defect, not a bare runtime error",
+    internalFailureMessage.includes("internal server error") &&
+    internalFailureMessage.includes("not a finding about the described system") &&
+    internalFailureMessage.includes("Detail:"));
+
   const determinismHashes = [];
   for (let run = 0; run < 10; run++) {
     determinismHashes.push(canonicalResponseHash(await runAssessment("contract-high-risk.json")));
@@ -2078,6 +2106,85 @@ console.log("\n🧩 ASSESS SYSTEM 1.5");
   } finally {
     globalThis.Date = RealDate;
   }
+}
+
+// ─── FREE-TEXT GUARDS ───────────────────────────────────────────────────────
+// 1.5.0 matched keywords as raw substrings and treated every single word as decisive, so
+// "for example" came back as high-risk education and "fix minor layout bugs" as a
+// prohibited practice, while natural descriptions of the canonical recruitment case came
+// back as insufficient_information. The fixture pins both directions.
+console.log("\n🧷 FREE-TEXT GUARDS");
+{
+  const guards = JSON.parse(readFileSync("tests/fixtures/classify/free-text-guards.json", "utf8"));
+  const classify = async (description) =>
+    (await callTool("euaiact_classify_system", { description })).structuredContent;
+
+  const mustAbstain = [
+    ...guards.must_abstain.regressions.map((entry) => entry.text),
+    ...guards.must_abstain.hard_negatives.texts,
+    ...guards.must_abstain.adversarial_review.texts,
+  ];
+  const wronglyRegulated = [];
+  for (const text of mustAbstain) {
+    const result = await classify(text);
+    if (result.risk_classification === "high-risk" || result.risk_classification === "prohibited") {
+      wronglyRegulated.push(`${result.risk_classification}: ${text}`);
+    }
+  }
+  for (const line of wronglyRegulated) console.log(`     ${line}`);
+  test(`free text: none of ${mustAbstain.length} everyday descriptions is high-risk or prohibited`,
+    mustAbstain.length === 56 && wronglyRegulated.length === 0);
+
+  for (const entry of guards.canonical) {
+    const result = await classify(entry.text);
+    test(`free text canonical: ${entry.basis.split(":")[0]} <- "${entry.text.slice(0, 48)}"`,
+      result.risk_classification === entry.risk_classification &&
+      (entry.annex_iii_category === undefined ||
+        result.annex_iii_category?.number === entry.annex_iii_category));
+  }
+
+  const strength = (text, keyword) =>
+    scoreKeywordMatch(text, [keyword], decisiveSingleWordKeywords).matches[0]?.strength ?? "none";
+  test("matcher: a keyword inside a longer word is not a match",
+    strength("for example", "exam") === "none" &&
+    strength("menu selection", "election") === "none" &&
+    strength("determination of the rate", "termination") === "none");
+  test("matcher: an everyday single word is weak, a decisive term of art is strong",
+    strength("eye exams", "exam") === "weak" &&
+    strength("minor bugs", "minor") === "weak" &&
+    strength("remote proctoring", "proctoring") === "strong");
+  test("matcher: a multi-word keyword still matches across inflection and word order",
+    strength("the tool screens incoming CVs", "screen CVs") === "strong" &&
+    strength("CVs are screened overnight", "screen CVs") === "strong");
+  test("matcher: a multi-word keyword does not match two unrelated words far apart",
+    strength("teaches children programming logic and encourages them to exploit puzzle shortcuts", "exploit children") === "none" &&
+    strength("inspects web traffic, detects spikes, and sends a control signal to firewalls", "traffic signal control") === "none");
+  // A new decisive single word is a reviewed decision, not a convenience.
+  test("matcher: the decisive single-word set is the reviewed one",
+    [...decisiveSingleWordKeywords].sort().join(",") ===
+      "chatbot,creditworthiness,csam,deepfake,hiring,judicial,nudification,nudify,polygraph,proctoring,recruitment,sentencing,subliminal,undress");
+}
+
+// ─── SITE LINKS ─────────────────────────────────────────────────────────────
+// 1.5.0 shipped 23 lexbeam.com links to pages that do not exist. This runs offline: it
+// holds src/ to an allowlist of known live pages. scripts/check-links.mjs requests the
+// same pages over the network during release verification.
+console.log("\n🔗 SITE LINKS");
+{
+  const { collectSiteUrls } = await import("./scripts/site-links.mjs");
+  const { faqDatabase } = await import("./dist/knowledge/faq-database.js");
+  const knownLive = new Set(
+    JSON.parse(readFileSync("tests/fixtures/site/known-live-urls.json", "utf8")).urls,
+  );
+  const inSource = collectSiteUrls(["src"], [".ts"]);
+  const unknown = [...inSource.keys()].filter((url) => !knownLive.has(url));
+  if (unknown.length > 0) console.log(`     not in known-live-urls.json: ${unknown.join(", ")}`);
+  test("site links: every lexbeam.com URL in src/ is a known live page", unknown.length === 0);
+  test("site links: the scan sees literal URLs and BRANDING.baseUrl templates alike",
+    inSource.has("https://lexbeam.com/kontakt") &&
+    inSource.has("https://lexbeam.com/de/wissen/ki-verordnung-klassifizierung"));
+  test("site links: all 24 FAQ entries link to a known live page",
+    faqDatabase.length === 24 && faqDatabase.every((entry) => knownLive.has(entry.lexbeamUrl)));
 }
 
 // ─── SUMMARY ────────────────────────────────────────────────────────────────

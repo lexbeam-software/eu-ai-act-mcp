@@ -48,6 +48,15 @@ publication lifecycle scripts recursively, installs it into an isolated temporar
 project, and calls all 12 golden profiles through the packed MCP server over stdio.
 The responses must match the pinned RFC 8785 SHA-256 hashes.
 
+It then requests every lexbeam.com URL the package publishes: the compiled server,
+`README.md`, the package metadata, and the allowlist in
+`tests/fixtures/site/known-live-urls.json`. A URL that does not answer 200 fails the
+release. This is the only gate that needs the network, which is why it belongs here
+and not in `npm run verify`. The canonical behavior suite holds `src/` to the same
+allowlist offline, so a link to a page that does not exist fails CI long before a
+release. When the site gains or renames a page, update the allowlist;
+`npm run check:links` runs the network check on its own.
+
 The command also generates an SPDX runtime SBOM with `npm sbom` and writes an
 ignored `release-evidence/` directory containing:
 

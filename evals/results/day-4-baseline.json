@@ -4,7 +4,7 @@
   "subject": {
     "tool": "euaiact_assess_system",
     "package": "@lexbeam-software/eu-ai-act-mcp",
-    "package_version": "1.5.0",
+    "package_version": "1.5.1",
     "decision_contract_version": "1.2",
     "law_corpus_id": "eu-ai-act-2026-07-27"
   },
@@ -60,7 +60,7 @@
             "operative_date": "2027-12-02"
           }
         ],
-        "canonical_sha256": "4624da1811bf86e836b51345ee6ca92114e963c7ab5b8694ff0f5b63ad21de24",
+        "canonical_sha256": "5da46d9617b7341c354e09c45f71fcec4fd1a674c96b10d8825acfd176941fd1",
         "canonical_bytes": 28306
       },
       "metrics": {
@@ -152,7 +152,7 @@
             "operative_date": "2027-12-02"
           }
         ],
-        "canonical_sha256": "aaa753ca2d48387b9a8549933dd51ea35d04d3f45eb201b6dcf1bf50e9282c7a",
+        "canonical_sha256": "d0b760a87d27bf8fa4ea08179dd085050661f3a909055099f4b1e88abae3ff85",
         "canonical_bytes": 25906
       },
       "metrics": {
@@ -244,7 +244,7 @@
             "operative_date": "2027-12-02"
           }
         ],
-        "canonical_sha256": "9687300b971bed42792f5bd428580e606f2232b42f526321884cd33bd5d104d5",
+        "canonical_sha256": "adf9f02c8c142af89594132479eb0986de6d0909967607ce61c55554e66515db",
         "canonical_bytes": 23617
       },
       "metrics": {
@@ -336,7 +336,7 @@
             "operative_date": "2027-12-02"
           }
         ],
-        "canonical_sha256": "2b0bb1ff979b1e2fb5353e2d2f33f7a4410f04601844810454653ff76d62a980",
+        "canonical_sha256": "a34385ce91963b87f6c2100cc0490555a7e0f0a77af0a5717103de108b9fdb91",
         "canonical_bytes": 28269
       },
       "metrics": {
@@ -430,7 +430,7 @@
             "operative_date": "2028-08-02"
           }
         ],
-        "canonical_sha256": "cd4a602d471e5f2f80cd02718ed303a47dbf43b907160d54f973db4e12992b2c",
+        "canonical_sha256": "310f6858194283582da4db28eaaa9189bcb0860df8d924acb4386fd646f06cf0",
         "canonical_bytes": 26937
       },
       "metrics": {
@@ -519,7 +519,7 @@
             "operative_date": "2025-02-02"
           }
         ],
-        "canonical_sha256": "49ef967252a2aa79cc420af88c5844540be05d5dad343b38432cae3bdac2bb6c",
+        "canonical_sha256": "e8ebcdeaca3284613cccfc18c55877a0b77f62fc215ba4b9507f194d8f576439",
         "canonical_bytes": 11274
       },
       "metrics": {
@@ -609,7 +609,7 @@
             "operative_date": "2026-12-02"
           }
         ],
-        "canonical_sha256": "be61b2e28a1d6560653c8057ac9124dbcd059b1fba4bf4fe2dbb18605b5b46b2",
+        "canonical_sha256": "4547427e2fb87e2a9e2f6707380959234f375e1f1aa3ef0542162cce0008e1af",
         "canonical_bytes": 10520
       },
       "metrics": {
@@ -699,7 +699,7 @@
             "operative_date": "2026-12-02"
           }
         ],
-        "canonical_sha256": "cd121a3124719dcb339cdc303a12054ef36a51196300c6abfbe3442b6fbc99ce",
+        "canonical_sha256": "bb28fc7e5f19f284c1f0718e05e8799c59c1800f19b276a21703469d7e65c9b3",
         "canonical_bytes": 10093
       },
       "metrics": {
@@ -789,7 +789,7 @@
             "operative_date": "2026-08-02"
           }
         ],
-        "canonical_sha256": "eb35149c7810f1add5e543ee3f52c117e870e2f38339933777cd0a776c6cb381",
+        "canonical_sha256": "e551751d2b110ea60c4f624986d87fa946a258ca9349de3ec00142f045e0b1d7",
         "canonical_bytes": 12022
       },
       "metrics": {
@@ -878,7 +878,7 @@
             "operative_date": "2026-08-02"
           }
         ],
-        "canonical_sha256": "d8b7a111a5acd5264140a0216a4d4779bdb9f2596ed6d5b875bdb6003e61056f",
+        "canonical_sha256": "a0b33d7c43806e2c9ed0ea9231d62a1efee6b7b00f11a98b1356a278a714577d",
         "canonical_bytes": 12796
       },
       "metrics": {
@@ -973,7 +973,7 @@
             "operative_date": "2026-08-02"
           }
         ],
-        "canonical_sha256": "41f9016a1b8835642dda8cba45574720c6673b7fb344e7299866cd83d4c3f0a5",
+        "canonical_sha256": "6285b18aa769c71507f0351039678ed8ff098b98698106369993442c33e4d959",
         "canonical_bytes": 17341
       },
       "metrics": {
@@ -1079,7 +1079,7 @@
             "operative_date": "2025-08-02"
           }
         ],
-        "canonical_sha256": "b963d4768a3a30f701c6ee834f6b56ec78be852d1a10dd4ebc75efc241af2b99",
+        "canonical_sha256": "494e8c36d6604b8fd34b3b3c48177a2f3c160ec1877a3231b189f828dff836b2",
         "canonical_bytes": 24624
       },
       "metrics": {
@@ -1169,7 +1169,7 @@
             "operative_date": "2025-02-02"
           }
         ],
-        "canonical_sha256": "e87faf7f8cfe938ebf5790d1b6252c252f10d77ca9e3367ddba46e55c924e0fe",
+        "canonical_sha256": "3e203cd7e921ac9a8fdbf16321297ac358986d69eca237fb4b119cb796a1628b",
         "canonical_bytes": 14415
       },
       "metrics": {
@@ -1282,7 +1282,7 @@
             "operative_date": "2027-12-02"
           }
         ],
-        "canonical_sha256": "d10a4cdd861dc8b0950c66d7900b5801ba3d1de0872ce174a0fa32a116d8be9d",
+        "canonical_sha256": "556303b022aa167369b6b5872feb00cc19266e8e72ae68e167d5e414ba1fab20",
         "canonical_bytes": 23263
       },
       "metrics": {
@@ -1366,7 +1366,7 @@
           "missing.intended-purpose"
         ],
         "legal_anchors": [],
-        "canonical_sha256": "fb5853fc3cf34262c0cb0815ba4f8de766bd2872402f330a04bfd68e328e8233",
+        "canonical_sha256": "15c9223b4c0a4f8fb0ac94958e2f651774d648254a9722bc46f126cfd0757b03",
         "canonical_bytes": 4122
       },
       "metrics": {
@@ -1453,7 +1453,7 @@
           "missing.intended-purpose"
         ],
         "legal_anchors": [],
-        "canonical_sha256": "60baa41f5da11960de199da935022954a72ceac193c6d04b9b9a299e8da5ea00",
+        "canonical_sha256": "d5036ea52ba1069fbfb1e96fa80a77f1493ad9aefef246fe6779ef8b2069378d",
         "canonical_bytes": 4741
       },
       "metrics": {
@@ -1541,7 +1541,7 @@
             "operative_date": "2025-02-02"
           }
         ],
-        "canonical_sha256": "4ee5b8ed236051c3cdf43ae6f1d20a60c15be8384e81166616f91d157770607a",
+        "canonical_sha256": "c7246f562ece843f68124d43bf90804d963e3a7a85ef31346963cc7e26a3eaab",
         "canonical_bytes": 3968
       },
       "metrics": {
@@ -1626,7 +1626,7 @@
           "missing.legal.jurisdiction"
         ],
         "legal_anchors": [],
-        "canonical_sha256": "6d11636b1d971086a5311ac85d5b81a9ad35716dd87cb0be1397fce2bf1561f7",
+        "canonical_sha256": "96a07a5ca6c5a0c34e77053c457c048fbd85c9120020c1b9621fb35deca36bea",
         "canonical_bytes": 12867
       },
       "metrics": {
@@ -1711,7 +1711,7 @@
           "missing.classification-context"
         ],
         "legal_anchors": [],
-        "canonical_sha256": "c71d0ca7e6c2b030b85ed3ae4a6e2818efee5680aaec4d578beb574f58b22b9c",
+        "canonical_sha256": "83131b32c3ca9281224b573e5fefda62397cb7e759e21db602a4185b8a193b33",
         "canonical_bytes": 10110
       },
       "metrics": {
@@ -1826,7 +1826,7 @@
             "operative_date": "2027-12-02"
           }
         ],
-        "canonical_sha256": "c46fda35e96c4c1006eb2fd891c9f1ff91a9e25ca25c6605ad196b98a3499c2e",
+        "canonical_sha256": "e61c913186d9fbe43b2adcc814fe9db90c1e560e541e197ee6cf7081ec6bf598",
         "canonical_bytes": 25137
       },
       "metrics": {

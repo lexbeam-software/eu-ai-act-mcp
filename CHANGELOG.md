@@ -6,6 +6,81 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.5.1] - 2026-09-19
+
+Front-door patch. The legal content, the decision contract and the structured-signals
+path are unchanged. Every fix sits in what a caller touches first: free-text
+classification, the links inside answers, and error handling.
+
+### Fixed
+
+- **Free text regulated everyday wording.** Keywords matched as raw substrings and every
+  hit counted as decisive, single words included. "Fix minor layout bugs" and "demand for
+  children's shoes" returned a prohibited practice; "for example", "determination",
+  "menu selection", "cloud migration", "tennis court" and "Visa card" returned high-risk.
+  Keywords now match whole words only, the words of a multi-word keyword must stand close
+  together, a single everyday or sector word is weak evidence, and a prohibited practice
+  is never concluded from weak evidence alone.
+- **Phrase keywords over-reached against the statutory text.** Card-fraud scoring returned
+  high-risk although Annex III(5)(b) excepts systems used for detecting financial fraud.
+  Private legal research returned high-risk although Annex III(8)(a) covers use by a
+  judicial authority or on its behalf. A CSAM detection classifier and child-protection
+  case management returned a prohibited practice although Art. 5(1)(ba) and (bb) cover
+  systems that generate or manipulate the material.
+- **Free text missed the canonical recruitment case in natural wording.** "Screens incoming
+  CVs and ranks job applicants" returned `insufficient_information`. Function phrases from
+  the Annex wording now cover it and its neighbours in Annex III(3), (5), (7) and (8) and
+  Art. 50(1) and (2).
+- **`euaiact_assess_system` threw a raw `TypeError`** for a profile with a determinable
+  classification, affected groups and `materially_influences_decision: true`, but neither
+  `decision_consequence` nor `decision_subject`. The impact block now abstains with the
+  decisive missing fact `missing.impact.consequence`, and the legal classification is
+  untouched. An unexpected exception in the tool is reported as a server defect that
+  produced no result, never as a bare runtime message.
+- **24 lexbeam.com links returned 404**: the `lexbeam_url` of every
+  `euaiact_classify_system` response, and the deep links of 23 of the 24 FAQ answers.
+  Every answer now links to a page that exists and covers its topic; four topics without
+  an article point at the knowledge-base index.
+
+### Changed
+
+- Fourteen single words remain decisive on their own, each a term of art that names the
+  regulated function or, for "judicial", its defining user. The behavior suite pins the
+  set, so an addition is a reviewed decision.
+- Removed the keywords "legal research" and "child protection". Added exclusion guards for
+  fraud detection under Annex III(5)(b) and for detection-only tools under Art. 5(1)(ba)
+  and (bb).
+- Release verification gains a "Site links" gate that requests every lexbeam.com URL the
+  package publishes; `npm run check:links` runs it alone. The behavior suite holds `src/`
+  to an allowlist of known live pages offline.
+- Rewrote the `smithery.yaml` listing description to state the operative law basis, the
+  deterministic tool set, the fail-closed behaviour on sparse input, and the absence of
+  API keys and telemetry.
+
+### Verification
+
+- `tests/fixtures/classify/free-text-guards.json` pins 56 everyday descriptions that may
+  never be high-risk or prohibited and 10 canonical descriptions that must reach their
+  tier. Published 1.5.0 regulates 25 of the 56, eight of them as prohibited, and
+  recognises 4 of the 10; this release regulates none and recognises all ten. Ten of the
+  56 come from an adversarial second-model review of this patch, which found that its
+  first version let multi-word keywords match unrelated words far apart.
+- Regenerated the twelve golden contract responses, their pinned RFC 8785 hashes and the
+  `day-4-baseline` evaluation record for the version string only; no assessment result
+  changed. The atomic-tools compatibility baseline moved for `euaiact_classify_system` and
+  `euaiact_answer_question`, in each case in `lexbeam_url` alone.
+
+### Known limits
+
+- Free-text recall stays limited, by design and by measurement. On three sets of 76
+  natural descriptions of regulated systems, written by three other models under a brief
+  that forbade the regulation's own terms, 1.5.0 recognised 14, 32 and 17 and this release
+  recognises 17, 27 and 15; both reject all 60 hard negatives in those sets bar one in
+  1.5.0. The precision fixes cost a little recall where 1.5.0 relied on a single sector
+  word. A description the text path does not recognise returns
+  `insufficient_information` with the signals to supply; the structured-signals path
+  remains the deterministic route.
+
 ## [1.5.0] - 2026-08-14
 
 Decision-contract and verification release. It adds one bounded assessment tool,

@@ -43,6 +43,36 @@ export interface TransparencyTrigger {
 // Annex III - High-Risk AI System Categories
 // ---------------------------------------------------------------------------
 
+/**
+ * Single-word keywords that classify on their own. Each one is a term of art that, in a
+ * description of an AI system, names the regulated function by itself, or in the case of
+ * "judicial" the user whose involvement defines Annex III(8)(a). Every other
+ * single-word keyword in the lists below is weak evidence: it counts only beside a
+ * second hit in the same category, and never on its own towards a prohibited practice.
+ *
+ * Keep this list short and add to it deliberately. Everyday and sector words ("minor",
+ * "children", "court", "visa", "exam", "migration", "promotion", "termination") are
+ * exactly what 1.5.0 treated as decisive, which returned a prohibited practice for
+ * "fix minor layout bugs" and high-risk employment for "determination of the VAT rate".
+ * The behavior suite pins this set, so a new entry is a reviewed decision.
+ */
+export const decisiveSingleWordKeywords: ReadonlySet<string> = new Set([
+  "proctoring",
+  "recruitment",
+  "hiring",
+  "creditworthiness",
+  "polygraph",
+  "judicial",
+  "sentencing",
+  "subliminal",
+  "nudification",
+  "nudify",
+  "undress",
+  "csam",
+  "chatbot",
+  "deepfake",
+]);
+
 export const annexIIICategories: HighRiskCategory[] = [
   {
     number: 1,
@@ -58,7 +88,7 @@ export const annexIIICategories: HighRiskCategory[] = [
     keywords: [
       "remote biometric identification", "facial recognition", "emotion recognition",
       "biometric identification", "biometric categorisation", "iris scan",
-      "fingerprint recognition", "gait recognition", "voice biometric",
+      "fingerprint recognition", "gait recognition", "voice biometric", "face recognition",
     ],
     relevantArticles: ["Annex III(1)", "Art. 6(2)", "Art. 5(1)(f)", "Art. 5(1)(g)", "Art. 5(1)(h)", "Art. 26(10)"],
   },
@@ -78,6 +108,7 @@ export const annexIIICategories: HighRiskCategory[] = [
       "critical infrastructure", "traffic management", "electricity grid", "power grid",
       "water supply", "gas supply", "heating supply", "road traffic", "safety component",
       "digital infrastructure", "energy management",
+      "traffic signal control", "district heating control", "gas network control", "water treatment control",
     ],
     relevantArticles: ["Annex III(2)", "Art. 6(2)"],
   },
@@ -97,6 +128,8 @@ export const annexIIICategories: HighRiskCategory[] = [
       "education", "admissions", "grading", "exam", "proctoring", "student assessment",
       "learning outcome", "vocational training", "school placement", "test monitoring",
       "academic evaluation",
+      "student admission", "university admission", "school admission", "exam grading", "exam marking",
+      "essay grading", "essay marking", "student grading", "exam monitoring",
     ],
     relevantArticles: ["Annex III(3)", "Art. 6(2)"],
   },
@@ -116,6 +149,8 @@ export const annexIIICategories: HighRiskCategory[] = [
       "recruitment", "hiring", "CV screening", "resume screening", "candidate evaluation",
       "job application", "employee monitoring", "workforce management", "promotion",
       "termination", "task allocation", "performance evaluation", "HR AI", "talent acquisition",
+      "job applicant", "screen CVs", "screen resumes", "applicant tracking", "candidate interview",
+      "employee promotion", "employee termination", "employee dismissal",
     ],
     relevantArticles: ["Annex III(4)", "Art. 6(2)", "Art. 26(7)", "Art. 27"],
   },
@@ -135,6 +170,7 @@ export const annexIIICategories: HighRiskCategory[] = [
       "credit scoring", "creditworthiness", "life insurance", "health insurance", "life and health insurance", "social benefits", "public assistance",
       "healthcare access", "emergency dispatch", "loan approval", "life insurance risk assessment", "health insurance pricing",
       "essential public assistance", "benefit eligibility",
+      "credit score", "emergency call", "housing benefit", "welfare benefit", "unemployment benefit",
     ],
     relevantArticles: ["Annex III(5)", "Art. 6(2)"],
   },
@@ -154,6 +190,7 @@ export const annexIIICategories: HighRiskCategory[] = [
       "victim risk assessment", "criminal offence risk assessment", "polygraph",
       "lie detection", "criminal profiling", "evidence assessment",
       "recidivism prediction", "risk assessment law enforcement", "profiling natural persons criminal",
+      "evidence reliability", "reoffending risk", "re-offending risk", "parole board", "suspect profiling",
     ],
     relevantArticles: ["Annex III(6)", "Art. 5(1)(d)", "Art. 6(2)"],
   },
@@ -172,6 +209,9 @@ export const annexIIICategories: HighRiskCategory[] = [
       "migration", "asylum", "border control", "visa", "residence permit",
       "immigration", "border security", "refugee",
       "irregular migration",
+      "asylum application", "asylum claim", "visa application risk", "visa application assessment",
+      "visa application examination", "examine visa application", "residence permit application",
+      "asylum seeker", "asylum applicant", "visa applicant", "visa overstay",
     ],
     relevantArticles: ["Annex III(7)", "Art. 6(2)"],
   },
@@ -188,9 +228,12 @@ export const annexIIICategories: HighRiskCategory[] = [
       "AI chatbots deployed to influence referendum outcomes",
     ],
     keywords: [
-      "judicial", "court", "sentencing", "legal research", "election", "referendum",
+      "judicial", "court", "sentencing", "election", "referendum",
       "voting", "political messaging", "administration of justice", "judicial decision",
       "democratic process",
+      "judicial authority", "assist judges", "influence voters", "influence election outcome",
+      "voter targeting", "persuade voters",
+      "judge", "magistrate", "appellate",
     ],
     relevantArticles: ["Annex III(8)", "Art. 6(2)"],
   },
@@ -252,7 +295,7 @@ export const prohibitedPractices: ProhibitedPractice[] = [
       "Generative systems whose intended purpose is producing child sexual abuse material",
       "Image models offered with the reasonably foreseeable and reproducible capability to produce such material absent adequate safeguards",
     ],
-    keywords: ["csam", "child sexual abuse", "minor", "directive 2011/93", "child protection"],
+    keywords: ["csam", "child sexual abuse", "minor", "directive 2011/93"],
     article: "Art. 5(1)(bb)",
   },
   {
@@ -411,7 +454,7 @@ export const transparencyTriggers: TransparencyTrigger[] = [
       "AI-powered voice bots in call centres",
       "Conversational AI in messaging apps",
     ],
-    keywords: ["chatbot", "virtual assistant", "conversational AI", "voice bot", "customer service AI"],
+    keywords: ["chatbot", "virtual assistant", "conversational AI", "voice bot", "customer service AI", "voice assistant", "conversational assistant"],
     article: "Art. 50(1)",
   },
   {
@@ -438,7 +481,7 @@ export const transparencyTriggers: TransparencyTrigger[] = [
       "AI-generated news articles or social media posts on public interest topics",
       "Synthetic media for marketing or entertainment",
     ],
-    keywords: ["deepfake", "deep fake", "synthetic content", "AI-generated", "synthetic media", "voice cloning", "generated text"],
+    keywords: ["deepfake", "deep fake", "synthetic content", "AI-generated", "synthetic media", "voice cloning", "generated text", "voice clone"],
     article: "Art. 50(4)",
   },
   {
@@ -451,7 +494,11 @@ export const transparencyTriggers: TransparencyTrigger[] = [
       "Embedding provenance data in AI-generated audio files",
       "Content authenticity metadata in AI-produced videos",
     ],
-    keywords: ["watermark", "content marking", "provenance", "machine-readable", "content authenticity"],
+    keywords: [
+      "watermark", "content marking", "provenance", "machine-readable", "content authenticity",
+      "image generation", "text generation", "video generation", "audio generation",
+      "generate images", "generate text", "generate video",
+    ],
     article: "Art. 50(2)",
   },
 ];

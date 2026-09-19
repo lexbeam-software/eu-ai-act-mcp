@@ -1,6 +1,13 @@
 name: lexbeam-eu-ai-act-mcp-server
-description: "EU AI Act compliance MCP server with 9 tools: risk classification (with structured signals), article lookup, GPAI systemic risk check, Art. 6(3) exception assessment, Annex IV checklist, deadlines (Digital Omnibus enacted, Regulation (EU) 2026/1744), obligations, penalties, and FAQ. By Lexbeam Software."
-version: 1.5.0
+description: |-
+  EU AI Act compliance for AI agents, grounded in Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744 (Digital Omnibus, in force 27 July 2026). Operative law is the default in every answer; pending changes are opt-in and labelled by source status.
+
+  Ten deterministic tools, no LLM in the loop, so the same input always returns the same output. euaiact_assess_system takes one normalized system profile and returns separate legal-classification, impact and implementation-readiness blocks with field-level provenance. euaiact_classify_system returns a risk tier (prohibited, high-risk, limited, minimal) from free text or structured signals, naming both the signals it matched and the ones it still needs. The rest cover Annex III and Annex IV, provider and deployer obligations, the Art. 6(3) exception including the profiling carve-out, GPAI systemic risk at the Art. 51 threshold of 10^25 FLOPs, penalties, deadlines, and article lookup with stable EUR-Lex citations. Five resources and four prompts included.
+
+  Sparse input fails closed: the server answers "undetermined" and names the decisive missing facts instead of guessing a classification.
+
+  No API key, no telemetry, two runtime dependencies; installed locally it makes no network calls. MIT licensed. A first-pass technical output, not legal advice and not certification. By Lexbeam Software.
+version: 1.5.1
 command: npx
 args:
   - -y
