@@ -1575,6 +1575,27 @@ function impactCategories(profile: SystemProfile): AssessSystemResponse["impact"
   return [...categories].sort(compareUnicodeCodePoints) as ReturnType<typeof impactCategories>;
 }
 
+/**
+ * The inherent-impact sentence, or undefined when the supplied decision facts give
+ * it nothing to describe. Material influence on its own names no effect: it needs a
+ * consequence or a decision subject beside it. Only an explicit statement that the
+ * output does not materially influence the decision stands alone.
+ */
+function inherentImpactDescription(
+  consequenceFact: FactUsed | undefined,
+  decisionSubjectFact: FactUsed | undefined,
+  materialInfluenceFact: FactUsed | undefined,
+): string | undefined {
+  if (materialInfluenceFact?.value === false) {
+    return "The supplied facts describe limited decision influence. This impact statement does not change any legal classification route.";
+  }
+  if (consequenceFact) return `The supplied consequence is: ${String(consequenceFact.value)}.`;
+  if (decisionSubjectFact) {
+    return `The supplied decision subject is: ${String(decisionSubjectFact.value)}.`;
+  }
+  return undefined;
+}
+
 function assessImpact(
   context: AssessmentContext,
   legal: LegalResult,
@@ -1630,7 +1651,12 @@ function assessImpact(
       affected_blocks: ["impact"],
     });
   }
-  if (!consequenceFact && !materialInfluenceFact && !decisionSubjectFact) {
+  const inherentDescription = inherentImpactDescription(
+    consequenceFact,
+    decisionSubjectFact,
+    materialInfluenceFact,
+  );
+  if (inherentDescription === undefined) {
     addMissing(context, {
       missing_fact_id: "missing.impact.consequence",
       profile_path: "/decision_context/decision_consequence",
@@ -1658,7 +1684,7 @@ function assessImpact(
   );
   controls.sort((left, right) => compareUnicodeCodePoints(left.control_id, right.control_id));
 
-  if (groupFacts.length === 0 || (!consequenceFact && !materialInfluenceFact && !decisionSubjectFact)) {
+  if (groupFacts.length === 0 || inherentDescription === undefined) {
     return {
       schema_version: "1.0",
       status: "undetermined",
@@ -1701,12 +1727,6 @@ function assessImpact(
     context,
     impactSignalFacts.map((fact) => fact.fact_id),
   );
-  const lowImpactStatement = materialInfluenceFact?.value === false;
-  const inherentDescription = lowImpactStatement
-    ? "The supplied facts describe limited decision influence. This impact statement does not change any legal classification route."
-    : consequenceFact
-      ? `The supplied consequence is: ${String(consequenceFact.value)}.`
-      : `The supplied decision subject is: ${String(decisionSubjectFact!.value)}.`;
   const testedControls = controls.filter((control) => control.implementation_state === "tested");
   const residualDescription =
     testedControls.length > 0

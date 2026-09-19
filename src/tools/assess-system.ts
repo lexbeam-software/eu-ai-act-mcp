@@ -7,6 +7,23 @@ import {
 } from "../decision-contract/index.js";
 import { assessSystem } from "../decision-contract/assess-system.js";
 
+const ISSUES_URL = "https://github.com/lexbeam-software/eu-ai-act-mcp/issues";
+
+/**
+ * An unexpected exception is a defect in this server, never a finding about the
+ * caller's system. Say so in words an agent can relay instead of surfacing a bare
+ * runtime message, and keep the original message for the bug report.
+ */
+function internalFailure(error: unknown): Error {
+  const detail = error instanceof Error ? error.message : String(error);
+  return new Error(
+    "euaiact_assess_system could not complete this assessment because of an internal server error. " +
+      "This is a defect in the server, not a finding about the described system: no legal classification, " +
+      "impact or readiness result was produced, and none should be inferred. " +
+      `Please report the input at ${ISSUES_URL}. Detail: ${detail}`,
+  );
+}
+
 export function registerAssessSystemTool(server: McpServer): void {
   server.registerTool(
     "euaiact_assess_system",
@@ -25,7 +42,12 @@ export function registerAssessSystemTool(server: McpServer): void {
     async (
       input: SystemProfile,
     ): Promise<{ content: any[]; structuredContent: AssessSystemResponse }> => {
-      const output = await assessSystem(input);
+      let output: AssessSystemResponse;
+      try {
+        output = await assessSystem(input);
+      } catch (error) {
+        throw internalFailure(error);
+      }
       return {
         content: [{ type: "text", text: JSON.stringify(output, null, 2) }],
         structuredContent: output,

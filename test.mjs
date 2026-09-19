@@ -2049,6 +2049,34 @@ console.log("\n🧩 ASSESS SYSTEM 1.5");
   test("assess: input ID order is normalized before decisioning",
     canonicalResponseHash(orderedProfileResult) === canonicalResponseHash(permutedProfileResult));
 
+  // Material influence without a consequence or a decision subject gives the impact
+  // block nothing to describe. 1.5.0 threw a TypeError on this input; it must abstain
+  // on impact and leave the legal classification exactly as it was.
+  const influenceOnlyProfile = loadProfile("contract-high-risk.json");
+  delete influenceOnlyProfile.decision_context.decision_consequence;
+  delete influenceOnlyProfile.decision_context.decision_subject;
+  const influenceOnlyResult = structured(await callTool("euaiact_assess_system", influenceOnlyProfile));
+  const contractHighRiskResult = await runAssessment("contract-high-risk.json");
+  test("assess: material influence without consequence or subject abstains on impact",
+    assessSystemResponseSchema.safeParse(influenceOnlyResult).success &&
+    influenceOnlyResult.impact.status === "undetermined" &&
+    influenceOnlyResult.missing_facts.some((fact) =>
+      fact.missing_fact_id === "missing.impact.consequence" && fact.decisive));
+  test("assess: abstaining on impact leaves the legal classification unchanged",
+    canonicalize(influenceOnlyResult.legal_classification) ===
+      canonicalize(contractHighRiskResult.legal_classification));
+
+  let internalFailureMessage = "";
+  try {
+    await callTool("euaiact_assess_system", null);
+  } catch (error) {
+    internalFailureMessage = error.message;
+  }
+  test("assess: an unexpected exception is reported as a server defect, not a bare runtime error",
+    internalFailureMessage.includes("internal server error") &&
+    internalFailureMessage.includes("not a finding about the described system") &&
+    internalFailureMessage.includes("Detail:"));
+
   const determinismHashes = [];
   for (let run = 0; run < 10; run++) {
     determinismHashes.push(canonicalResponseHash(await runAssessment("contract-high-risk.json")));
