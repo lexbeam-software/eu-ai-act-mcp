@@ -39,13 +39,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      # Follows the workflow in the npm trusted-publishing documentation: the registry URL
-      # without a token, and no package cache in a release build.
+      # No package cache in a release build, and deliberately no `registry-url`: with it,
+      # setup-node writes an .npmrc holding the placeholder token XXXXX-XXXXX-XXXXX-XXXXX. npm
+      # logs a failed OIDC exchange only in its debug file and then falls back to that
+      # placeholder, so the first real run ended in a misleading "E401, your authentication
+      # token seems to be invalid". Without a token, OIDC is the only way in and a failure
+      # says what it is. The registry is npm's default.
       - name: Use Node.js 24
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          registry-url: https://registry.npmjs.org
           package-manager-cache: false
 
       # Staged publishing needs Node 22.14 or later and npm 11.15.0 or later. Node 24 ships
@@ -105,3 +108,14 @@ jobs:
             npm stage publish --access public
             echo "Staged. Approve it with 2FA on npmjs.com: package page, Staged Packages, Approve." >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      # npm reports the OIDC exchange only at verbose level, which lands in the debug file.
+      # Tokens are redacted there by npm itself.
+      - name: Show what npm logged about authentication
+        if: failure()
+        run: |
+          shopt -s nullglob
+          for log in "$HOME"/.npm/_logs/*-debug-*.log; do
+            echo "== $log"
+            grep -i -E "oidc|trusted|id-token|exchange|E40[0-9]|ENEEDAUTH|401|403|404" "$log" | tail -n 40 || true
+          done
