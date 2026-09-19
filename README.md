@@ -24,9 +24,10 @@ Version 1.6.0 corrects what a calling agent is told, and measures what it then d
   signals from the user's description itself. Free text alone is only keyword-matched.
 - **A callable assessment:** the `euaiact_assess_system` description states the fact
   shape and a useful minimum profile.
-- **Releases that ship themselves:** a GitHub release publishes to npm over trusted
-  publishing with a provenance attestation, a weekly job checks every lexbeam.com link the
-  server publishes, and a version bump no longer moves a pinned hash.
+- **Releases with two human steps and no token:** a GitHub release stages the package on
+  npm over trusted publishing, and it becomes public only when a maintainer approves it
+  with 2FA. A weekly job checks every lexbeam.com link the server publishes, and a version
+  bump no longer moves a pinned hash.
 
 Full release history: [CHANGELOG.md](CHANGELOG.md).
 

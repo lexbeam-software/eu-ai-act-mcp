@@ -1,12 +1,15 @@
-name: Publish to npm
+name: Stage on npm
 
-# Publishes the package when a GitHub release is published, over npm trusted publishing
-# (OIDC). No npm token exists on any machine or in this repository, and npm attaches a
-# provenance attestation on its own because the repository and the package are public.
+# Stages the package on npm when a GitHub release is published, over npm trusted publishing
+# (OIDC). No npm token exists on any machine or in this repository. A staged version is not
+# public: a maintainer approves it with 2FA on npmjs.com (package page, Staged Packages,
+# Approve) or with `npm stage approve <stage-id>`, and only then can anyone install it. CI
+# can therefore never put a version in front of users on its own.
 #
 # One-time setup on npmjs.com, package Settings, Trusted Publisher, GitHub Actions:
 #   organization or user: lexbeam-software   repository: eu-ai-act-mcp
 #   workflow filename: publish.yml            environment: (empty)
+#   allowed actions: npm stage publish only (direct npm publish stays off)
 #
 # Run it by hand with "dry run" ticked to rehearse everything except the upload.
 
@@ -45,14 +48,14 @@ jobs:
           registry-url: https://registry.npmjs.org
           package-manager-cache: false
 
-      # Trusted publishing needs Node 22.14 or later and npm 11.5.1 or later. Node 24 ships
+      # Staged publishing needs Node 22.14 or later and npm 11.15.0 or later. Node 24 ships
       # such an npm; fail with a clear message instead of installing one at release time.
-      - name: npm must support trusted publishing
+      - name: npm must support staged publishing
         run: |
-          required="11.5.1"
+          required="11.15.0"
           current="$(npm --version)"
           if [ "$(printf '%s\n%s\n' "$required" "$current" | sort -V | head -n 1)" != "$required" ]; then
-            echo "npm $current is older than $required, which trusted publishing needs."
+            echo "npm $current is older than $required, which staged publishing needs."
             exit 1
           fi
 
@@ -92,11 +95,13 @@ jobs:
           path: release-evidence/
           if-no-files-found: error
 
-      # prepublishOnly reruns the canonical gates; never pass --ignore-scripts.
-      - name: Publish
+      # `npm stage publish` runs prepublishOnly like `npm publish` does, so the canonical
+      # gates run once more on the exact tree that is packed; never pass --ignore-scripts.
+      - name: Stage on npm
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
-            npm publish --access public --dry-run
+            npm stage publish --access public --dry-run
           else
-            npm publish --access public
+            npm stage publish --access public
+            echo "Staged. Approve it with 2FA on npmjs.com: package page, Staged Packages, Approve." >> "$GITHUB_STEP_SUMMARY"
           fi

@@ -46,10 +46,12 @@ unchanged.
 - `evals/front-door`: 358 natural descriptions, the tool definitions of 1.5.1 and 1.6.0 as
   an agent sees them, the arguments one agent model passed on its first call under each,
   and an offline scorer. The 1.6.0 recording is pinned in the behavior suite.
-- `Publish to npm` workflow: a published GitHub release publishes the package over npm
-  trusted publishing, with a provenance attestation and no token on any machine. It checks
-  the tag against the package version, refuses a version already on npm, runs the release
-  verification and keeps its evidence. A manual dry run rehearses everything but the upload.
+- `Stage on npm` workflow: a published GitHub release stages the package on npm over
+  trusted publishing, with no token on any machine. A staged version is not public until a
+  maintainer approves it with 2FA on npmjs.com, so CI alone can never put a version in
+  front of users. The job checks the tag against the package version, refuses a version
+  already on npm, runs the release verification and keeps its evidence. A manual dry run
+  rehearses everything but the upload.
 - `Site links` workflow: the link gate of 1.5.1 runs every Monday and opens an issue when a
   lexbeam.com URL stops resolving. The 1.5.0 links died between releases.
 - `scripts/regen-goldens.mjs`: the guarded way to regenerate goldens. It prints every

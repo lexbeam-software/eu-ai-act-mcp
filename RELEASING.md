@@ -106,16 +106,21 @@ differences are the intended ones.
 4. Review `release-evidence/manifest.json`, `digests.sha256`, the package manifest,
    the black-box golden log, and the SBOM.
 5. Commit the release changes. Obtain the required review and approval.
-6. Publish by publishing a GitHub release whose tag is `v` plus the package version.
-   The `Publish to npm` workflow refuses a tag that does not match, refuses a version
-   that is already on npm, runs `npm run verify:release`, keeps the evidence bundle as
-   a workflow artifact, and then runs the standard `npm publish`, whose
+6. Publish in two human steps. First publish a GitHub release whose tag is `v` plus the
+   package version. The `Stage on npm` workflow refuses a tag that does not match,
+   refuses a version that is already on npm, runs `npm run verify:release`, keeps the
+   evidence bundle as a workflow artifact, and then runs `npm stage publish`, whose
    `prepublishOnly` hook reruns `npm run verify`. It authenticates over npm trusted
-   publishing, so no npm token exists on any machine, and npm attaches a provenance
-   attestation. Run the workflow by hand with "dry run" ticked to rehearse everything
-   except the upload. The trusted publisher is a one-time setting on npmjs.com (package
-   Settings, Trusted Publisher, GitHub Actions: `lexbeam-software`, `eu-ai-act-mcp`,
-   `publish.yml`, no environment).
+   publishing, so no npm token exists on any machine. Staging makes nothing public.
+   Second, approve the staged version with 2FA on npmjs.com (package page, Staged
+   Packages, Approve) or with `npm stage approve <stage-id>`; `npm stage view` and
+   `npm stage download` show what was staged, `npm stage reject` discards it. Compare
+   the staged tarball's shasum with the one in the release evidence before approving.
+   Run the workflow by hand with "dry run" ticked to rehearse everything except the
+   upload. The trusted publisher is a one-time setting on npmjs.com (package Settings,
+   Trusted Publisher, GitHub Actions: `lexbeam-software`, `eu-ai-act-mcp`,
+   `publish.yml`, no environment, stage only). Staged publishing needs npm 11.15.0 or
+   later, which Node 24 ships.
 7. If the workflow is unavailable, the standard `npm publish` from the approved commit
    on a logged-in machine remains valid. Never publish with `--ignore-scripts`.
 8. Confirm the published package version and hosted MCP version only after an
