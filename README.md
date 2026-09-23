@@ -9,6 +9,33 @@ An open-source [Model Context Protocol](https://modelcontextprotocol.io) (MCP) s
 
 Built by [Lexbeam Software](https://lexbeam.com) - an agentic AI implementation boutique for regulated workflows.
 
+## Listed use, not sector
+
+Annex III regulates uses, not sectors. Set `signals.domain` to an Annex III area only when
+the system itself performs a use listed there; a system that merely operates in that sector
+gets `"other"`. Two calls to `euaiact_classify_system`, both for systems in the employment sector:
+
+**In the sector, not a listed use.** Returns `limited` (Art. 50(1) transparency).
+
+```json
+{
+  "description": "An HR chatbot answers employees' questions about the holiday policy and where to find the travel expense form.",
+  "signals": { "domain": "other", "interacts_with_natural_persons": true }
+}
+```
+
+**A listed use.** Returns `high-risk` (Annex III(4)).
+
+```json
+{
+  "description": "Our ATS screens incoming CVs against the job spec and auto-rejects anyone missing the right keywords before a recruiter looks.",
+  "signals": { "domain": "employment" }
+}
+```
+
+The classifier trusts the signal: the same chatbot sent with `"domain": "employment"` comes
+back `high-risk`. Leave `domain` out when the description does not tell you which it is.
+
 ## What's new in 1.6.0
 
 Version 1.6.0 corrects what a calling agent is told, and measures what it then does.
