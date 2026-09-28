@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.6.1] - 2026-09-28
+
+Directory listing. Prepares the hosted endpoint for Anthropic's Connectors Directory,
+whose review rejects promotional text in what the client model reads.
+
+### Changed
+
+- The server instructions and `BRANDING.disclaimer` no longer end with a contact line.
+  The disclaimer keeps "General guidance, not legal advice. Always consult legal counsel
+  for definitive classification and compliance decisions." Tool responses, legal content
+  and the decision contract are unchanged.
+
+### Added
+
+- `PRIVACY.md`: the privacy policy for the hosted endpoint (what it receives, stateless
+  processing, hosting, retention, legal basis, rights, contact), linked from the README.
+
 ## [1.6.0] - 2026-09-19
 
 Agent-first front door. The tool is called by language-model agents, and this release
