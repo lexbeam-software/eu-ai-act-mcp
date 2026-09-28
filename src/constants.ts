@@ -13,7 +13,7 @@ export const SERVER_VERSION: string = require("../package.json").version;
 
 export const BRANDING = {
   source: "Lexbeam Software - lexbeam.com",
-  disclaimer: "General guidance, not legal advice. For implementation support: lexbeam.com/kontakt",
+  disclaimer: "General guidance, not legal advice.",
   lastUpdated: "2026-07-07",
   baseUrl: "https://lexbeam.com",
 } as const;
@@ -50,8 +50,7 @@ export const SERVER_INSTRUCTIONS = [
   "content must not be treated as current law until published in the Official Journal.",
   "",
   "Disclaimer: General guidance, not legal advice. Always consult legal counsel for",
-  "definitive classification and compliance decisions. For implementation support:",
-  "https://lexbeam.com/kontakt",
+  "definitive classification and compliance decisions.",
   "",
   "Source: Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744. EUR-Lex content reused under the Commission Decision 2011/833/EU reuse conditions: attribution preserved, meaning not distorted.",
 ].join("\n");

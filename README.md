@@ -183,6 +183,14 @@ npm run dev          # stdio dev server
 npm run dev:http     # HTTP dev server
 ```
 
+## Privacy
+
+The hosted endpoint `https://mcp.lexbeam.com/mcp` runs statelessly: it receives the tool arguments your
+assistant sends and the request data (IP address, time, URL, user agent), stores no tool arguments or
+results, sets no cookies and runs no analytics. It is hosted by Railway. Run the server locally from npm
+and nothing reaches Lexbeam. Full policy:
+[PRIVACY.md](https://github.com/lexbeam-software/eu-ai-act-mcp/blob/main/PRIVACY.md).
+
 ## Disclaimer
 
 This MCP server is a structured information tool that returns references to and summaries of Regulation (EU) 2024/1689. It provides general information only and does not constitute legal advice. Whether a service falls within a national regulated legal-services regime must be verified against current official sources and, where necessary, with qualified local counsel. This tool cannot replace that review, and its use does not establish a lawyer-client relationship. For implementation support, visit [lexbeam.com/kontakt](https://lexbeam.com/kontakt).
