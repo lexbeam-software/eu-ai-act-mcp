@@ -794,7 +794,7 @@ test("Universal obligations: 1 (AI literacy)", universalObligations.length === 1
   const r = await callTool("euaiact_get_obligations", { role: "provider", risk_level: "high-risk" });
   test("obligations tool has no `disclaimer` field", !("disclaimer" in structured(r)));
   test("obligations tool has no `source` field", !("source" in structured(r)));
-  test("obligations tool includes lexbeam_url", typeof structured(r).lexbeam_url === "string");
+  test("obligations tool carries no lexbeam_url (no links in tool results since 1.6.2)", !("lexbeam_url" in structured(r)));
   test("provider high-risk Art. 49 obligation is conditional", /Annex III/.test(structured(r).obligations.find((o) => o.article === "Art. 49")?.details ?? ""));
 }
 {
@@ -889,7 +889,7 @@ test("GPAI penalty tier = Art. 101", getPenaltyTier("gpai").article === "Art. 10
 
 // ─── FAQ ────────────────────────────────────────────────────────────────────
 console.log("\n❓ FAQ");
-test("24 FAQ entries after v1.1.0 additions", faqDatabase.length === 24);
+test("25 FAQ entries after the 1.6.2 Article 50 entry", faqDatabase.length === 25);
 test(
   "faq-21-gpai-flops-threshold present",
   faqDatabase.some((f) => f.id === "faq-21-gpai-flops-threshold"),
@@ -915,6 +915,16 @@ test(
   const r = await callTool("euaiact_answer_question", { question: "What are transparency obligations for chatbots and generated content under Article 50?" });
   test("FAQ transparency answer maps machine-readable marking to Art. 50(2)", /Art\. 50\(2\).*machine-readable|machine-readable.*Art\. 50\(2\)/s.test(structured(r).answer));
   test("FAQ transparency answer does not cite Art. 50(5) for marking", !/50\(5\).*machine-readable|machine-readable.*50\(5\)/s.test(structured(r).answer));
+}
+{
+  const r = await callTool("euaiact_answer_question", { question: "When do the Article 50 obligations apply?" });
+  test("FAQ: the Article 50 date question reaches its own entry",
+    structured(r).matched_question === "When do the Article 50 transparency obligations apply?" && structured(r).confidence !== "low");
+  test("FAQ: the Article 50 answer carries 2 August 2026 and the 2 December 2026 transition",
+    /2 August 2026/.test(structured(r).answer) && /2 December 2026/.test(structured(r).answer) && /Art\. 111\(4\)/.test(structured(r).answer));
+  test("FAQ results carry no lexbeam_url", !("lexbeam_url" in structured(r)));
+  const c = await callTool("euaiact_classify_system", { description: "customer service chatbot" });
+  test("classify results carry no lexbeam_url", !("lexbeam_url" in structured(c)));
 }
 {
   const ids = transparencyTriggers.map((t) => t.id);
@@ -2237,11 +2247,53 @@ console.log("\n🔗 SITE LINKS");
   const unknown = [...inSource.keys()].filter((url) => !knownLive.has(url));
   if (unknown.length > 0) console.log(`     not in known-live-urls.json: ${unknown.join(", ")}`);
   test("site links: every lexbeam.com URL in src/ is a known live page", unknown.length === 0);
-  test("site links: the scan sees literal URLs and BRANDING.baseUrl templates alike",
-    inSource.has("https://lexbeam.com/kontakt") &&
-    inSource.has("https://lexbeam.com/de/wissen/ki-verordnung-klassifizierung"));
-  test("site links: all 24 FAQ entries link to a known live page",
-    faqDatabase.length === 24 && faqDatabase.every((entry) => knownLive.has(entry.lexbeamUrl)));
+  test("site links: src/ names only the lexbeam.com root (tool results carry no links since 1.6.2)",
+    [...inSource.keys()].every((url) => url === "https://lexbeam.com"));
+  test("site links: none of the 25 FAQ entries carries a lexbeam.com link",
+    faqDatabase.length === 25 && faqDatabase.every((entry) => !("lexbeamUrl" in entry)));
+}
+
+// ─── HTTP HANDLER ───────────────────────────────────────────────────────────
+// 1.6.2: the hosted handler gained an error boundary (a throwing request answered with a
+// rejected promise that ended the process) and OpenAI's domain-verification path.
+console.log("\n🌐 HTTP HANDLER");
+{
+  const { createServer: createHttpServer } = await import("node:http");
+  const { createRequestHandler, OPENAI_CHALLENGE_PATH } = await import("./dist/http-handler.js");
+  const listen = async (handler) => {
+    const server = createHttpServer(handler);
+    await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+    return { server, base: `http://127.0.0.1:${server.address().port}` };
+  };
+  const stop = (server) => new Promise((resolve) => { server.closeAllConnections?.(); server.close(resolve); });
+  const mcpHeaders = { "Content-Type": "application/json", Accept: "application/json, text/event-stream" };
+  const toolsList = JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" });
+
+  const lines = [];
+  const failing = await listen(createRequestHandler({
+    createMcpServer: () => { throw new Error("quoted-input-must-not-reach-the-log"); },
+    logError: (line) => lines.push(line),
+  }));
+  const failed = await fetch(`${failing.base}/mcp`, { method: "POST", headers: mcpHeaders, body: toolsList });
+  test("http: a request that throws answers 500", failed.status === 500);
+  test("http: the handler keeps serving after a failed request", (await fetch(`${failing.base}/health`)).status === 200);
+  test("http: the error log names the error type only",
+    lines.length === 1 && /request failed: Error$/.test(lines[0]) && !lines.join("\n").includes("quoted-input"));
+  await stop(failing.server);
+
+  const real = await listen(createRequestHandler());
+  const listed = await fetch(`${real.base}/mcp`, { method: "POST", headers: mcpHeaders, body: toolsList });
+  test("http: POST /mcp lists the tools", listed.status === 200 && (await listed.text()).includes("euaiact_classify_system"));
+  const saved = process.env.OPENAI_APPS_CHALLENGE;
+  delete process.env.OPENAI_APPS_CHALLENGE;
+  test("http: the OpenAI challenge path answers 404 without a token",
+    (await fetch(`${real.base}${OPENAI_CHALLENGE_PATH}`)).status === 404);
+  process.env.OPENAI_APPS_CHALLENGE = " challenge-token-123\n";
+  const challenge = await fetch(`${real.base}${OPENAI_CHALLENGE_PATH}`);
+  test("http: the OpenAI challenge path returns exactly the token",
+    challenge.status === 200 && (await challenge.text()) === "challenge-token-123");
+  if (saved === undefined) delete process.env.OPENAI_APPS_CHALLENGE; else process.env.OPENAI_APPS_CHALLENGE = saved;
+  await stop(real.server);
 }
 
 // ─── SUMMARY ────────────────────────────────────────────────────────────────

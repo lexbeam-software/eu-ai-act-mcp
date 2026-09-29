@@ -13,7 +13,6 @@ export const faqOutputSchema = z.object({
   confidence: z.enum(["high", "medium", "low"]),
   article_references: z.array(z.string()),
   /** Optional deep-dive link on lexbeam.com for the matched FAQ entry. */
-  lexbeam_url: z.string().optional(),
 });
 
 export type FaqInput = z.infer<typeof faqInputSchema>;

@@ -6,6 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.6.2] - 2026-09-29
+
+Directory run. Tool results carry no links any more, the hosted endpoint survives a failing
+request, and OpenAI's plugin directory can verify the domain.
+
+### Changed
+
+- `euaiact_classify_system`, `euaiact_answer_question` and `euaiact_get_obligations` no
+  longer return `lexbeam_url`. The classify and FAQ links pointed at the contact page, which
+  the Connectors Directory treats as promotional text in what the client model reads; six of
+  the seven knowledge-base links now land on the lexbeam.com Wissen index since the articles
+  were withdrawn. Legal content and the decision contract are unchanged.
+
+### Added
+
+- FAQ entry `faq-25-art50-application-date`: Art. 50 applies from 2 August 2026, not deferred
+  by the Digital Omnibus; synthetic-content systems placed on the market before that date
+  complete Art. 50(2) marking by 2 December 2026 (new Art. 111(4)). Derived from the
+  server's own deadline and Omnibus records.
+- `GET /.well-known/openai-apps-challenge` answers the token set in `OPENAI_APPS_CHALLENGE`
+  (404 while it is unset), for OpenAI's domain verification of the hosted endpoint.
+
+### Fixed
+
+- The hosted HTTP handler has an error boundary: a request that throws answers 500, logs the
+  error type only (never its message, which can quote submitted input) and the process keeps
+  serving. Before, the rejected promise of the async handler ended the process. The handler
+  moved to `src/http-handler.ts` so the behavior suite runs it in-process.
+
 ## [1.6.1] - 2026-09-28
 
 Directory listing. Prepares the hosted endpoint for Anthropic's Connectors Directory,
