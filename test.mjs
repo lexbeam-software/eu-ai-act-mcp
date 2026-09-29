@@ -917,14 +917,30 @@ test(
   test("FAQ transparency answer does not cite Art. 50(5) for marking", !/50\(5\).*machine-readable|machine-readable.*50\(5\)/s.test(structured(r).answer));
 }
 {
-  const r = await callTool("euaiact_answer_question", { question: "When do the Article 50 obligations apply?" });
-  test("FAQ: the Article 50 date question reaches its own entry",
-    structured(r).matched_question === "When do the Article 50 transparency obligations apply?" && structured(r).confidence !== "low");
-  test("FAQ: the Article 50 answer carries 2 August 2026 and the 2 December 2026 transition",
+  // 1.6.2: the Art. 50(2) legacy transition has its own entry; general Art. 50 date questions stay
+  // with faq-02, and the generic and transparency questions keep their routing and confidence.
+  const r = await callTool("euaiact_answer_question", { question: "Is there a transition period for Article 50(2) marking?" });
+  test("FAQ: the Art. 50(2) transition question reaches its own entry",
+    structured(r).matched_question === "Transition for legacy synthetic-content generators under Article 50(2)" && structured(r).confidence !== "low");
+  test("FAQ: the transition answer carries 2 August 2026, 2 December 2026 and Art. 111(4)",
     /2 August 2026/.test(structured(r).answer) && /2 December 2026/.test(structured(r).answer) && /Art\. 111\(4\)/.test(structured(r).answer));
   test("FAQ results carry no lexbeam_url", !("lexbeam_url" in structured(r)));
+  const date = structured(await callTool("euaiact_answer_question", { question: "When do the Article 50 obligations apply?" }));
+  test("FAQ: the Art. 50 date question keeps its dated answer", /2 August 2026/.test(date.answer) && date.confidence !== "low");
+  const chat = structured(await callTool("euaiact_answer_question", { question: "What are transparency obligations for chatbots and generated content under Article 50?" }));
+  test("FAQ: the chatbot transparency question stays with faq-12 at high confidence",
+    chat.matched_question === "What are transparency obligations for chatbots?" && chat.confidence === "high");
+  const generic = structured(await callTool("euaiact_answer_question", { question: "What are the deadlines under the EU AI Act?" }));
+  test("FAQ: the generic deadline question keeps high confidence", generic.confidence === "high");
   const c = await callTool("euaiact_classify_system", { description: "customer service chatbot" });
   test("classify results carry no lexbeam_url", !("lexbeam_url" in structured(c)));
+}
+{
+  const art50 = articles.find((a) => a.number === "50")?.summary ?? "";
+  test("Art. 50 summary states both conditions of the Art. 50(4) editorial exception",
+    /human review or editorial control and a natural or legal person holds editorial responsibility/.test(art50));
+  test("Art. 50 summary keeps the Art. 50(1) standard of a reasonably well-informed person",
+    /reasonably well-informed, observant and circumspect/.test(art50));
 }
 {
   const ids = transparencyTriggers.map((t) => t.id);

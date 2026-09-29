@@ -241,12 +241,15 @@ export const faqDatabase: FAQEntry[] = [
     category: "classification",
   },
   {
-    id: "faq-25-art50-application-date",
-    question: "When do the Article 50 transparency obligations apply?",
+    id: "faq-25-art50-2-legacy-transition",
+    question: "Transition for legacy synthetic-content generators under Article 50(2)",
     answer:
-      "Art. 50 applies from 2 August 2026 (Art. 113); the Digital Omnibus on AI (Regulation (EU) 2026/1744) did not defer it. From that date, providers must ensure that persons are informed when they interact directly with an AI system, unless this is obvious from the circumstances (Art. 50(1)), and that synthetic audio, image, video or text output is marked in a machine-readable format and detectable as artificially generated or manipulated (Art. 50(2)). Deployers must inform persons exposed to emotion recognition or biometric categorisation systems (Art. 50(3)) and disclose deep fakes and AI-generated or manipulated text published to inform the public on matters of public interest, unless that text has undergone human review or editorial control (Art. 50(4)). One transition applies: providers of synthetic-content systems placed on the market before 2 August 2026 must take the necessary steps to comply with Art. 50(2) by 2 December 2026 (new Art. 111(4), inserted by the Digital Omnibus). Systems placed on the market from 2 August 2026 must comply with Art. 50(2) from that date. Check euaiact_check_deadlines for the operative dates.",
-    articleReferences: ["Art. 50", "Art. 111(4)", "Art. 113"],
-    keywords: ["article 50", "art. 50", "art 50", "article 50 apply", "when does article 50 apply", "transparency obligations apply", "transparency deadline", "2 august 2026", "synthetic content marking", "watermarking", "art. 111(4)", "2 december 2026"],
+      "Art. 50 applies from 2 August 2026 (Art. 113), and the Digital Omnibus on AI (Regulation (EU) 2026/1744) did not defer it. It added one transition, for Art. 50(2) only: providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content that were placed on the market before 2 August 2026 must take the necessary steps to comply with Art. 50(2) by 2 December 2026 (new Art. 111(4)). Art. 50(2) requires providers to ensure that such outputs are marked in a machine-readable format and detectable as artificially generated or manipulated, within the limits and exceptions that paragraph sets out. A system placed on the market from 2 August 2026 must comply with Art. 50(2) from that date; Art. 50(1), (3) and (4) have no transition. Check euaiact_check_deadlines for the operative dates.",
+    articleReferences: ["Art. 50(2)", "Art. 111(4)", "Art. 113"],
+    // Narrow on purpose: the matcher scores word overlap and breaks ties by array order, so
+    // generic words (deadline, apply, obligations, transparency, dates) would tie faq-02 and
+    // faq-12 and lower their confidence. These words occur in no other entry's topic.
+    keywords: ["art. 111(4)", "legacy", "transition", "watermarking", "watermark"],
     category: "transparency",
   },
 ];

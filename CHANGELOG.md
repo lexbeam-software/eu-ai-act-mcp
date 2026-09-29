@@ -17,19 +17,22 @@ request, and OpenAI's plugin directory can verify the domain.
   longer return `lexbeam_url`. The classify and FAQ links pointed at the contact page, which
   the Connectors Directory treats as promotional text in what the client model reads; six of
   the seven knowledge-base links now land on the lexbeam.com Wissen index since the articles
-  were withdrawn. Legal content and the decision contract are unchanged.
+  were withdrawn. The decision contract is unchanged.
 
 ### Added
 
-- FAQ entry `faq-25-art50-application-date`: Art. 50 applies from 2 August 2026, not deferred
-  by the Digital Omnibus; synthetic-content systems placed on the market before that date
-  complete Art. 50(2) marking by 2 December 2026 (new Art. 111(4)). Derived from the
-  server's own deadline and Omnibus records.
+- FAQ entry `faq-25-art50-2-legacy-transition`: synthetic-content systems placed on the market before
+  2 August 2026 complete Art. 50(2) marking by 2 December 2026 (new Art. 111(4)); Art. 50 itself applies from
+  2 August 2026, not deferred by the Digital Omnibus. Keyed narrowly so that no existing question changes its
+  entry or confidence; general Art. 50 date questions keep the dated answer of `faq-02`.
 - `GET /.well-known/openai-apps-challenge` answers the token set in `OPENAI_APPS_CHALLENGE`
   (404 while it is unset), for OpenAI's domain verification of the hosted endpoint.
 
 ### Fixed
 
+- The Art. 50 summary returned by `euaiact_get_article` now states both conditions of the Art. 50(4) editorial
+  exception (human review or editorial control and a person holding editorial responsibility) and the
+  Art. 50(1) standard of a reasonably well-informed, observant and circumspect person.
 - The hosted HTTP handler has an error boundary: a request that throws answers 500, logs the
   error type only (never its message, which can quote submitted input) and the process keeps
   serving. Before, the rejected promise of the async handler ended the process. The handler
