@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- `euaiact_classify_system` no longer lets a free-text keyword override an explicit
+  negative signal for the same Art. 50 trigger. A description saying "the output is
+  structured field values, not generated text", sent with `generates_synthetic_content:
+  false` and eight further negative signals, returned `limited` (basis `text`) because the
+  Art. 50(4) keyword "generated text" matched inside the negation; it now returns
+  `minimal` (basis `signals`). Each Art. 50 trigger names its governing signal
+  (`interacts_with_natural_persons` for Art. 50(1), `generates_synthetic_content` for
+  Art. 50(2) and (4), `uses_biometrics` for Art. 50(3)); an explicit `false` sets that
+  trigger's keywords aside, and `matched_signals` states which keywords were not counted
+  and why.
+- Negated wording no longer counts as an Art. 50 keyword match: "not generated text",
+  "no chatbot", "text that is not generated" and contractions such as "doesn't" are
+  recognised within their clause, while "not only" still affirms. The Art. 5 and Annex III
+  routes are unchanged on purpose: incomplete negative signals still yield to risky
+  wording there, because a misread negation would produce a false negative.
+
 ## [1.6.1] - 2026-09-28
 
 Directory listing. Prepares the hosted endpoint for Anthropic's Connectors Directory,
