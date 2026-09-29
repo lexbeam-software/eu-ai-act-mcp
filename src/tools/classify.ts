@@ -84,6 +84,47 @@ const SIGNAL_QUESTIONS: Record<keyof ClassifySignals, string> = {
   performs_social_scoring_by_public_authority: "Legacy signal: is the system used by or on behalf of a public authority to score natural persons?",
 };
 
+/**
+ * The structured signal that answers each Art. 50 trigger. An explicit `false` for that
+ * signal is the caller's answer to the very question the trigger's keywords approximate,
+ * so those keywords must not override it: "not generated text" in a description once
+ * turned nine negative signals, generates_synthetic_content=false included, into
+ * "limited". Art. 50(3) covers emotion recognition and biometric categorisation, both
+ * defined on biometric data (Art. 3(39) and (40)), so uses_biometrics=false answers it.
+ * The Art. 5 and Annex III routes are deliberately not governed this way: there an
+ * incomplete negative answer still yields to risky wording (see classifyFromSignals).
+ */
+export const TRANSPARENCY_GOVERNING_SIGNAL: Readonly<Record<string, keyof ClassifySignals>> = {
+  "art50-1": "interacts_with_natural_persons",
+  "art50-2": "generates_synthetic_content",
+  "art50-3": "uses_biometrics",
+  "art50-4": "generates_synthetic_content",
+};
+
+/** Art. 50 triggers whose governing signal the caller has not explicitly denied. */
+function transparencyTriggersFor(signals: ClassifySignals | undefined): TransparencyTrigger[] {
+  if (!signals) return transparencyTriggers;
+  return transparencyTriggers.filter((trigger) => {
+    const governing = TRANSPARENCY_GOVERNING_SIGNAL[trigger.id];
+    return !(governing && signals[governing] === false);
+  });
+}
+
+/** One line per Art. 50 keyword hit set aside because its governing signal is false. */
+function discountedTransparencyNotes(text: string, signals: ClassifySignals | undefined): string[] {
+  if (!signals || !text) return [];
+  const notes: string[] = [];
+  for (const trigger of transparencyTriggers) {
+    const governing = TRANSPARENCY_GOVERNING_SIGNAL[trigger.id];
+    if (!governing || signals[governing] !== false) continue;
+    const hit = bestStrongHit(text, [trigger], { negationAware: true });
+    if (!hit) continue;
+    const keywords = hit.result.matches.map((match) => `"${match.keyword}"`).join(", ");
+    notes.push(`${keywords} in the description not counted: ${governing}=false answers ${trigger.article}`);
+  }
+  return notes;
+}
+
 const DOMAIN_TO_ANNEX_III: Partial<Record<string, number>> = {
   critical_infrastructure: 2,
   education: 3,
@@ -262,12 +303,16 @@ function textIndicatesIdentification(text: string): boolean {
   ]);
 }
 
-/** True when the free text triggers any prohibited / Annex III / Art. 50 engine hit. */
-function textIndicatesRisk(text: string): boolean {
+/**
+ * True when the free text triggers any prohibited / Annex III / Art. 50 engine hit.
+ * Art. 50 hits count only when the text affirms them and the caller has not explicitly
+ * denied the trigger's governing signal.
+ */
+function textIndicatesRisk(text: string, signals?: ClassifySignals): boolean {
   return (
     bestStrongHit(text, prohibitedPractices) !== null ||
     bestStrongHit(text, annexIIICategories) !== null ||
-    bestStrongHit(text, transparencyTriggers) !== null
+    bestStrongHit(text, transparencyTriggersFor(signals), { negationAware: true }) !== null
   );
 }
 
@@ -605,12 +650,13 @@ function classifyFromSignals(input: ClassifyInput): ClassifyOutput | null {
     !completeRouteExclusions &&
     providedKeys.length >= 8 &&
     combined &&
-    textIndicatesRisk(combined)
+    textIndicatesRisk(combined, s)
   ) {
     return null;
   }
   if (!anyRiskSignalTrue && !domainMapsToAnnexIII && providedKeys.length >= 8) {
     matched.push(`all ${providedKeys.length} provided risk signals negative → no Art. 5 / Annex III / Annex I / Art. 50 trigger`);
+    matched.push(...discountedTransparencyNotes(combined, s));
     return {
       ...buildBase({
         risk_classification: "minimal",
@@ -647,11 +693,13 @@ interface TextHit<T> {
 function bestStrongHit<T extends { keywords: string[] }>(
   text: string,
   items: T[],
-  options: { requireStrong?: boolean } = {},
+  options: { requireStrong?: boolean; negationAware?: boolean } = {},
 ): TextHit<T> | null {
   let best: TextHit<T> | null = null;
   for (const item of items) {
-    const result = scoreKeywordMatch(text, item.keywords, decisiveSingleWordKeywords);
+    const result = scoreKeywordMatch(text, item.keywords, decisiveSingleWordKeywords, {
+      negationAware: options.negationAware,
+    });
     if (result.strongCount === 0 && (options.requireStrong || result.weakCount < 2)) continue;
     if (!best) {
       best = { item, result };
@@ -764,8 +812,13 @@ function classifyFromText(input: ClassifyInput): ClassifyOutput {
     };
   }
 
-  // Step 1c: Art. 50 limited risk
-  const transparencyHit = bestStrongHit<TransparencyTrigger>(combined, transparencyTriggers);
+  // Step 1c: Art. 50 limited risk. Negated wording does not count, and neither does a
+  // trigger whose governing signal the caller explicitly denied.
+  const transparencyHit = bestStrongHit<TransparencyTrigger>(
+    combined,
+    transparencyTriggersFor(input.signals),
+    { negationAware: true },
+  );
   if (transparencyHit) {
     const matched: string[] = transparencyHit.result.matches.map((m) => `"${m.keyword}" (${m.strength})`);
     return {
@@ -793,7 +846,7 @@ function classifyFromText(input: ClassifyInput): ClassifyOutput {
       obligations_summary: "Unable to determine risk classification from the provided description. The system may be minimal risk, but further analysis is recommended.",
       caveat: "No prohibited-practice, Annex III, Annex I or Art. 50 indicators matched the provided description. A detailed assessment may reveal higher risk; supplying structured signals gives a deterministic answer. All providers and deployers must take measures to support the development of AI literacy (Art. 4, applicable since 2 February 2025 and replaced with effect from 27 July 2026).",
     }),
-    matched_signals: [],
+    matched_signals: discountedTransparencyNotes(combined, input.signals),
     missing_signals: missing,
     next_questions: questions,
     basis: "default",

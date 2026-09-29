@@ -2244,6 +2244,94 @@ console.log("\n🔗 SITE LINKS");
     faqDatabase.length === 24 && faqDatabase.every((entry) => knownLive.has(entry.lexbeamUrl)));
 }
 
+// ─── SIGNAL PRECEDENCE AND NEGATION (reported 29.09.2026) ──────────────────
+// Nine explicit negative signals, generates_synthetic_content=false among them, came
+// back "limited" because the description said "not generated text" and the Art. 50(4)
+// keyword "generated text" matched inside the negation, then overrode the signal.
+console.log("\n🧭 SIGNAL PRECEDENCE AND NEGATION");
+{
+  const NINE_NEGATIVES = {
+    domain: "other", interacts_with_natural_persons: false, generates_synthetic_content: false,
+    affects_fundamental_rights: false, uses_biometrics: false,
+    is_safety_component_of_regulated_product: false, targets_children_or_vulnerable: false,
+    performs_emotion_recognition_workplace_or_school: false, performs_social_scoring: false,
+  };
+  const EXTRACTION = "AI extraction of contract metadata (parties, dates, renewal, notice period) from executed contracts in a SharePoint library";
+
+  const rNegated = structured(await callTool("euaiact_classify_system", {
+    description: `${EXTRACTION}; the output is structured field values, not generated text.`,
+    role: "deployer", signals: NINE_NEGATIVES,
+  }));
+  test("precedence: 'not generated text' no longer overrides generates_synthetic_content=false",
+    rNegated.risk_classification === "minimal" && rNegated.basis === "signals");
+
+  const rPlain = structured(await callTool("euaiact_classify_system", {
+    description: `${EXTRACTION}; the output is structured field values that a paralegal verifies.`,
+    role: "deployer", signals: NINE_NEGATIVES,
+  }));
+  test("precedence: the same call without the phrase stays minimal",
+    rPlain.risk_classification === "minimal" && rPlain.basis === "signals");
+
+  const rExplicitFalse = structured(await callTool("euaiact_classify_system", {
+    description: `${EXTRACTION}; it also drafts AI-generated text summaries for lawyers.`,
+    role: "deployer", signals: NINE_NEGATIVES,
+  }));
+  test("precedence: an explicit false for the Art. 50 signal wins over its keywords",
+    rExplicitFalse.risk_classification === "minimal" && rExplicitFalse.basis === "signals");
+  test("precedence: the discounted keyword is reported, not silently dropped",
+    rExplicitFalse.matched_signals.some((m) => /not counted: generates_synthetic_content=false/.test(m)));
+
+  const rTrue = structured(await callTool("euaiact_classify_system", {
+    description: `${EXTRACTION}; the output is structured field values, not generated text.`,
+    role: "deployer", signals: { ...NINE_NEGATIVES, generates_synthetic_content: true },
+  }));
+  test("precedence: generates_synthetic_content=true still returns limited",
+    rTrue.risk_classification === "limited" && rTrue.basis === "signals");
+
+  const rTextOnly = structured(await callTool("euaiact_classify_system", {
+    description: "AI that writes marketing posts as generated text for social media",
+    use_case: "Marketing",
+  }));
+  test("negation: an un-negated Art. 50 keyword still classifies on text alone",
+    rTextOnly.risk_classification === "limited" && rTextOnly.basis === "text");
+
+  const rNoBot = structured(await callTool("euaiact_classify_system", {
+    description: "Nightly batch job with no chatbot or user interface that files invoices",
+    signals: { uses_biometrics: false, performs_social_scoring: false },
+  }));
+  test("negation: 'no chatbot' is not an Art. 50(1) hit",
+    rNoBot.risk_classification !== "limited");
+
+  test("negation: the recruitment blocker still holds (Annex III text over partial negatives)",
+    structured(await callTool("euaiact_classify_system", {
+      description: "AI system that ranks and shortlists job applicants for recruitment",
+      signals: NINE_NEGATIVES,
+    })).risk_classification === "high-risk");
+
+  const NEG = { negationAware: true };
+  const phrase = ["generated text"];
+  test("matcher: 'not generated text' is no match when negation-aware",
+    scoreKeywordMatch("structured values, not generated text", phrase, undefined, NEG).matches.length === 0);
+  test("matcher: 'text that is not generated' is no match when negation-aware",
+    scoreKeywordMatch("returns text that is not generated", phrase, undefined, NEG).matches.length === 0);
+  test("matcher: a contraction negates ('doesn't produce generated text')",
+    scoreKeywordMatch("the tool doesn't produce generated text", phrase, undefined, NEG).matches.length === 0);
+  test("matcher: an un-negated phrase still matches when negation-aware",
+    scoreKeywordMatch("returns generated text for review", phrase, undefined, NEG).strongCount === 1);
+  test("matcher: a negation does not reach into the next sentence",
+    scoreKeywordMatch("It does not store data. It returns generated text.", phrase, undefined, NEG).strongCount === 1);
+  test("matcher: 'not only' is not a negation",
+    scoreKeywordMatch("not only chatbots but also voice bots", ["chatbot"], undefined, NEG).matches.length === 1);
+  test("matcher: a later un-negated occurrence still counts",
+    scoreKeywordMatch("not a chatbot today, but the chatbot ships next year", ["chatbot"], undefined, NEG).matches.length === 1);
+  test("matcher: without the option the legacy behaviour is unchanged",
+    scoreKeywordMatch("structured values, not generated text", phrase).strongCount === 1);
+
+  const { TRANSPARENCY_GOVERNING_SIGNAL } = await import("./dist/tools/classify.js");
+  test("precedence: every Art. 50 trigger names the signal that governs it",
+    transparencyTriggers.every((trigger) => typeof TRANSPARENCY_GOVERNING_SIGNAL?.[trigger.id] === "string"));
+}
+
 // ─── SUMMARY ────────────────────────────────────────────────────────────────
 console.log(`\n${"=".repeat(50)}`);
 console.log(`RESULTS: ${pass} passed, ${fail} failed out of ${pass + fail} tests`);
