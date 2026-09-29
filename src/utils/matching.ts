@@ -29,6 +29,15 @@
  *    function by itself ("proctoring", "polygraph"), as opposed to an everyday or
  *    sector word ("minor", "court", "visa", "migration").
  *
+ * Revised after v1.6.1 for a fourth root cause, reported on 2026-09-29:
+ *
+ * 4. Negated wording counted as a match: "the output is structured field values, not
+ *    generated text" hit the Art. 50(4) keyword "generated text" and overrode an explicit
+ *    generates_synthetic_content=false. The `negationAware` option now skips occurrences
+ *    that a negation in the same clause reaches ("not", "no", "without", "doesn't" and the
+ *    like, up to three tokens before or inside the phrase). The classifier enables it for
+ *    the Art. 50 triggers only; see KeywordMatchOptions for why.
+ *
  * The new API returns *per-keyword* match information plus a strong/weak signal,
  * and the classifier consumes absolute match counts rather than a fraction.
  * Not a replacement for legal analysis - first-pass grounding only.
@@ -57,6 +66,70 @@ export interface KeywordMatchResult {
   score: number;
 }
 
+export interface KeywordMatchOptions {
+  /**
+   * Ignore keyword occurrences the text itself negates: "not generated text", "no chatbot",
+   * "text that is not generated". Off by default. The Art. 5 and Annex III routes keep
+   * matching negated wording on purpose: a misread negation there would turn a prohibited
+   * or high-risk description into a false negative, so those routes carry their own narrow
+   * guards in classify.ts instead.
+   */
+  negationAware?: boolean;
+}
+
+/** Words that negate what follows them in the same clause. */
+const NEGATION_WORDS = new Set([
+  "not", "no", "never", "without", "neither", "nor", "non", "none", "cannot",
+  // normalizeText drops the apostrophe, so "doesn't" arrives as "doesn t".
+  "doesn", "didn", "isn", "aren", "wasn", "weren", "hasn", "haven", "hadn",
+  "wouldn", "shouldn", "couldn", "mustn", "needn",
+]);
+
+/** Heads that negate only together with a following "t": "can t", "won t", "don t". */
+const CONTRACTION_HEADS = new Set([...NEGATION_WORDS, "can", "won", "don", "ain"]);
+
+/** How many tokens before a keyword a negation may stand and still reach it. */
+const NEGATION_REACH = 3;
+
+/**
+ * Tokens with the clause each belongs to. A clause ends at . ; : ! ? , brackets or "but",
+ * so "It does not store data. It returns generated text." negates nothing that matters.
+ */
+function clauseTokens(text: string): { words: string[]; clauses: number[] } {
+  const words: string[] = [];
+  const clauses: number[] = [];
+  text
+    .toLowerCase()
+    .split(/[.;:!?,()[\]\n]+|\bbut\b/)
+    .forEach((clause, index) => {
+      for (const word of normalizeText(clause).split(" ").filter(Boolean)) {
+        words.push(word);
+        clauses.push(index);
+      }
+    });
+  return { words, clauses };
+}
+
+function isNegationCue(words: string[], index: number): boolean {
+  const word = words[index];
+  // "not only chatbots but also voice bots" affirms the chatbot.
+  if (word === "not" && (words[index + 1] === "only" || words[index + 1] === "just")) return false;
+  if (NEGATION_WORDS.has(word)) return true;
+  return word === "t" && index > 0 && CONTRACTION_HEADS.has(words[index - 1]);
+}
+
+/** True when a negation cue sits inside the matched span or shortly before it, in its clause. */
+function isNegated(words: string[], clauses: number[], first: number, last: number): boolean {
+  for (let index = first - 1; index >= Math.max(0, first - NEGATION_REACH); index -= 1) {
+    if (clauses[index] !== clauses[first]) break;
+    if (isNegationCue(words, index)) return true;
+  }
+  for (let index = first + 1; index < last; index += 1) {
+    if (isNegationCue(words, index)) return true;
+  }
+  return false;
+}
+
 /**
  * Score how well a list of keywords matches a piece of text.
  *
@@ -71,12 +144,17 @@ export function scoreKeywordMatch(
   text: string,
   keywords: string[],
   decisiveSingleWords: ReadonlySet<string> = new Set(),
+  options: KeywordMatchOptions = {},
 ): KeywordMatchResult {
   if (keywords.length === 0) {
     return { matches: [], strongCount: 0, weakCount: 0, score: 0 };
   }
 
-  const textWords = normalizeText(text).split(" ").filter(Boolean);
+  const tokens = options.negationAware ? clauseTokens(text) : null;
+  const textWords = tokens ? tokens.words : normalizeText(text).split(" ").filter(Boolean);
+  // Without the option every occurrence counts, exactly as before.
+  const affirmed = (first: number, last: number) =>
+    !tokens || !isNegated(tokens.words, tokens.clauses, first, last);
   const matches: KeywordMatch[] = [];
 
   for (const rawKw of keywords) {
@@ -90,14 +168,16 @@ export function scoreKeywordMatch(
       //    order, and close together. Without the distance limit a two-word phrase is a bag
       //    of words: "children ... exploit puzzle shortcuts" met "exploit children", and the
       //    longer the description, the likelier two unrelated words were to meet.
-      if (wordsOccurTogether(textWords, kwWords)) matches.push({ keyword: rawKw, strength: "strong" });
+      if (phraseWindows(textWords, kwWords).some(([first, last]) => affirmed(first, last))) {
+        matches.push({ keyword: rawKw, strength: "strong" });
+      }
       continue;
     }
 
     // 2. Single-word keyword: a whole token that equals it or shares a stem of length ≥ 3.
     //    Strong only for a decisive term of art; an everyday or sector word stays weak and
     //    needs company before it classifies anything.
-    const hit = textWords.some((tw) => stemMatches(tw, kw));
+    const hit = textWords.some((tw, position) => stemMatches(tw, kw) && affirmed(position, position));
     if (hit) matches.push({ keyword: rawKw, strength: decisiveSingleWords.has(kw) ? "strong" : "weak" });
   }
 
@@ -114,8 +194,12 @@ export function scoreKeywordMatch(
  */
 const PHRASE_SLACK = 3;
 
-/** True when every keyword word matches a token inside one window of the text. */
-function wordsOccurTogether(textWords: string[], kwWords: string[]): boolean {
+/**
+ * Every window of the text (first and last token position) in which all keyword words
+ * match a token. One window per starting hit, so a negated occurrence cannot hide a
+ * later affirmed one.
+ */
+function phraseWindows(textWords: string[], kwWords: string[]): Array<[number, number]> {
   const hits: { position: number; word: number }[] = [];
   textWords.forEach((token, position) => {
     kwWords.forEach((kwWord, word) => {
@@ -123,15 +207,19 @@ function wordsOccurTogether(textWords: string[], kwWords: string[]): boolean {
     });
   });
   const limit = kwWords.length + PHRASE_SLACK;
+  const windows: Array<[number, number]> = [];
   for (let start = 0; start < hits.length; start += 1) {
     const seen = new Set<number>();
     for (let end = start; end < hits.length; end += 1) {
       if (hits[end].position - hits[start].position + 1 > limit) break;
       seen.add(hits[end].word);
-      if (seen.size === kwWords.length) return true;
+      if (seen.size === kwWords.length) {
+        windows.push([hits[start].position, hits[end].position]);
+        break;
+      }
     }
   }
-  return false;
+  return windows;
 }
 
 /**
