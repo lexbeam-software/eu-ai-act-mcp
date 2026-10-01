@@ -12,7 +12,13 @@ export function findFaqMatch(question: string) {
     .map((match) => match[1]);
   const literacyTopic = /\b(?:ai[\s-]+(?:literacy|competenc(?:e|y))|ki[\s-]*(?:kompetenz|schulung(?:en)?))\b/.test(normalized);
   const onlyArticleFour = references.length > 0 && references.every((article) => article === "4");
-  if (onlyArticleFour || (references.length === 0 && literacyTopic)) {
+  const referencePattern = /\b(?:article|artikel|art)\.?\s*4\b/g;
+  const genericQuestion = normalized.replace(referencePattern, "article_ref").trim();
+  const directLookup = /^(?:article_ref|what does article_ref (?:say|require)|what is article_ref|was (?:regelt|verlangt|besagt) article_ref)[?!.]*$/.test(genericQuestion);
+  // The literacy answer does not establish sanctions or exemption eligibility.
+  // A mention of Article 4 alone must not swallow those distinct questions.
+  const differentFocus = /\b(?:fine(?:s)?|penalt(?:y|ies)|sanction(?:s)?|exempt(?:ion|ions)?|bußgeld(?:er|es)?|bussgeld(?:er|es)?|strafen?|sanktionen?|ausnahmen?)\b/.test(normalized);
+  if (!differentFocus && ((onlyArticleFour && directLookup) || ((references.length === 0 || onlyArticleFour) && literacyTopic))) {
     const item = faqDatabase.find((entry) => entry.id === "faq-08-ai-literacy")!;
     return { item, confidence: "high" as const, score: 1 };
   }

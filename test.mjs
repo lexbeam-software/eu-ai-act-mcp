@@ -2407,7 +2407,7 @@ console.log("\nAgent input and FAQ contracts");
     test(`literacy FAQ alias: ${question}`, result.match_status === "matched" && result.question === question &&
       result.matched_question === "How do I implement AI literacy training (Art. 4)?" && result.article_references.length === 1 && result.article_references[0] === "Art. 4");
   }
-  for (const question of ["What does Article 40 say?", "What does Artikel 4a say?", "Article 4 and Article 50"]) {
+  for (const question of ["What does Article 40 say?", "What does Artikel 4a say?", "Article 4 and Article 50", "What are the fines for violating Article 4?", "Welche Bußgelder drohen bei Artikel 4?", "What are the penalties for AI literacy violations?"]) {
     const { findFaqMatch } = await import("./dist/utils/faq-matching.js");
     const result = findFaqMatch(question);
     test(`article alias does not force literacy: ${question}`, !(result.item?.id === "faq-08-ai-literacy" && result.score === 1));
