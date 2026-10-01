@@ -14,6 +14,7 @@ export function registerArt6ExceptionTool(server: McpServer): void {
       description:
         "Walk through the Art. 6(3) exception for Annex III high-risk AI systems. An Annex III system is NOT high-risk only if the provider affirmatively assesses no significant risk to health, safety, or fundamental rights, AND the system falls under one of the four conditions: (a) narrow procedural task, (b) improves prior human activity, (c) detects patterns without replacing human assessment, (d) preparatory task. Set no_significant_risk_to_health_safety_fundamental_rights=true only when that threshold has been assessed. CRITICAL: The exception does NOT apply if the system performs profiling of natural persons (Art. 6(3), third subparagraph). Providers invoking the exception must document the assessment (Art. 6(4)) and still register in the EU database (Art. 49(2)).",
       annotations: {
+        title: "Assess Art. 6(3) 'No Significant Risk' Exception",
         readOnlyHint: true,
         idempotentHint: true,
         openWorldHint: false,

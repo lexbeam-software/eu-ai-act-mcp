@@ -810,6 +810,7 @@ export function registerClassifyTool(server: McpServer): void {
       description:
         "Classify an AI system's risk level under the EU AI Act (Regulation 2024/1689). HOW TO CALL: derive the structured `signals` from the user's description yourself and pass them together with `description`. The result is decided deterministically on the signals; free text alone is only matched against keywords and often returns insufficient_information. Set a signal only when the description supports it and leave it out otherwise; never guess, and never infer `signals.domain` from the sector a system operates in (read that field's description). A decisive signal you could not set comes back in missing_signals with the question to ask the user; ask, then call again. Returns risk classification, applicable Annex III category, relevant articles, provider/deployer determination, matched signals, and follow-up questions the agent should relay. Note: Art. 6(3) exceptions require documented justification and cannot be auto-applied; use euaiact_assess_art6_3_exception.",
       annotations: {
+        title: "Classify AI System Under EU AI Act",
         readOnlyHint: true,
         idempotentHint: true,
         openWorldHint: false,

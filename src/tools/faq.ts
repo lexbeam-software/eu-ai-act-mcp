@@ -8,6 +8,7 @@ export function registerFaqTool(server: McpServer): void {
     title: "EU AI Act FAQ",
     description: "Search frequently asked questions about the EU AI Act and get best-match answers with article references. Covers classification, deadlines, roles, governance, documentation, risk assessment, penalties, GPAI systemic risk, FRIA, transparency, and sector-specific guidance.",
     annotations: {
+      title: "EU AI Act FAQ",
       readOnlyHint: true,
       idempotentHint: true,
       openWorldHint: false,

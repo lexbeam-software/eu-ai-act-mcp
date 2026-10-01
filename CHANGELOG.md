@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.6.3] - 2026-10-01
+
+Directory listing. The Claude directory's submission check reads a tool's display name from `annotations.title`.
+
+### Fixed
+
+- Every tool repeats its title in `annotations.title`. The ten tools already declared the top-level `title`, which
+  MCP clients prefer, but the directory's submission check listed all of them as missing a title annotation. Tool
+  behaviour, legal content and the decision contract are unchanged.
+
 ## [1.6.2] - 2026-09-29
 
 Directory run. Tool results carry no links any more, the hosted endpoint survives a failing

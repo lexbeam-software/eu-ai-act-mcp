@@ -23,6 +23,7 @@ export function registerObligationsTool(server: McpServer): void {
     title: "Get Obligations by Role and Risk Level",
     description: "Returns specific compliance obligations for providers or deployers based on AI system risk level.",
     annotations: {
+      title: "Get Obligations by Role and Risk Level",
       readOnlyHint: true,
       idempotentHint: true,
       openWorldHint: false,

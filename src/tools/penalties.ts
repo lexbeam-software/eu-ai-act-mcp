@@ -22,6 +22,7 @@ export function registerPenaltiesTool(server: McpServer): void {
     title: "Calculate EU AI Act Penalties",
     description: "Calculates the maximum possible fine for an EU AI Act violation based on violation type, global annual turnover, SME status and SMC (small mid-cap) status. Implements the Art. 99 penalty framework including the SME/startup lower-of rule (Art. 99(6), tiers 99(3)-(5)) and the narrower SMC rule (Art. 99(6a), tiers 99(4)-(5) only; no SMC cap on Art. 5 fines and none under Art. 101). Returns a comparative block so the agent can show the SME reduction to the user.",
     annotations: {
+      title: "Calculate EU AI Act Penalties",
       readOnlyHint: true,
       idempotentHint: true,
       openWorldHint: false,

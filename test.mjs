@@ -2307,7 +2307,12 @@ console.log("\n🌐 HTTP HANDLER");
 
   const real = await listen(createRequestHandler());
   const listed = await fetch(`${real.base}/mcp`, { method: "POST", headers: mcpHeaders, body: toolsList });
-  test("http: POST /mcp lists the tools", listed.status === 200 && (await listed.text()).includes("euaiact_classify_system"));
+  const listedBody = await listed.text();
+  test("http: POST /mcp lists the tools", listed.status === 200 && listedBody.includes("euaiact_classify_system"));
+  // 1.6.3: the Claude directory reads annotations.title; every tool repeats its title there.
+  const listedTools = JSON.parse(listedBody.split("\n").find((line) => line.startsWith("data: ")).slice(6)).result.tools;
+  test("http: all 10 tools repeat their title in annotations.title",
+    listedTools.length === 10 && listedTools.every((tool) => tool.title && tool.annotations?.title === tool.title));
   const saved = process.env.OPENAI_APPS_CHALLENGE;
   delete process.env.OPENAI_APPS_CHALLENGE;
   test("http: the OpenAI challenge path answers 404 without a token",
