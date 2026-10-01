@@ -6,17 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-10-01
+
+Agent contracts. Every tool rejects arguments its schema does not name, FAQ answers state whether they matched,
+and the hosted endpoint works with the official SDK client.
+
 ### Changed
 
-- Unknown input fields now fail validation, including fields in nested objects. Previously,
-  unsupported fields were silently ignored and the call could succeed. Remove unsupported
-  fields before retrying. This compatibility change is intended for release 1.7.0; the
-  package version remains unchanged until release.
+- Unknown input fields now fail validation, including fields in nested objects, as the advertised schemas
+  (`additionalProperties: false`) already stated. Previously they were silently ignored and the call could
+  succeed. Remove unsupported fields before retrying. Omitted optional fields and documented defaults work as
+  before.
+- `euaiact_answer_question` returns `match_status` (`matched` or `no_match`). On abstention the closest entry
+  appears as `candidate_question`, no longer as `matched_question`.
+
+### Added
+
+- `euaiact_get_article` accepts `Artikel 4` alongside `4`, `Art. 4` and `Article 4`.
+- Direct questions about AI literacy (Article 4), in English or German, route to the literacy FAQ. Questions on
+  fines, exemptions, enforcement, liability or applicability go through the ordinary FAQ search instead.
+- README: first successful calls and a runnable synthetic assessment profile, `examples/assessment-minimal.json`,
+  which ships in the package.
 
 ### Fixed
 
-- Article 4 literacy FAQ aliases no longer force a high-confidence literacy answer for
-  inflected penalty, exemption, or applicability questions. These use the existing FAQ search.
+- The hosted endpoint answers GET and DELETE on `/mcp` with 405 instead of holding an idle event stream. The
+  official SDK client had stalled on its next request against mcp.lexbeam.com.
+- Browsers can preflight the `MCP-Protocol-Version` header.
+- Classifier guidance: `missing_signals` includes optional context and is not a checklist of required facts, and
+  a sector alone is not a listed Annex III use.
 
 ## [1.6.3] - 2026-10-01
 
