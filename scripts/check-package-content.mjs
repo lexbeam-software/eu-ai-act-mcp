@@ -40,6 +40,7 @@ const files = pack.files.map((entry) => entry.path.replaceAll("\\", "/"));
 const fileSet = new Set(files);
 const required = [
   "package.json",
+  "examples/assessment-minimal.json",
   packageMetadata.main,
   packageMetadata.types,
   ...Object.values(packageMetadata.bin ?? {}),
@@ -51,7 +52,7 @@ if (!files.some((path) => path.startsWith("dist/"))) {
   throw new Error("Packed package contains no dist files");
 }
 
-const allowedRootFiles = new Set(["LICENSE", "README.md", "package.json"]);
+const allowedStaticFiles = new Set(["LICENSE", "README.md", "package.json", "examples/assessment-minimal.json"]);
 for (const path of files) {
   if (/(^|\/)\.env(?:\.|$)/i.test(path)) {
     throw new Error(`Packed package contains environment file ${path}`);
@@ -59,7 +60,12 @@ for (const path of files) {
   if (/holdout/i.test(path)) {
     throw new Error(`Packed package contains holdout path ${path}`);
   }
-  if (allowedRootFiles.has(path)) continue;
+  if (allowedStaticFiles.has(path)) {
+    if (lstatSync(join(REPO_ROOT, path)).isSymbolicLink()) {
+      throw new Error(`Packed package contains symlink ${path}`);
+    }
+    continue;
+  }
   if (!path.startsWith("dist/")) {
     throw new Error(`Packed package contains stray file ${path}`);
   }
@@ -79,4 +85,4 @@ for (const path of files) {
   }
 }
 
-console.log(`${files.length} files; dist present; allowlist, .env, and holdout checks passed`);
+console.log(`${files.length} files; dist and runnable assessment example present; allowlist, .env, and holdout checks passed`);

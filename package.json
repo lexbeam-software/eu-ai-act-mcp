@@ -22,7 +22,8 @@
     "lexbeam-eu-ai-act-mcp": "dist/index.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "examples/assessment-minimal.json"
   ],
   "scripts": {
     "build": "tsc",
