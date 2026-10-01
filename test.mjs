@@ -2335,6 +2335,45 @@ console.log("\n🌐 HTTP HANDLER");
   } });
   test("http: browser preflight permits the MCP protocol header", preflight.status === 204 &&
     preflight.headers.get("access-control-allow-headers").toLowerCase().split(/,\s*/).includes("mcp-protocol-version"));
+  // 1.7.0: the stateless endpoint answers GET and DELETE with 405 at once. It used to hold an idle SSE stream on GET,
+  // and the official SDK client stalled on its next POST against the hosted endpoint.
+  for (const method of ["GET", "DELETE"]) {
+    const started = Date.now();
+    let status = 0, allow = null, body = null;
+    try {
+      const response = await fetch(`${real.base}/mcp`, { method, headers: { Accept: "text/event-stream" }, signal: AbortSignal.timeout(5000) });
+      status = response.status;
+      allow = response.headers.get("allow");
+      body = await response.json();
+    } catch {
+      // A held stream ends in the timeout; the test below reports it.
+    }
+    test(`http: ${method} /mcp answers 405 at once instead of an idle stream`,
+      status === 405 && allow === "POST, OPTIONS" && body?.id === null && Date.now() - started < 2000);
+  }
+  {
+    const { Client } = await import("@modelcontextprotocol/sdk/client/index.js");
+    const { StreamableHTTPClientTransport } = await import("@modelcontextprotocol/sdk/client/streamableHttp.js");
+    const within = async (promise) => {
+      let timer;
+      try {
+        return await Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => reject(new Error("timeout")), 10000); })]);
+      } finally {
+        clearTimeout(timer);
+      }
+    };
+    const client = new Client({ name: "http-sdk-check", version: "0" });
+    let sdkTools = [], sdkCall = null;
+    try {
+      await within(client.connect(new StreamableHTTPClientTransport(new URL(`${real.base}/mcp`))));
+      sdkTools = (await within(client.listTools())).tools;
+      sdkCall = await within(client.callTool({ name: "euaiact_check_deadlines", arguments: {} }));
+    } catch {
+      // Reported by the test below.
+    }
+    await client.close().catch(() => {});
+    test("http: the official SDK client connects, lists 10 tools and calls one", sdkTools.length === 10 && sdkCall !== null && !sdkCall.isError);
+  }
   const rpcCall = async (name, args) => {
     const response = await fetch(`${real.base}/mcp`, { method: "POST", headers: {
       ...mcpHeaders, "MCP-Protocol-Version": "2025-11-25",

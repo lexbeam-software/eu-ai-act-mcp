@@ -59,6 +59,14 @@ export function createRequestHandler(options: RequestHandlerOptions = {}) {
 
     // MCP endpoint
     if (req.url === "/mcp") {
+      // Stateless: nothing is ever pushed, so a GET stream would only sit idle. The official SDK
+      // client opens one after initialize and then stalled on its next POST against the hosted
+      // endpoint. Every method but POST answers 405, which the Streamable HTTP spec allows.
+      if (req.method !== "POST") {
+        res.writeHead(405, { "Content-Type": "application/json", Allow: "POST, OPTIONS" });
+        res.end(JSON.stringify({ jsonrpc: "2.0", error: { code: -32000, message: "Method not allowed. Use POST." }, id: null }));
+        return;
+      }
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: undefined, // stateless
       });
