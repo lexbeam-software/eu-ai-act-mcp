@@ -13,6 +13,7 @@ export function registerDeadlinesTool(server: McpServer): void {
     title: "Check EU AI Act Implementation Deadlines",
     description: "Returns key implementation milestones and deadlines for the EU AI Act with days remaining, a `next_milestone` shortcut, and a summary of the Digital Omnibus. The milestone timeline always reflects the operative law. Set `include_pending_omnibus: true` to also receive the structured Digital Omnibus pack (each item source-status labelled; its `status` and `enacted` fields carry the current legislative state). Use `only_upcoming: true` to drop past milestones.",
     annotations: {
+      title: "Check EU AI Act Implementation Deadlines",
       readOnlyHint: true,
       idempotentHint: true,
       openWorldHint: false,

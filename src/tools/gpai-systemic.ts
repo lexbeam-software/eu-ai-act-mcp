@@ -17,6 +17,7 @@ export function registerGpaiSystemicTool(server: McpServer): void {
       description:
         "Determine whether a general-purpose AI model qualifies as a GPAI model with systemic risk under Art. 51. This tool uses an adjudicated conservative boundary at or above 10^25 cumulative training FLOPs for the Art. 51(2) presumption. The Commission may also designate models with equivalent capabilities or impact under Art. 51(1)(b). Returns baseline GPAI obligations under Art. 53 plus systemic-risk-only obligations under Art. 55, and the Art. 52 notification duty.",
       annotations: {
+        title: "Check GPAI Model Systemic Risk Classification",
         readOnlyHint: true,
         idempotentHint: true,
         openWorldHint: false,
