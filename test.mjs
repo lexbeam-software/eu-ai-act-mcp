@@ -2407,6 +2407,66 @@ console.log("\nAgent input and FAQ contracts");
     test(`literacy FAQ alias: ${question}`, result.match_status === "matched" && result.question === question &&
       result.matched_question === "How do I implement AI literacy training (Art. 4)?" && result.article_references.length === 1 && result.article_references[0] === "Art. 4");
   }
+  for (const question of [
+    "Was passiert, wenn wir keine KI-Schulungen anbieten?",
+    "What happens if we ignore AI literacy?",
+    "Who enforces the AI literacy obligation?",
+    "Haften wir für fehlende KI-Kompetenz?",
+    "Gibt es Erleichterungen bei der KI-Kompetenz für KMU?",
+    "Do SMEs get relief from AI literacy duties?",
+    "Is AI literacy mandatory for freelancers?",
+  ]) {
+    const result = structured(await callTool("euaiact_answer_question", { question }));
+    test(`literacy allow-list: no high-confidence answer to ${question}`,
+      !(result.matched_question === "How do I implement AI literacy training (Art. 4)?" && result.confidence === "high"));
+  }
+  for (const question of [
+    "What is AI literacy?",
+    "Was bedeutet KI-Kompetenz?",
+    "Welche Pflichten zur KI-Kompetenz gelten nach Artikel 4?",
+    "Brauchen unsere Beschäftigten KI-Schulungen?",
+    "What AI literacy duties apply to deployers?",
+    "Welche Pflichten zur KI-Kompetenz gelten für Betreiber?",
+    "Ab wann gilt die KI-Kompetenz-Pflicht?",
+  ]) {
+    const result = structured(await callTool("euaiact_answer_question", { question }));
+    test(`literacy allow-list: direct question matches ${question}`, result.match_status === "matched" &&
+      result.matched_question === "How do I implement AI literacy training (Art. 4)?");
+  }
+  {
+    const { findFaqMatch } = await import("./dist/utils/faq-matching.js");
+    for (const question of [
+      "What is AI literacy enforcement?",
+      "What AI literacy duties apply to deployers outside the EU?",
+      "Welche Pflichten zur KI-Kompetenz gelten für Betreiber außerhalb der EU?",
+      "Do we need AI literacy training to avoid fines?",
+      "What is AI literacy and who enforces it?",
+      "Ab wann gilt die KI-Kompetenz-Pflicht für Freiberufler?",
+      "What is AI literacy under Article 50?",
+      "What does Article 40 require for AI literacy?",
+    ]) {
+      const result = findFaqMatch(question);
+      const ordinary = findBestMatch(question,
+        faqDatabase.map((entry) => ({ ...entry, _search: `${entry.question} ${entry.keywords.join(" ")}` })), "_search");
+      test(`literacy allow-list: other wording uses normal matcher ${question}`,
+        result.item?.id === ordinary.item?.id && result.score === ordinary.score && result.confidence === ordinary.confidence);
+    }
+    for (const question of [
+      "  WHAT   IS AI LITERACY?!  ",
+      "Was ist KI Kompetenz?",
+      "What are the AI literacy obligations for a provider?",
+      "What AI literacy requirements apply to deployers?",
+      "Welche Anforderungen zur KI-Kompetenz gelten für Anbieter?",
+      "Do we need AI literacy training?",
+      "Brauchen wir KI-Schulung?",
+      "Since when is AI literacy required?",
+      "Since when does the AI literacy obligation apply?",
+      "When do AI literacy duties apply?",
+    ]) {
+      const result = findFaqMatch(question);
+      test(`literacy allow-list: bounded form matches ${question}`, result.item?.id === "faq-08-ai-literacy" && result.score === 1);
+    }
+  }
   for (const question of ["What does Article 40 say?", "What does Artikel 4a say?", "Article 4 and Article 50", "What are the fines for violating Article 4?", "Welche Bußgelder drohen bei Artikel 4?", "What are the penalties for AI literacy violations?",
     "Mit welchen Bußgeldern muss ich bei fehlender KI-Kompetenz rechnen?",
     "Wird fehlende KI-Kompetenz sanktioniert?",
