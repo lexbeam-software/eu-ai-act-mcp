@@ -162,7 +162,6 @@ export const classifyOutputSchema = z.object({
   /** Basis of the classification: "signals" (rule-based) or "text" (keyword match) or "default". */
   basis: z.enum(["signals", "text", "default"]),
   /** Optional deep-dive link on lexbeam.com for this classification. */
-  lexbeam_url: z.string().optional(),
 });
 
 export type ClassifyInput = z.infer<typeof classifyInputSchema>;

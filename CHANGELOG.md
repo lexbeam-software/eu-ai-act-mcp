@@ -6,6 +6,42 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.6.2] - 2026-09-29
+
+Directory run. Tool results carry no links any more, the hosted endpoint survives a failing
+request, and OpenAI's plugin directory can verify the domain.
+
+### Changed
+
+- `euaiact_classify_system`, `euaiact_answer_question` and `euaiact_get_obligations` no
+  longer return `lexbeam_url`. The classify and FAQ links pointed at the contact page, which
+  the Connectors Directory treats as promotional text in what the client model reads; six of
+  the seven knowledge-base links now land on the lexbeam.com Wissen index since the articles
+  were withdrawn. The decision contract is unchanged.
+
+### Added
+
+- FAQ entry `faq-25-art50-2-legacy-transition`: synthetic-content systems placed on the market before
+  2 August 2026 complete Art. 50(2) marking by 2 December 2026 (new Art. 111(4)), the only Art. 50-specific
+  transitional provision; Art. 50 itself applies from 2 August 2026, not deferred by the Digital Omnibus. Keyed
+  narrowly: no pinned question changes its entry or confidence, legacy GPAI and legacy high-risk questions do not
+  reach it, and general Art. 50 date questions keep the dated answer of `faq-02`.
+- `GET /.well-known/openai-apps-challenge` answers the token set in `OPENAI_APPS_CHALLENGE`
+  (404 while it is unset), for OpenAI's domain verification of the hosted endpoint.
+
+### Fixed
+
+- The Art. 50 summary returned by `euaiact_get_article` now states both conditions of the Art. 50(4) editorial
+  exception (human review or editorial control and a person holding editorial responsibility), the Art. 50(1)
+  standard of a reasonably well-informed, observant and circumspect person, and the exceptions of Art. 50(2)
+  (assistive standard editing, no substantial alteration) and Art. 50(4) (evidently artistic or similar works)
+  instead of "exceptions apply for law enforcement use". `faq-12` and `faq-23` state the Art. 50(1) standard in
+  full.
+- The hosted HTTP handler has an error boundary: a request that throws answers 500, logs the
+  error type only (never its message, which can quote submitted input) and the process keeps
+  serving. Before, the rejected promise of the async handler ended the process. The handler
+  moved to `src/http-handler.ts` so the behavior suite runs it in-process.
+
 ## [1.6.1] - 2026-09-28
 
 Directory listing. Prepares the hosted endpoint for Anthropic's Connectors Directory,

@@ -1,6 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { obligationsInputSchema, obligationsOutputSchema, type ObligationsInput, type ObligationsOutput } from "../schemas/obligations.js";
-import { BRANDING } from "../constants.js";
 import {
   providerHighRiskObligations,
   deployerHighRiskObligations,
@@ -128,7 +127,6 @@ export function registerObligationsTool(server: McpServer): void {
       risk_level: input.risk_level,
       obligations: filtered,
       penalties: penaltyInfo,
-      lexbeam_url: `${BRANDING.baseUrl}/wissen/provider-deployer-pflichten`,
     };
 
     return {

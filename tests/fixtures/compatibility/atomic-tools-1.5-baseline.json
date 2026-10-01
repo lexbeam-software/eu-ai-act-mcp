@@ -15,8 +15,8 @@
       "input": {
         "question": "Do I need to register my Annex III system in the EU database?"
       },
-      "baseline_sha256": "90fcdf198bd717f77eb64814f076e1dd38c9645943fd3b312dc38342e8127cf0",
-      "baseline_bytes": 1964
+      "baseline_sha256": "d68a3c180ed15e3f4c5067a3086c5f881d0ffdca8081d56c356c9ff368f5b236",
+      "baseline_bytes": 1807
     },
     {
       "tool_name": "euaiact_assess_art6_3_exception",
@@ -68,8 +68,8 @@
           "domain": "employment"
         }
       },
-      "baseline_sha256": "75956b8af08f459af9447b8d89eaaac0af44415e6addd500573cf92059e03af4",
-      "baseline_bytes": 3924
+      "baseline_sha256": "1e637527395d404bde7a6a0e7717c2fa3d72f4e0c6de9d2cec0940326df85b86",
+      "baseline_bytes": 3827
     },
     {
       "tool_name": "euaiact_get_article",
@@ -87,8 +87,8 @@
         "high_risk_source": "annex_iii",
         "annex_iii_point": 4
       },
-      "baseline_sha256": "987faee71404c1c3be00ff218bf3f123160956ede9e71c4808b0655a04285b18",
-      "baseline_bytes": 23007
+      "baseline_sha256": "66d859f0aa895dc96fec5fdc74972ac06f5875d1891423ca068244018c0f2504",
+      "baseline_bytes": 22856
     }
   ]
 }

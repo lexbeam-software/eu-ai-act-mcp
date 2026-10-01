@@ -2,57 +2,20 @@
 
 /**
  * Streamable HTTP transport for Smithery / hosted deployments.
- * 
+ *
  * Start with: node dist/http.js
- * Env: PORT (default 3000)
- * 
+ * Env: PORT (default 3000), OPENAI_APPS_CHALLENGE (optional, OpenAI's domain token)
+ *
  * Stateless mode - each request is independent, no session tracking.
- * Our tools are pure read-only knowledge lookups.
+ * The request handling, including the error boundary, lives in http-handler.ts.
  */
 
 import { createServer as createHttpServer } from "node:http";
-import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
-import { createServer } from "./server.js";
-import { SERVER_VERSION } from "./constants.js";
+import { createRequestHandler } from "./http-handler.js";
 
 const PORT = parseInt(process.env.PORT || "3000", 10);
 
-const httpServer = createHttpServer(async (req, res) => {
-  // CORS headers for Smithery proxy
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, mcp-session-id");
-  res.setHeader("Access-Control-Expose-Headers", "mcp-session-id");
-
-  if (req.method === "OPTIONS") {
-    res.writeHead(204);
-    res.end();
-    return;
-  }
-
-  // Health check
-  if (req.method === "GET" && req.url === "/health") {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ status: "ok", server: "lexbeam-eu-ai-act-mcp", version: SERVER_VERSION }));
-    return;
-  }
-
-  // MCP endpoint
-  if (req.url === "/mcp") {
-    const transport = new StreamableHTTPServerTransport({
-      sessionIdGenerator: undefined, // stateless
-    });
-
-    const server = createServer();
-    await server.connect(transport);
-    await transport.handleRequest(req, res);
-    return;
-  }
-
-  // Fallback
-  res.writeHead(404, { "Content-Type": "application/json" });
-  res.end(JSON.stringify({ error: "Not found. Use /mcp for the MCP endpoint or /health for status." }));
-});
+const httpServer = createHttpServer(createRequestHandler());
 
 httpServer.listen(PORT, () => {
   console.log(`EU AI Act MCP Server (HTTP) listening on port ${PORT}`);

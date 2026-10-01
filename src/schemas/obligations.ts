@@ -37,7 +37,6 @@ export const obligationsOutputSchema = z.object({
     basis: z.string(),
   }),
   /** Optional deep-dive link on lexbeam.com for this role + risk combination. */
-  lexbeam_url: z.string().optional(),
 });
 
 export type ObligationsInput = z.infer<typeof obligationsInputSchema>;

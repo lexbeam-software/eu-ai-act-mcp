@@ -149,7 +149,7 @@ Curated, structured data covering:
 - **Limited-risk transparency obligations** (4 under Art. 50)
 - **Universal AI literacy** (Art. 4)
 - **Penalty framework** with SME protection logic (Art. 99)
-- **24 FAQ entries** with article references and Lexbeam knowledge-base links
+- **25 FAQ entries** with article references
 - **28 article summaries** with EUR-Lex URLs to the consolidated text
 - **Annex IV (9 documentation items)** *(new in 1.1.0)*
 

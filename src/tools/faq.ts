@@ -1,6 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { faqInputSchema, faqOutputSchema, type FaqInput, type FaqOutput } from "../schemas/faq.js";
-import { BRANDING } from "../constants.js";
 import { findBestMatch } from "../utils/matching.js";
 import { faqDatabase } from "../knowledge/faq-database.js";
 
@@ -35,7 +34,6 @@ export function registerFaqTool(server: McpServer): void {
           "No sufficiently matching FAQ found. Try euaiact_check_deadlines for dates, euaiact_classify_system for risk classification, euaiact_get_obligations for duties, or euaiact_get_article for a specific article. Consult the regulation text for anything else.",
         confidence: "low",
         article_references: [],
-        lexbeam_url: `${BRANDING.baseUrl}/kontakt`,
       };
       return {
         content: [{ type: "text", text: JSON.stringify(output, null, 2) }],
@@ -51,7 +49,6 @@ export function registerFaqTool(server: McpServer): void {
       answer: match.item.answer,
       confidence: match.confidence,
       article_references: match.item.articleReferences,
-      lexbeam_url: match.item.lexbeamUrl,
     };
 
     return {
