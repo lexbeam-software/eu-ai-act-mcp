@@ -15,9 +15,9 @@ export function findFaqMatch(question: string) {
   const referencePattern = /\b(?:article|artikel|art)\.?\s*4\b/g;
   const genericQuestion = normalized.replace(referencePattern, "article_ref").trim();
   const directLookup = /^(?:article_ref|what does article_ref (?:say|require)|what is article_ref|was (?:regelt|verlangt|besagt) article_ref)[?!.]*$/.test(genericQuestion);
-  // The literacy answer does not establish sanctions or exemption eligibility.
+  // The literacy answer does not establish sanctions, exemption eligibility, or territorial applicability.
   // A mention of Article 4 alone must not swallow those distinct questions.
-  const differentFocus = /\b(?:fine(?:s)?|penalt(?:y|ies)|sanction(?:s)?|exempt(?:ion|ions)?|bußgeld(?:er|es)?|bussgeld(?:er|es)?|strafen?|sanktionen?|ausnahmen?)\b/.test(normalized);
+  const differentFocus = /\b(?:fine[sd]?|fining|penal\w*|sanction\w*|exempt\w*|bu(?:ß|ss)geld\w*|straf\w*|sanktion\w*|befrei\w*|ausgenommen|ausnahme\w*|applicab\w*|apply\s+to|applies\s+to|gilt\b[^?!.]*\bfür|gelten\b[^?!.]*\bfür|outside\s+(?:the\s+)?eu|außerhalb\b[^?!.]*\beu|anwendungsbereich\w*)\b/.test(normalized);
   if (!differentFocus && ((onlyArticleFour && directLookup) || ((references.length === 0 || onlyArticleFour) && literacyTopic))) {
     const item = faqDatabase.find((entry) => entry.id === "faq-08-ai-literacy")!;
     return { item, confidence: "high" as const, score: 1 };

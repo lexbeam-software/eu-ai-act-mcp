@@ -2399,7 +2399,7 @@ console.log("\nAgent input and FAQ contracts");
   test("article lookup does not silently drop paragraph suffixes", findArticle("Artikel 4(2)") === null);
   for (const question of [
     "What does Article 4 require for AI literacy?",
-    "What AI literacy duties apply to deployers?",
+    "What are the AI literacy duties for deployers?",
     "Artikel 4", "Art. 4", "Welche Pflichten zur KI-Kompetenz gelten nach Artikel 4?",
     "Brauchen unsere Beschäftigten KI-Schulungen?",
   ]) {
@@ -2407,7 +2407,17 @@ console.log("\nAgent input and FAQ contracts");
     test(`literacy FAQ alias: ${question}`, result.match_status === "matched" && result.question === question &&
       result.matched_question === "How do I implement AI literacy training (Art. 4)?" && result.article_references.length === 1 && result.article_references[0] === "Art. 4");
   }
-  for (const question of ["What does Article 40 say?", "What does Artikel 4a say?", "Article 4 and Article 50", "What are the fines for violating Article 4?", "Welche Bußgelder drohen bei Artikel 4?", "What are the penalties for AI literacy violations?"]) {
+  for (const question of ["What does Article 40 say?", "What does Artikel 4a say?", "Article 4 and Article 50", "What are the fines for violating Article 4?", "Welche Bußgelder drohen bei Artikel 4?", "What are the penalties for AI literacy violations?",
+    "Mit welchen Bußgeldern muss ich bei fehlender KI-Kompetenz rechnen?",
+    "Wird fehlende KI-Kompetenz sanktioniert?",
+    "Sind Ehrenamtliche von der KI-Kompetenz-Pflicht ausgenommen?",
+    "Sind kleine Unternehmen von der KI-Schulung befreit?",
+    "Are volunteers exempted from AI literacy obligations?",
+    "Can a company be fined for missing AI literacy training?",
+    "Does Article 4 AI literacy apply to providers outside the EU?",
+    "Gilt die KI-Kompetenz-Pflicht für Unternehmen außerhalb der EU?",
+    "Was ist der Anwendungsbereich der KI-Kompetenz-Pflicht?",
+  ]) {
     const { findFaqMatch } = await import("./dist/utils/faq-matching.js");
     const result = findFaqMatch(question);
     test(`article alias does not force literacy: ${question}`, !(result.item?.id === "faq-08-ai-literacy" && result.score === 1));

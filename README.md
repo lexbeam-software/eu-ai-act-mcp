@@ -105,7 +105,7 @@ npm run start:http  # streamable HTTP (for Smithery/Railway)
 ## First successful calls
 
 For the hosted server, add `https://mcp.lexbeam.com/mcp` as a remote Streamable HTTP
-MCP server in your client. It requires no API key. The SDK also supports the local
+MCP server in your client. It requires no API key. The package also supports the local
 stdio command above. Send the negotiated `MCP-Protocol-Version` header on subsequent
 HTTP requests; browser clients can preflight that header.
 
@@ -124,7 +124,8 @@ For the structured assessment, use the complete, syntactically valid
 [minimum profile](examples/assessment-minimal.json) as the arguments to
 `euaiact_assess_system`. It is synthetic and intentionally leaves unconfirmed facts
 out. Replace its assertions only with facts the user supplied; do not copy the
-example's answers into a real assessment. Read `missing_facts`, ask the relevant
+example's answers into a real assessment. Read `missing_facts`, `legal_classification.limitations`, and
+`recommended_next_calls`, even when the status is `determined`. Ask the relevant
 questions, add fact objects with unique IDs, and call `euaiact_assess_system` again
 to update all three result blocks. A minimal profile is not a complete assessment.
 

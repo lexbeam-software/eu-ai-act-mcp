@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Unknown input fields now fail validation, including fields in nested objects. Previously,
+  unsupported fields were silently ignored and the call could succeed. Remove unsupported
+  fields before retrying. This compatibility change is intended for release 1.7.0; the
+  package version remains unchanged until release.
+
+### Fixed
+
+- Article 4 literacy FAQ aliases no longer force a high-confidence literacy answer for
+  inflected penalty, exemption, or applicability questions. These use the existing FAQ search.
+
 ## [1.6.3] - 2026-10-01
 
 Directory listing. The Claude directory's submission check reads a tool's display name from `annotations.title`.
