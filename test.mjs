@@ -2310,7 +2310,15 @@ console.log("\n🌐 HTTP HANDLER");
   const listedBody = await listed.text();
   test("http: POST /mcp lists the tools", listed.status === 200 && listedBody.includes("euaiact_classify_system"));
   // 1.6.3: the Claude directory reads annotations.title; every tool repeats its title there.
-  const listedTools = JSON.parse(listedBody.split("\n").find((line) => line.startsWith("data: ")).slice(6)).result.tools;
+  // The handler answers as an SSE stream today; read a plain JSON body as well, so a transport change fails this
+  // test by name instead of aborting the suite.
+  const dataLine = listedBody.split("\n").find((line) => line.startsWith("data: "));
+  let listedTools = [];
+  try {
+    listedTools = (dataLine ? JSON.parse(dataLine.slice(6)) : JSON.parse(listedBody)).result?.tools ?? [];
+  } catch {
+    listedTools = [];
+  }
   test("http: all 10 tools repeat their title in annotations.title",
     listedTools.length === 10 && listedTools.every((tool) => tool.title && tool.annotations?.title === tool.title));
   const saved = process.env.OPENAI_APPS_CHALLENGE;
