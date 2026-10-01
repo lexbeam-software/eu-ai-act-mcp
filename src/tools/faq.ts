@@ -1,7 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { faqInputSchema, faqOutputSchema, type FaqInput, type FaqOutput } from "../schemas/faq.js";
-import { findBestMatch } from "../utils/matching.js";
-import { faqDatabase } from "../knowledge/faq-database.js";
+import { findFaqMatch } from "../utils/faq-matching.js";
 
 export function registerFaqTool(server: McpServer): void {
   server.registerTool("euaiact_answer_question", {
@@ -16,21 +15,15 @@ export function registerFaqTool(server: McpServer): void {
     inputSchema: faqInputSchema,
     outputSchema: faqOutputSchema,
   }, async (input: FaqInput): Promise<{ content: any[], structuredContent: FaqOutput }> => {
-    // Match against a concatenation of question + keywords for richer signal.
-    // The symmetric findBestMatch scoring (v1.1.0) prevents long specific queries
-    // from being penalised.
-    const match = findBestMatch(
-      input.question,
-      faqDatabase.map(f => ({ ...f, _search: `${f.question} ${f.keywords.join(" ")}` })),
-      "_search" as any,
-    );
+    const match = findFaqMatch(input.question);
 
     // Abstain below the match threshold instead of serving the least-bad entry:
     // a wrong answer to a different question is worse than no answer.
     if (!match.item || match.score < 0.34) {
       const output: FaqOutput = {
         question: input.question,
-        matched_question: match.item?.question,
+        match_status: "no_match",
+        candidate_question: match.item?.question,
         answer:
           "No sufficiently matching FAQ found. Try euaiact_check_deadlines for dates, euaiact_classify_system for risk classification, euaiact_get_obligations for duties, or euaiact_get_article for a specific article. Consult the regulation text for anything else.",
         confidence: "low",
@@ -46,6 +39,7 @@ export function registerFaqTool(server: McpServer): void {
       // The caller's question is echoed verbatim; the matched entry is named
       // separately so a substitution can never be silent.
       question: input.question,
+      match_status: "matched",
       matched_question: match.item.question,
       answer: match.item.answer,
       confidence: match.confidence,

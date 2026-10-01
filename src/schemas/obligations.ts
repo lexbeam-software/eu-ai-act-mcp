@@ -20,7 +20,7 @@ export const obligationsInputSchema = z.object({
     .optional()
     .describe("For GPAI providers, whether the model was placed on the market before 2 August 2025, triggering the Art. 111(3) transition to 2 August 2027."),
   filter_keyword: z.string().optional().describe("Optional keyword filter for obligations"),
-});
+}).strict();
 
 export const obligationsOutputSchema = z.object({
   role: z.string(),

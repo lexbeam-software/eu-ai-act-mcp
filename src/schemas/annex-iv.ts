@@ -10,7 +10,7 @@ export const annexIvInputSchema = z.object({
     .boolean()
     .optional()
     .describe("Indicate whether SME-simplified preparation is being used (Art. 11(1) second subparagraph)."),
-});
+}).strict();
 
 export const annexIvItemSchema = z.object({
   number: z.number(),

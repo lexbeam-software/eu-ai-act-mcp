@@ -3,8 +3,8 @@ import { z } from "zod";
 export const articleInputSchema = z.object({
   article: z
     .string()
-    .describe("Article number (e.g. '5', '6', '50', 'Art. 99'). Case-insensitive; 'Art.' prefix optional."),
-});
+    .describe("Article number (e.g. '5', '4a', 'Art. 99', 'Article 4', 'Artikel 4'). Case-insensitive; prefix optional. Returns the whole article summary, not an individual paragraph."),
+}).strict();
 
 export const articleOutputSchema = z.object({
   available: z.boolean(),

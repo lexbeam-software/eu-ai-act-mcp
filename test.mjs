@@ -2139,6 +2139,14 @@ console.log("\n🧩 ASSESS SYSTEM 1.5");
   try {
     for (const fixture of compatibility.fixtures) {
       const actual = await callTool(fixture.tool_name, fixture.input);
+      // Preserve the historical answer payload while permitting the new explicit
+      // match-status flag. The independent FAQ tests cover its current semantics.
+      if (fixture.tool_name === "euaiact_answer_question") {
+        delete actual.structuredContent.match_status;
+        const textPayload = JSON.parse(actual.content[0].text);
+        delete textPayload.match_status;
+        actual.content[0].text = JSON.stringify(textPayload, null, 2);
+      }
       const serialized = JSON.stringify(actual);
       test(`atomic compatibility: ${fixture.tool_name}`,
         Buffer.byteLength(serialized, "utf8") === fixture.baseline_bytes &&
@@ -2321,6 +2329,50 @@ console.log("\n🌐 HTTP HANDLER");
   }
   test("http: all 10 tools repeat their title in annotations.title",
     listedTools.length === 10 && listedTools.every((tool) => tool.title && tool.annotations?.title === tool.title));
+  const preflight = await fetch(`${real.base}/mcp`, { method: "OPTIONS", headers: {
+    Origin: "https://example.test", "Access-Control-Request-Method": "POST",
+    "Access-Control-Request-Headers": "content-type,mcp-protocol-version",
+  } });
+  test("http: browser preflight permits the MCP protocol header", preflight.status === 204 &&
+    preflight.headers.get("access-control-allow-headers").toLowerCase().split(/,\s*/).includes("mcp-protocol-version"));
+  const rpcCall = async (name, args) => {
+    const response = await fetch(`${real.base}/mcp`, { method: "POST", headers: {
+      ...mcpHeaders, "MCP-Protocol-Version": "2025-11-25",
+    }, body: JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name, arguments: args } }) });
+    const text = await response.text();
+    const data = text.split("\n").find((line) => line.startsWith("data: "));
+    return (data ? JSON.parse(data.slice(6)) : JSON.parse(text));
+  };
+  const validInputs = {
+    euaiact_classify_system: { signals: { domain: "employment" } },
+    euaiact_check_deadlines: {},
+    euaiact_get_obligations: { role: "deployer", risk_level: "minimal" },
+    euaiact_answer_question: { question: "What is AI literacy?" },
+    euaiact_calculate_penalty: { violation_type: "high_risk", annual_turnover_eur: 1000 },
+    euaiact_get_article: { article: "Artikel 4" },
+    euaiact_check_gpai_systemic_risk: {},
+    euaiact_assess_art6_3_exception: { performs_profiling: true },
+    euaiact_annex_iv_checklist: {},
+    euaiact_assess_system: { profile_version: "1.0" },
+  };
+  for (const [name, input] of Object.entries(validInputs)) {
+    test(`http: ${name} advertises a closed root schema`, listedTools.find((t) => t.name === name)?.inputSchema.additionalProperties === false);
+    const accepted = await rpcCall(name, input);
+    test(`http: ${name} still accepts valid input and defaults`, !accepted.error && !accepted.result?.isError && !!accepted.result?.structuredContent);
+    const rejected = await rpcCall(name, { ...input, misspelled_argument: true });
+    test(`http: ${name} rejects unknown root fields`, rejected.result?.isError === true || rejected.error?.code === -32602);
+  }
+  for (const [name, input] of [
+    ["euaiact_classify_system", { signals: { domain: "employment", biometric_realtim: true } }],
+    ["euaiact_assess_system", { profile_version: "1.0", identity: { unexpected: true } }],
+    ["euaiact_assess_system", { profile_version: "1.0", identity: { system_name: {
+      fact_id: "identity.name", value: "Synthetic", origin: "explicit_structured_input",
+      verification: "caller_asserted", evidence_reference_ids: [], unexpected: true,
+    } } }],
+  ]) {
+    const rejected = await rpcCall(name, input);
+    test(`http: ${name} rejects unknown nested fields`, rejected.result?.isError === true || rejected.error?.code === -32602);
+  }
   const saved = process.env.OPENAI_APPS_CHALLENGE;
   delete process.env.OPENAI_APPS_CHALLENGE;
   test("http: the OpenAI challenge path answers 404 without a token",
@@ -2331,6 +2383,40 @@ console.log("\n🌐 HTTP HANDLER");
     challenge.status === 200 && (await challenge.text()) === "challenge-token-123");
   if (saved === undefined) delete process.env.OPENAI_APPS_CHALLENGE; else process.env.OPENAI_APPS_CHALLENGE = saved;
   await stop(real.server);
+}
+
+// ─── AGENT INPUT AND FAQ CONTRACT REGRESSIONS ───────────────────────────────
+console.log("\nAgent input and FAQ contracts");
+{
+  const profile = JSON.parse(readFileSync(new URL("./examples/assessment-minimal.json", import.meta.url), "utf8"));
+  test("assessment example is a valid profile", systemProfileSchema.safeParse(profile).success);
+  const assessment = structured(await callTool("euaiact_assess_system", profile));
+  test("assessment example returns a valid bounded assessment", assessSystemResponseSchema.safeParse(assessment).success);
+  for (const article of ["4", "Art. 4", "Article 4", "Artikel 4", "ARTIKEL 4", "  Artikel 4a  "]) {
+    const result = structured(await callTool("euaiact_get_article", { article }));
+    test(`article alias: ${article}`, result.available && result.article.number === (article.includes("4a") ? "4a" : "4"));
+  }
+  test("article lookup does not silently drop paragraph suffixes", findArticle("Artikel 4(2)") === null);
+  for (const question of [
+    "What does Article 4 require for AI literacy?",
+    "What AI literacy duties apply to deployers?",
+    "Artikel 4", "Art. 4", "Welche Pflichten zur KI-Kompetenz gelten nach Artikel 4?",
+    "Brauchen unsere Beschäftigten KI-Schulungen?",
+  ]) {
+    const result = structured(await callTool("euaiact_answer_question", { question }));
+    test(`literacy FAQ alias: ${question}`, result.match_status === "matched" && result.question === question &&
+      result.matched_question === "How do I implement AI literacy training (Art. 4)?" && result.article_references.length === 1 && result.article_references[0] === "Art. 4");
+  }
+  for (const question of ["What does Article 40 say?", "What does Artikel 4a say?", "Article 4 and Article 50"]) {
+    const { findFaqMatch } = await import("./dist/utils/faq-matching.js");
+    const result = findFaqMatch(question);
+    test(`article alias does not force literacy: ${question}`, !(result.item?.id === "faq-08-ai-literacy" && result.score === 1));
+  }
+  const abstention = structured(await callTool("euaiact_answer_question", { question: "How do I bake a sourdough loaf?" }));
+  test("FAQ abstention does not claim an accepted match", abstention.match_status === "no_match" && !("matched_question" in abstention) && abstention.article_references.length === 0);
+  const registered = createServer()._registeredPrompts;
+  const prompt = await registered["classify-my-system"].callback({ system_description: "A school timetable assistant" });
+  test("classification prompt distinguishes sector from listed use", /never merely the sector/.test(prompt.messages[0].content.text) && /leave unknown facts out/.test(prompt.messages[0].content.text));
 }
 
 // ─── SUMMARY ────────────────────────────────────────────────────────────────

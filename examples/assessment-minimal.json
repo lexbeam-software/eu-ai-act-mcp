@@ -1,0 +1,69 @@
+{
+  "profile_version": "1.0",
+  "identity": {
+    "system_name": {
+      "fact_id": "identity.system_name",
+      "value": "Example recruitment assistant",
+      "origin": "explicit_structured_input",
+      "verification": "caller_asserted",
+      "evidence_reference_ids": []
+    }
+  },
+  "intended_use": {
+    "intended_purpose": {
+      "fact_id": "intended_use.intended_purpose",
+      "value": "Rank job applicants for recruiter review.",
+      "origin": "explicit_structured_input",
+      "verification": "caller_asserted",
+      "evidence_reference_ids": []
+    },
+    "reasonably_foreseeable_uses": []
+  },
+  "role_facts": {
+    "roles": [
+      {
+        "fact_id": "role.deployer",
+        "value": "deployer",
+        "origin": "explicit_structured_input",
+        "verification": "caller_asserted",
+        "evidence_reference_ids": []
+      }
+    ]
+  },
+  "geography": {
+    "jurisdictions": [
+      {
+        "fact_id": "jurisdiction.de",
+        "value": "Germany",
+        "origin": "explicit_structured_input",
+        "verification": "caller_asserted",
+        "evidence_reference_ids": []
+      }
+    ],
+    "used_in_eu": {
+      "fact_id": "geography.used_in_eu",
+      "value": true,
+      "origin": "explicit_structured_input",
+      "verification": "caller_asserted",
+      "evidence_reference_ids": []
+    },
+    "affected_person_groups": [
+      {
+        "fact_id": "group.applicants",
+        "value": "Job applicants",
+        "origin": "explicit_structured_input",
+        "verification": "caller_asserted",
+        "evidence_reference_ids": []
+      }
+    ]
+  },
+  "decision_context": {
+    "decision_consequence": {
+      "fact_id": "decision.consequence",
+      "value": "The ranking can affect which applicants receive an interview.",
+      "origin": "explicit_structured_input",
+      "verification": "caller_asserted",
+      "evidence_reference_ids": []
+    }
+  }
+}

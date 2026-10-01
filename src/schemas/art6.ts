@@ -37,7 +37,7 @@ export const art6ExceptionInputSchema = z.object({
     .boolean()
     .optional()
     .describe("Has the provider documented the Art. 6(3) exception assessment? Required by Art. 6(4) regardless of which condition applies."),
-});
+}).strict();
 
 export const art6ExceptionConditionSchema = z.object({
   condition: z.string(),

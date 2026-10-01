@@ -10,7 +10,7 @@ export const deadlinesInputSchema = z.object({
     .boolean()
     .optional()
     .describe("If true, also return the structured Digital Omnibus pack with per-item source-status labels. OFF by default: the milestone timeline always reflects the operative law only. Check the pack's `status` and `enacted` fields for its current legislative state; non-enacted content must not be treated as current law."),
-});
+}).strict();
 
 const sourceStatusEnum = z.enum([
   "enacted_oj",

@@ -212,7 +212,7 @@ export function createServer(): McpServer {
         role: "user",
         content: {
           type: "text",
-          text: `Please classify this AI system under the EU AI Act using the euaiact_classify_system tool. If you can infer structured signals (domain, uses_biometrics, biometric_realtime, generates_synthetic_content, interacts_with_natural_persons, etc.), pass them in the signals field for a deterministic result.\n\nSystem: ${system_description}\n\nProvide the risk classification, relevant articles, obligations summary, matched signals, and follow-up questions to ask the user if anything is missing.`,
+          text: `Please classify this AI system under the EU AI Act using the euaiact_classify_system tool. If you can infer structured signals (domain, uses_biometrics, biometric_realtime, generates_synthetic_content, interacts_with_natural_persons, etc.), pass them in the signals field for a deterministic result. Only set signals supported by the description; leave unknown facts out. signals.domain identifies a LISTED Annex III use, never merely the sector: a payroll check or school timetable uses other, while applicant ranking uses employment. Read the domain field definition. missing_signals includes optional context; relay next_questions rather than asking for every omitted field. A matched route does not rule out every other route.\n\nSystem: ${system_description}\n\nProvide the risk classification, relevant articles, obligations summary, matched signals, and follow-up questions to ask the user if anything is missing.`,
         },
       }],
     })

@@ -261,7 +261,7 @@ export const articles: ArticleEntry[] = [
 ];
 
 export function findArticle(query: string): ArticleEntry | null {
-  const normalized = query.trim().toLowerCase().replace(/^art(icle)?\.?\s*/, "");
+  const normalized = query.trim().toLowerCase().replace(/^(?:article|artikel|art)\.?\s*(?=\d)/, "");
   return articles.find((a) => a.number.toLowerCase() === normalized) ?? null;
 }
 

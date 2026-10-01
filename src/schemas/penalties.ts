@@ -9,7 +9,7 @@ export const penaltiesInputSchema = z.object({
     .describe("Global annual turnover in EUR (a non-negative, finite number)"),
   is_sme: z.boolean().optional().default(false).describe("Whether the entity is an SME or startup (eligible for lower fines under Art. 99(6), covering paragraphs 3, 4 and 5)"),
   is_smc: z.boolean().optional().default(false).describe("Whether the entity is a small mid-cap (SMC): Art. 99(6a) applies the lower-of rule ONLY to the Art. 99(4) and 99(5) tiers, not to Art. 99(3) prohibited-practice fines and not to Art. 101"),
-});
+}).strict();
 
 export const penaltiesOutputSchema = z.object({
   violation_type: z.string(),

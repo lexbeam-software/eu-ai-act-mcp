@@ -12,7 +12,7 @@ export const gpaiSystemicInputSchema = z.object({
     .optional()
     .describe("Whether the Commission has formally designated the model as GPAI with systemic risk under Art. 51(1)(b)."),
   model_name: z.string().optional().describe("Optional model name for traceability in the response."),
-});
+}).strict();
 
 export const obligationRefSchema = z.object({
   obligation: z.string(),

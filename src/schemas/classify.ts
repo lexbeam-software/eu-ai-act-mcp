@@ -123,6 +123,7 @@ export const classifySignalsSchema = z
       .optional()
       .describe("Legacy alias: public-authority social scoring. Art. 5(1)(c) is not limited to public authorities."),
   })
+  .strict()
   .optional();
 
 export const classifyInputSchema = z.object({
@@ -136,7 +137,7 @@ export const classifyInputSchema = z.object({
     .describe("Specific context where the system is deployed"),
   role: z.enum(["provider", "deployer", "unknown"]).optional().default("unknown"),
   signals: classifySignalsSchema,
-});
+}).strict();
 
 export const annexIIICategoryRefSchema = z
   .object({
@@ -156,9 +157,9 @@ export const classifyOutputSchema = z.object({
   /** Human-readable labels for the rules / keywords that fired. */
   matched_signals: z.array(z.string()),
   /** Structured-signal fields the agent could provide to sharpen the result. */
-  missing_signals: z.array(z.string()),
+  missing_signals: z.array(z.string()).describe("Unprovided fields, including optional context. Not every entry is needed for the reported route; consult next_questions for follow-up guidance."),
   /** Ready-to-ask user questions the agent can relay verbatim. */
-  next_questions: z.array(z.string()),
+  next_questions: z.array(z.string()).describe("Suggested user questions for unresolved facts. May be empty when a route matches even though other signals were not supplied."),
   /** Basis of the classification: "signals" (rule-based) or "text" (keyword match) or "default". */
   basis: z.enum(["signals", "text", "default"]),
   /** Optional deep-dive link on lexbeam.com for this classification. */

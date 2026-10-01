@@ -102,6 +102,42 @@ npm start        # stdio transport
 npm run start:http  # streamable HTTP (for Smithery/Railway)
 ```
 
+## First successful calls
+
+For the hosted server, add `https://mcp.lexbeam.com/mcp` as a remote Streamable HTTP
+MCP server in your client. It requires no API key. The SDK also supports the local
+stdio command above. Send the negotiated `MCP-Protocol-Version` header on subsequent
+HTTP requests; browser clients can preflight that header.
+
+Start with `euaiact_get_article` and `{"article":"Artikel 4"}` to retrieve the
+existing Article 4 summary and its official source link. `4`, `Art. 4`, and
+`Article 4` are equivalent whole-article lookups. Summaries are not statutory text.
+
+`euaiact_answer_question` searches curated FAQs. For example,
+`{"question":"Welche Pflichten zur KI-Kompetenz gelten nach Artikel 4?"}` routes to
+the literacy FAQ. Answers remain in English. Check `match_status`: `matched`
+identifies the accepted `matched_question`; `no_match` contains guidance instead
+of a FAQ answer and may identify a rejected `candidate_question`. Confidence is
+match confidence, not a probability that a legal conclusion is correct.
+
+For the structured assessment, use the complete, syntactically valid
+[minimum profile](examples/assessment-minimal.json) as the arguments to
+`euaiact_assess_system`. It is synthetic and intentionally leaves unconfirmed facts
+out. Replace its assertions only with facts the user supplied; do not copy the
+example's answers into a real assessment. Read `missing_facts`, ask the relevant
+questions, add fact objects with unique IDs, and call `euaiact_assess_system` again
+to update all three result blocks. A minimal profile is not a complete assessment.
+
+For the simpler classifier, `missing_signals` includes unprovided optional context.
+It does not mean all listed fields must be collected before reporting a matched
+route. Use `next_questions` for follow-up guidance. A matched high-risk route does
+not establish that every prohibited-practice or other route was ruled out.
+
+All tools reject unknown argument names, including nested objects, consistently
+with their advertised closed input schemas. Correct a misspelled field rather
+than retrying it silently. Omitted optional fields and documented defaults work
+as before.
+
 ## Tools
 
 | Tool | Description |
