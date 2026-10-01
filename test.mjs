@@ -921,7 +921,7 @@ test(
   // with faq-02, and the generic and transparency questions keep their routing and confidence.
   const r = await callTool("euaiact_answer_question", { question: "Is there a transition period for Article 50(2) marking?" });
   test("FAQ: the Art. 50(2) transition question reaches its own entry",
-    structured(r).matched_question === "Transition for legacy synthetic-content generators under Article 50(2)" && structured(r).confidence !== "low");
+    structured(r).matched_question === "Synthetic-content generators under the Article 50(2) transition" && structured(r).confidence !== "low");
   test("FAQ: the transition answer carries 2 August 2026, 2 December 2026 and Art. 111(4)",
     /2 August 2026/.test(structured(r).answer) && /2 December 2026/.test(structured(r).answer) && /Art\. 111\(4\)/.test(structured(r).answer));
   test("FAQ results carry no lexbeam_url", !("lexbeam_url" in structured(r)));
@@ -941,6 +941,14 @@ test(
     /human review or editorial control and a natural or legal person holds editorial responsibility/.test(art50));
   test("Art. 50 summary keeps the Art. 50(1) standard of a reasonably well-informed person",
     /reasonably well-informed, observant and circumspect/.test(art50));
+  test("Art. 50 summary names the Art. 50(2) editing exception and the Art. 50(4) limit for artistic works",
+    /assistive function for standard editing/.test(art50) && /evidently artistic, creative, satirical, fictional or analogous works/.test(art50));
+  test("no FAQ answer shortens the Art. 50(1) standard to the circumstances alone",
+    !faqDatabase.some((f) => /obvious from the circumstances/.test(f.answer)));
+  for (const q of ["legacy GPAI transition", "legacy systems transition", "What does the AI Act say about systems already on the market?"]) {
+    const m = structured(await callTool("euaiact_answer_question", { question: q }));
+    test(`FAQ: "${q}" does not reach the Art. 50(2) transition entry`, !/Article 50\(2\) transition/.test(m.matched_question ?? ""));
+  }
 }
 {
   const ids = transparencyTriggers.map((t) => t.id);

@@ -128,7 +128,7 @@ export const faqDatabase: FAQEntry[] = [
     id: "faq-12-chatbot-transparency",
     question: "What are transparency obligations for chatbots?",
     answer:
-      "Under Art. 50(1), providers must ensure that persons interacting with an AI system are informed they are interacting with AI, unless this is obvious from the circumstances. Art. 50(2) requires providers of systems generating synthetic audio, image, video, or text to ensure machine-readable marking and detectability. Art. 50(4) requires deployers to disclose deep fakes and certain AI-generated or manipulated public-interest text, unless a specific exception applies. These are limited-risk obligations that apply regardless of whether the system is classified as high-risk.",
+      "Under Art. 50(1), providers must ensure that persons interacting with an AI system are informed they are interacting with AI, unless this is obvious to a reasonably well-informed, observant and circumspect person, taking into account the circumstances and the context of use. Art. 50(2) requires providers of systems generating synthetic audio, image, video, or text to ensure machine-readable marking and detectability. Art. 50(4) requires deployers to disclose deep fakes and certain AI-generated or manipulated public-interest text, unless a specific exception applies. These are limited-risk obligations that apply regardless of whether the system is classified as high-risk.",
     articleReferences: ["Art. 50(1)", "Art. 50(2)", "Art. 50(4)"],
     keywords: ["chatbot", "transparency", "disclosure", "AI interaction", "synthetic content", "deep fake", "labelling"],
     category: "transparency",
@@ -226,7 +226,7 @@ export const faqDatabase: FAQEntry[] = [
     id: "faq-23-chatbot-disclosure",
     question: "Do AI chatbots need special disclosure or labelling?",
     answer:
-      "Yes. Under Art. 50(1), providers must ensure that AI systems intended to interact directly with natural persons are designed and developed so that persons are informed they are interacting with an AI system, unless this is obvious from the circumstances and context of use. This means most customer service chatbots, virtual assistants, and conversational voice bots must tell users - clearly and at the start of the interaction - that they are talking to AI rather than a human. This is a limited-risk transparency obligation, not a high-risk classification. Chatbots that also generate synthetic content (e.g. AI-generated images or deep fakes) additionally trigger Art. 50(2) (machine-readable marking) and Art. 50(4) (deep fake disclosure).",
+      "Yes. Under Art. 50(1), providers must ensure that AI systems intended to interact directly with natural persons are designed and developed so that persons are informed they are interacting with an AI system, unless this is obvious to a reasonably well-informed, observant and circumspect person, taking into account the circumstances and the context of use. This means most customer service chatbots, virtual assistants, and conversational voice bots must tell users - clearly and at the start of the interaction - that they are talking to AI rather than a human. This is a limited-risk transparency obligation, not a high-risk classification. Chatbots that also generate synthetic content (e.g. AI-generated images or deep fakes) additionally trigger Art. 50(2) (machine-readable marking) and Art. 50(4) (deep fake disclosure).",
     articleReferences: ["Art. 50(1)", "Art. 50(2)", "Art. 50(4)"],
     keywords: ["chatbot", "chatbot disclosure", "virtual assistant", "conversational AI", "labelling", "transparency", "Art. 50", "customer service"],
     category: "transparency",
@@ -242,14 +242,15 @@ export const faqDatabase: FAQEntry[] = [
   },
   {
     id: "faq-25-art50-2-legacy-transition",
-    question: "Transition for legacy synthetic-content generators under Article 50(2)",
+    question: "Synthetic-content generators under the Article 50(2) transition",
     answer:
-      "Art. 50 applies from 2 August 2026 (Art. 113), and the Digital Omnibus on AI (Regulation (EU) 2026/1744) did not defer it. It added one transition, for Art. 50(2) only: providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content that were placed on the market before 2 August 2026 must take the necessary steps to comply with Art. 50(2) by 2 December 2026 (new Art. 111(4)). Art. 50(2) requires providers to ensure that such outputs are marked in a machine-readable format and detectable as artificially generated or manipulated, within the limits and exceptions that paragraph sets out. A system placed on the market from 2 August 2026 must comply with Art. 50(2) from that date; Art. 50(1), (3) and (4) have no transition. Check euaiact_check_deadlines for the operative dates.",
+      "Art. 50 applies from 2 August 2026 (Art. 113), and the Digital Omnibus on AI (Regulation (EU) 2026/1744) did not defer it. It added one transition, for Art. 50(2) only: providers of AI systems, including general-purpose AI systems, generating synthetic audio, image, video or text content that were placed on the market before 2 August 2026 must take the necessary steps to comply with Art. 50(2) by 2 December 2026 (new Art. 111(4)). Art. 50(2) requires providers to ensure that such outputs are marked in a machine-readable format and detectable as artificially generated or manipulated, within the limits and exceptions that paragraph sets out. A system placed on the market from 2 August 2026 must comply with Art. 50(2) from that date. The Omnibus added no transition for Art. 50(1), (3) and (4); Art. 111(4) is the only Art. 50-specific transitional provision. Check euaiact_check_deadlines for the operative dates.",
     articleReferences: ["Art. 50(2)", "Art. 111(4)", "Art. 113"],
     // Narrow on purpose: the matcher scores word overlap and breaks ties by array order, so
     // generic words (deadline, apply, obligations, transparency, dates) would tie faq-02 and
-    // faq-12 and lower their confidence. These words occur in no other entry's topic.
-    keywords: ["art. 111(4)", "legacy", "transition", "watermarking", "watermark"],
+    // faq-12 and lower their confidence, and "legacy" alone pulled in legacy GPAI and legacy
+    // high-risk questions (Art. 111(2) and (3)), which this entry does not answer.
+    keywords: ["art. 111(4)", "watermarking", "watermark", "marking transition"],
     category: "transparency",
   },
 ];
