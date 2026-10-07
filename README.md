@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![npm version](https://img.shields.io/npm/v/@lexbeam-software/eu-ai-act-mcp)](https://www.npmjs.com/package/@lexbeam-software/eu-ai-act-mcp)
+[Connect to Claude](https://claude.ai/directory/connectors/lexbeam-eu-ai-act) (Anthropic's connectors directory)
 [Smithery listing](https://smithery.ai/servers/lexbeam-software/eu-ai-act)
 [![Test](https://github.com/lexbeam-software/eu-ai-act-mcp/actions/workflows/test.yml/badge.svg)](https://github.com/lexbeam-software/eu-ai-act-mcp/actions/workflows/test.yml)
 
@@ -59,6 +60,13 @@ Version 1.6.0 corrects what a calling agent is told, and measures what it then d
 Full release history: [CHANGELOG.md](CHANGELOG.md).
 
 ## Quick Start
+
+### Claude, one click
+
+The hosted server is listed in Anthropic's connectors directory as a community connector:
+[claude.ai/directory/connectors/lexbeam-eu-ai-act](https://claude.ai/directory/connectors/lexbeam-eu-ai-act).
+Open the listing and connect; it works in claude.ai, the Claude apps and Cowork. No account with Lexbeam and no
+API key are needed. The same server answers at `https://mcp.lexbeam.com/mcp` for any other MCP client (below).
 
 ### npx (no install)
 
