@@ -37,7 +37,21 @@ gets `"other"`. Two calls to `euaiact_classify_system`, both for systems in the 
 The classifier trusts the signal: the same chatbot sent with `"domain": "employment"` comes
 back `high-risk`. Leave `domain` out when the description does not tell you which it is.
 
-## What's new in 1.6.0
+## What's new in 1.7.0
+
+Version 1.7.0 tightens the contracts a calling agent relies on.
+
+- **Strict inputs:** every tool rejects argument names its schema does not list, including
+  fields in nested objects. Earlier versions ignored them silently and the call could succeed.
+- **FAQ match status:** `euaiact_answer_question` returns `match_status` (`matched` or
+  `no_match`). On abstention the closest entry appears as `candidate_question`.
+- **Hosted endpoint and the official SDK:** GET and DELETE on `/mcp` answer 405 at once, so the
+  official SDK client no longer stalls on its next request. Browsers can preflight the
+  `MCP-Protocol-Version` header.
+- **First calls:** `euaiact_get_article` accepts `Artikel 4`, and the package ships a runnable
+  assessment profile, [examples/assessment-minimal.json](examples/assessment-minimal.json).
+
+## 1.6.0: the front door, measured
 
 Version 1.6.0 corrects what a calling agent is told, and measures what it then does.
 
@@ -154,7 +168,7 @@ as before.
 | `euaiact_classify_system` | Classify an AI system's risk level (prohibited / high-risk / limited / minimal) from structured signals that the calling agent derives from the user's description; free text alone is a keyword fallback. Returns matched signals, missing signals, and follow-up questions. |
 | `euaiact_check_deadlines` | Implementation milestones with days remaining, `next_milestone` shortcut, `only_upcoming` filter, and the enacted Digital Omnibus (Regulation (EU) 2026/1744) status. |
 | `euaiact_get_obligations` | Specific compliance obligations by role (provider/deployer) and risk level, including GPAI (Art. 51-56) and universal AI literacy (Art. 4). |
-| `euaiact_answer_question` | Keyword FAQ search (lexical matching with stopword filtering, tie handling and abstention) across 24 curated EU AI Act questions; echoes your question and names the matched entry. |
+| `euaiact_answer_question` | Keyword FAQ search (lexical matching with stopword filtering, tie handling and abstention) across 25 curated EU AI Act questions; echoes your question and names the matched entry. |
 | `euaiact_calculate_penalty` | Calculate maximum fines by violation type, turnover, SME status (Art. 99(6)) and SMC status (Art. 99(6a), tiers 99(4)-(5) only), with a comparative non-SME vs SME block. |
 | `euaiact_get_article` | Retrieve an operational summary and EUR-Lex URL for a specific article. Covers 28 curated articles between Art. 3 and Art. 113 (including the new Art. 4a), not the full act. |
 | `euaiact_check_gpai_systemic_risk` | Check whether a GPAI model crosses the 10²⁵ FLOPs threshold and return Art. 53 + Art. 55 obligations plus the Art. 52 notification duty. |
