@@ -1,7 +1,10 @@
 {
-  "purpose": "Every lexbeam.com URL that src/ may contain. The behavior suite rejects anything else offline; scripts/check-links.mjs requests each entry during release verification. Since 1.6.2 tool results carry no links, so only the root remains.",
-  "verified_at": "2026-09-29",
+  "purpose": "Every lexbeam.com URL that src/ may contain. The behavior suite rejects anything else offline; scripts/check-links.mjs requests each entry during release verification. Since 1.6.2 tool results carry no links, so tool code names only the root; since 1.7.1 the front page (src/site/) also links the imprint, the data protection notice and the terms.",
+  "verified_at": "2026-10-12",
   "urls": [
-    "https://lexbeam.com"
+    "https://lexbeam.com",
+    "https://www.lexbeam.com/de/impressum",
+    "https://www.lexbeam.com/de/datenschutz",
+    "https://www.lexbeam.com/de/agb"
   ]
 }
