@@ -10,6 +10,7 @@
 
 import { createHash } from "node:crypto";
 import { BRANDING, SERVER_VERSION } from "../constants.js";
+import { articles } from "../knowledge/articles.js";
 import { JETBRAINS_MONO_WOFF2, SCHIBSTED_GROTESK_WOFF2 } from "./fonts.js";
 import { PAGE_SCRIPT_TEMPLATE } from "./page-script.js";
 import { PAGE_STYLE } from "./page-style.js";
@@ -28,10 +29,7 @@ export const TERMS_URL = "https://www.lexbeam.com/de/agb";
 export const INSTALL_COMMAND = `npx -y ${NPM_PACKAGE}`;
 const CLAUDE_DESKTOP_CONFIG = `{ "mcpServers": { "eu-ai-act": { "command": "npx", "args": ["-y", "${NPM_PACKAGE}"] } } }`;
 
-/**
- * What the hosted endpoint costs: the one price on the page, in /llms.txt and in the JSON-LD offer. Paid offers exist
- * on the 1.8.0 branch only. Werner confirms this before the merge.
- */
+/** What the hosted endpoint costs: the one price on the page, in /llms.txt and in the JSON-LD offer. */
 export const PRICE = { label: "Free", amount: "0", currency: "EUR", access: "No key, no account" } as const;
 
 /** The pinned law the claim matrix checks against; the behaviour suite keeps it equal to law/manifest.json. */
@@ -51,7 +49,7 @@ export const TOOLS: readonly ToolEntry[] = [
   { name: "euaiact_get_obligations", returns: "The duties of a provider or a deployer at a given risk level.", restsOn: "Art. 4, 9 to 27, 43 to 50, 53 to 55, 72, 73" },
   { name: "euaiact_answer_question", returns: "Curated answers to common questions with article references; says `no_match` instead of guessing.", restsOn: "FAQ with article references" },
   { name: "euaiact_calculate_penalty", returns: "The maximum fine by violation type and worldwide turnover, with the SME and small mid-cap rules.", restsOn: "Art. 99, 101" },
-  { name: "euaiact_get_article", returns: "An operational summary of one of the 27 articles it covers, with its EUR-Lex link.", restsOn: "Consolidated text, EUR-Lex" },
+  { name: "euaiact_get_article", returns: `An operational summary of one of the ${articles.length} articles it covers, with its EUR-Lex link.`, restsOn: "Consolidated text, EUR-Lex" },
   { name: "euaiact_check_gpai_systemic_risk", returns: "Whether a general-purpose AI model is presumed to carry systemic risk at 10^25 training FLOPs, and the duties that follow.", restsOn: "Art. 51 to 53, 55, 56" },
   { name: "euaiact_assess_art6_3_exception", returns: "Walks the Art. 6(3) exception for Annex III systems; profiling of natural persons rules it out.", restsOn: "Art. 6(3), 6(4), 49(2)" },
   { name: "euaiact_annex_iv_checklist", returns: "The nine items of the Annex IV technical documentation as a checklist.", restsOn: "Art. 11, Annex IV" },
@@ -70,7 +68,7 @@ export interface EvidenceEntry {
 /** Every number the page states, with its source and date. Update with the release that changes it. */
 export const EVIDENCE: readonly EvidenceEntry[] = [
   { measure: "Law text", value: `Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744: consolidated text CELEX ${LAW.celex}, pinned by SHA-256. A consolidated text is a documentation tool without legal effect`, source: "law/manifest.json", asOf: LAW.sealed },
-  { measure: "Coverage", figure: "10", value: "tools, 5 resources, 4 prompts", source: "tools/list on mcp.lexbeam.com", asOf: "2026-10-12" },
+  { measure: "Coverage", figure: "10", value: "tools, 5 resources, 4 prompts", source: "tools/list, resources/list and prompts/list on mcp.lexbeam.com", asOf: "2026-10-12" },
   { measure: "Claim checks", figure: "62", value: "legal claims, each checked twice: against the pinned text and against what the server serves (124 checks)", source: "npm run verify", asOf: "2026-10-12" },
   { measure: "Behaviour tests", figure: "676", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-12" },
   { measure: "Determinism", figure: "120", value: "identical hashes: 12 assessment profiles, 10 runs each", source: "npm run verify", asOf: "2026-10-12" },

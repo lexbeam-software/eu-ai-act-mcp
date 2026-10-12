@@ -80,7 +80,7 @@ svg.i{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .note strong{color:var(--ink);font-weight:600}
 
 /* Console module */
-.module{background:var(--paper);border:1px solid var(--ash);border-radius:12px;padding:8px;box-shadow:var(--module)}
+.module{margin:0;background:var(--paper);border:1px solid var(--ash);border-radius:12px;padding:8px;box-shadow:var(--module)}
 .console{background:var(--console);color:var(--monitor);border-radius:8px;font:400 13px/1.6 var(--mono);overflow:hidden}
 .c-head{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--console-line);font-size:12px}
 .c-pill{border:1px solid #5a5a56;border-radius:4px;padding:1px 6px;color:var(--monitor)}
