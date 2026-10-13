@@ -70,7 +70,7 @@ export const EVIDENCE: readonly EvidenceEntry[] = [
   { measure: "Law text", value: `Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744: consolidated text CELEX ${LAW.celex}, pinned by SHA-256. A consolidated text is a documentation tool without legal effect`, source: "law/manifest.json", asOf: LAW.sealed },
   { measure: "Coverage", figure: "10", value: "tools, 5 resources, 4 prompts", source: "tools/list, resources/list and prompts/list on mcp.lexbeam.com", asOf: "2026-10-12" },
   { measure: "Claim checks", figure: "62", value: "legal claims, each checked twice: against the pinned text and against what the server serves (124 checks)", source: "npm run verify", asOf: "2026-10-12" },
-  { measure: "Behaviour tests", figure: "676", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-12" },
+  { measure: "Behaviour tests", figure: "678", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-12" },
   { measure: "Determinism", figure: "120", value: "identical hashes: 12 assessment profiles, 10 runs each", source: "npm run verify", asOf: "2026-10-12" },
   { measure: "Schema checks", figure: "48", value: "passed", source: "npm run verify", asOf: "2026-10-12" },
   { measure: "Downloads", figure: "838", value: "from npm in 30 days", source: "npm registry", asOf: "2026-09-12 to 2026-10-11" },
@@ -123,13 +123,14 @@ function plain(text: string): string {
 }
 
 const ICON_OUT = '<svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"/></svg>';
-const ICON_COPY = '<svg class="i" viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v6.5a1 1 0 0 0 1 1h.5"/></svg>';
+const ICON_COPY = '<svg class="i ic-copy" viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5V3a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v6.5a1 1 0 0 0 1 1h.5"/></svg>';
+const ICON_DONE = '<svg class="i ic-done" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 8.5 6.5 11.5 12.5 4.5"/></svg>';
 const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141415'/%3E%3Cpath d='M9 8v16h14' fill='none' stroke='%23f35b22' stroke-width='3.2'/%3E%3C/svg%3E";
 const DESCRIPTION = "Classify an AI system and find its duties, deadlines and fines under the EU AI Act as amended, from inside your AI agent. Ten deterministic MCP tools with article references. Free hosted endpoint, open source. General guidance, not legal advice.";
 const SHARE_DESCRIPTION = "Ten deterministic tools that classify AI systems and their duties under the EU AI Act as amended, with article references. Free hosted endpoint, open source.";
 
 function copyButton(text: string, copied: string, label: string): string {
-  return `<button class="icon-btn" type="button" data-copy="${escapeHtml(text)}" data-copied="${escapeHtml(copied)}" aria-label="${escapeHtml(label)}">${ICON_COPY}</button>`;
+  return `<button class="icon-btn" type="button" hidden data-copy="${escapeHtml(text)}" data-copied="${escapeHtml(copied)}" aria-label="${escapeHtml(label)}">${ICON_COPY}${ICON_DONE}</button>`;
 }
 
 /** The request arguments as a coloured JSON block (string values and one level of nesting). */
@@ -175,7 +176,7 @@ function consoleHtml(): string {
   const r = RECORDED_CALL.response;
   const chips = r.relevant_articles.map((article) => `<span class="chip">${escapeHtml(article)}</span>`).join("");
   const caveat = escapeHtml(r.caveat).replace("euaiact_assess_art6_3_exception", "<code>euaiact_assess_art6_3_exception</code>");
-  return `<figure class="module run" id="console" aria-labelledby="console-cap">
+  return `<figure class="module run" id="console" aria-labelledby="console-src">
         <div class="console">
           <div class="c-head"><span class="c-pill">tools/call</span><span class="c-tool">${escapeHtml(RECORDED_CALL.tool)}</span><span class="c-route">POST /mcp</span></div>
 <p class="vh">Request arguments</p>
@@ -191,9 +192,9 @@ function consoleHtml(): string {
           <dl class="verdict"><dt>risk_classification</dt><dd><span class="risk">${escapeHtml(r.risk_classification)}</span><span class="why">decided on the structured signals</span></dd></dl>
           <p class="c-caveat">caveat: "${caveat}"</p>
         </div>
-        <figcaption class="m-foot" id="console-cap">
-          <span class="src">Recorded from mcp.lexbeam.com on ${RECORDED_CALL.recordedOn}, version ${RECORDED_CALL.recordedVersion}. Same input, same output.</span>
-          <button class="btn btn-default" type="button" id="run-live">
+        <figcaption class="m-foot">
+          <span class="src" id="console-src">Recorded from mcp.lexbeam.com on ${RECORDED_CALL.recordedOn}, version ${RECORDED_CALL.recordedVersion}. Same input, same output.</span>
+          <button class="btn btn-default" type="button" id="run-live" hidden>
             <svg class="i" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3.5v9l7-4.5z"/></svg>Run it live</button>
           <span class="live" id="live-status" role="status" aria-live="polite"></span>
         </figcaption>

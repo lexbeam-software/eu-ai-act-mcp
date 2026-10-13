@@ -49,11 +49,14 @@ svg.i{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .btn:active{transform:translateY(1px)}
 .btn-primary{background:var(--orange);color:var(--ink);border-color:var(--orange-edge);box-shadow:var(--btn)}
 .btn-primary:hover{background:#f56a35;box-shadow:var(--btn-hover)}
-.btn-default{background:var(--canvas);color:var(--ink);border-color:#d9d9d9;box-shadow:var(--btn);font-weight:400}
+.btn-default{background:var(--canvas);color:var(--ink);border-color:#7f7f7c;box-shadow:var(--btn);font-weight:400}
 .btn-default:hover{background:var(--white);box-shadow:var(--btn-hover)}
 .btn-default code{font-size:13px}
-.btn[data-state="done"] .label-idle{display:none}
-.btn:not([data-state="done"]) .label-done{display:none}
+.btn[aria-disabled="true"]{opacity:.6;cursor:progress}
+[hidden]{display:none!important}
+.icon-btn .ic-done{display:none}
+.icon-btn[data-state="done"] .ic-copy{display:none}
+.icon-btn[data-state="done"] .ic-done{display:block}
 
 /* Hero */
 .hero{padding:56px 0 72px}

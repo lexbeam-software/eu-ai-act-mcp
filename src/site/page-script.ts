@@ -10,6 +10,11 @@ export const PAGE_SCRIPT_TEMPLATE = String.raw`(function () {
   "use strict";
   var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // The copy buttons and "Run it live" need this script: shown only once it runs.
+  Array.prototype.forEach.call(document.querySelectorAll("[data-copy], #run-live"), function (button) {
+    button.hidden = false;
+  });
+
   // Copy buttons: the clipboard API on a secure page, a hidden textarea elsewhere.
   var copyStatus = document.getElementById("copy-status");
   function copyText(text, done, fail) {
@@ -78,7 +83,9 @@ export const PAGE_SCRIPT_TEMPLATE = String.raw`(function () {
   }
   if (runButton) {
     runButton.addEventListener("click", function () {
-      runButton.disabled = true;
+      // aria-disabled, not disabled: a disabled button would drop the keyboard focus to the page.
+      if (runButton.getAttribute("aria-disabled") === "true") return;
+      runButton.setAttribute("aria-disabled", "true");
       say("Calling " + RECORDED.tool + " on this server.");
       var stop = "AbortController" in window ? new AbortController() : null;
       var timer = window.setTimeout(function () { if (stop) stop.abort(); }, 15000);
@@ -118,7 +125,7 @@ export const PAGE_SCRIPT_TEMPLATE = String.raw`(function () {
         say("The live call did not complete (" + reason + "). The recorded answer stays as shown.", "bad");
       }).then(function () {
         window.clearTimeout(timer);
-        runButton.disabled = false;
+        runButton.removeAttribute("aria-disabled");
       });
     });
   }

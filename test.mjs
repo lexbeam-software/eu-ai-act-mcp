@@ -2476,6 +2476,7 @@ console.log("\n🌐 HTTP HANDLER");
       html.includes(`<link rel="canonical" href="${site.SITE_URL}">`) &&
       ["og:type", "og:title", "og:description", "og:url"].every((tag) => html.includes(`property="${tag}"`)));
     const ldText = html.match(/<script type="application\/ld\+json">([^<]*)<\/script>/)?.[1] ?? "";
+    const inlineScriptText = html.match(/<script>([\s\S]*?)<\/script>/)?.[1] ?? "";
     let ld = {};
     try { ld = JSON.parse(ldText); } catch { ld = {}; }
     test("front page: JSON-LD SoftwareApplication with version and free offer",
@@ -2486,6 +2487,11 @@ console.log("\n🌐 HTTP HANDLER");
       site.escapeHtml(`<script>"'&`) === "&lt;script&gt;&quot;&#39;&amp;");
     test("front page: script blocks cannot be closed by content",
       (html.match(/<script/g) ?? []).length === 2 && (html.match(/<\/script>/g) ?? []).length === 2 && !ldText.includes("<"));
+    test("front page: the console is named by its source line, not by its controls",
+      html.includes('aria-labelledby="console-src"') && html.includes('<span class="src" id="console-src">'));
+    test("front page: script-only controls start hidden and the live button keeps focus while it runs",
+      (html.match(/<button[^>]*\bhidden\b/g) ?? []).length === 5 && inlineScriptText.includes("button.hidden = false") &&
+      inlineScriptText.includes('setAttribute("aria-disabled", "true")') && !inlineScriptText.includes(".disabled = true"));
     test("front page: copy targets survive attribute escaping",
       html.includes(`data-copy="${site.ENDPOINT_URL}"`) && html.includes("data-copy=\"{ &quot;mcpServers&quot;"));
 
