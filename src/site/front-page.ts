@@ -70,7 +70,7 @@ export const EVIDENCE: readonly EvidenceEntry[] = [
   { measure: "Law text", value: `Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744: consolidated text CELEX ${LAW.celex}, pinned by SHA-256. A consolidated text is a documentation tool without legal effect`, source: "law/manifest.json", asOf: LAW.sealed },
   { measure: "Coverage", figure: "10", value: "tools, 5 resources, 4 prompts", source: "tools/list, resources/list and prompts/list on mcp.lexbeam.com", asOf: "2026-10-12" },
   { measure: "Claim checks", figure: "62", value: "legal claims, each checked twice: against the pinned text and against what the server serves (124 checks)", source: "npm run verify", asOf: "2026-10-12" },
-  { measure: "Behaviour tests", figure: "678", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-12" },
+  { measure: "Behaviour tests", figure: "679", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-12" },
   { measure: "Determinism", figure: "120", value: "identical hashes: 12 assessment profiles, 10 runs each", source: "npm run verify", asOf: "2026-10-12" },
   { measure: "Schema checks", figure: "48", value: "passed", source: "npm run verify", asOf: "2026-10-12" },
   { measure: "Downloads", figure: "838", value: "from npm in 30 days", source: "npm registry", asOf: "2026-09-12 to 2026-10-11" },
@@ -203,14 +203,14 @@ function consoleHtml(): string {
 
 function toolRows(): string {
   return TOOLS.map((tool) =>
-    `<li class="row"><span class="name">${escapeHtml(tool.name)}</span><span class="what"><span class="vh">Returns: </span>${inline(tool.returns)}</span><span class="basis"><span class="vh">Rests on: </span>${escapeHtml(tool.restsOn)}</span></li>`,
+    `<li class="row"><span class="name"><span class="vh">Tool: </span>${escapeHtml(tool.name)}</span><span class="what"><span class="vh">Returns: </span>${inline(tool.returns)}</span><span class="basis"><span class="vh">Rests on: </span>${escapeHtml(tool.restsOn)}</span></li>`,
   ).join("\n          ");
 }
 
 function evidenceRows(): string {
   return EVIDENCE.map((row) => {
     const value = row.figure ? `<strong>${escapeHtml(row.figure)}</strong> ${escapeHtml(row.value)}` : escapeHtml(row.value);
-    return `<li class="row"><span class="m">${escapeHtml(row.measure)}</span><span class="v">${value}</span><span class="s"><span class="vh">Source: </span>${escapeHtml(row.source)}</span><span class="d"><span class="vh">As of </span>${escapeHtml(row.asOf)}</span></li>`;
+    return `<li class="row"><span class="m"><span class="vh">Measure: </span>${escapeHtml(row.measure)}</span><span class="v">${value}</span><span class="s"><span class="vh">Source: </span>${escapeHtml(row.source)}</span><span class="d"><span class="vh">As of </span>${escapeHtml(row.asOf)}</span></li>`;
   }).join("\n        ");
 }
 
@@ -298,7 +298,7 @@ function buildPage(): { html: string; style: string; script: string } {
         <a class="more" href="${REPOSITORY_URL}#readme">Tool reference on GitHub ${ICON_OUT}</a>
       </div>
       <div>
-        <ul class="sheet tools" aria-label="The ten tools">
+        <ul class="sheet tools" role="list" aria-label="The ten tools">
           <li class="row head" aria-hidden="true"><span>Tool</span><span>Returns</span><span>Rests on</span></li>
           ${toolRows()}
         </ul>
@@ -340,7 +340,7 @@ function buildPage(): { html: string; style: string; script: string } {
         <p class="intro">The code, the tests and the pinned law text are public. Every number here has a source and a date.</p>
         <a class="more" href="${REPOSITORY_URL}">Source on GitHub ${ICON_OUT}</a>
       </div>
-      <ul class="sheet evidence" aria-label="Evidence with sources and dates">
+      <ul class="sheet evidence" role="list" aria-label="Evidence with sources and dates">
         <li class="row head" aria-hidden="true"><span>Measure</span><span>Value</span><span>Source</span><span>As of</span></li>
         ${evidenceRows()}
       </ul>
@@ -368,14 +368,14 @@ function buildPage(): { html: string; style: string; script: string } {
       <p><strong>Lexbeam Software</strong>, Werner Plutat, Düsseldorf, Germany. <a href="mailto:info@lexbeam.com">info@lexbeam.com</a></p>
       <p>EU AI Act MCP Server ${escapeHtml(SERVER_VERSION)}. Code under the MIT license. Regulation texts from EUR-Lex, © European Union.</p>
     </div>
-    <nav aria-labelledby="f-product"><h2 id="f-product">Product</h2><ul>
+    <nav aria-labelledby="f-product"><h2 id="f-product">Product</h2><ul role="list">
       <li><a href="${REPOSITORY_URL}">GitHub</a></li>
       <li><a href="${NPM_URL}">npm</a></li>
       <li><a href="${SMITHERY_URL}">Smithery</a></li>
       <li><a href="/llms.txt">llms.txt</a></li>
       <li><a href="/health">Status</a></li>
     </ul></nav>
-    <nav aria-labelledby="f-legal"><h2 id="f-legal">Legal</h2><ul>
+    <nav aria-labelledby="f-legal"><h2 id="f-legal">Legal</h2><ul role="list">
       <li><a href="${IMPRINT_URL}" lang="de">Impressum</a></li>
       <li><a href="${PRIVACY_URL}">Privacy policy, endpoint</a></li>
       <li><a href="${DATA_PROTECTION_URL}" lang="de">Datenschutzerklärung</a></li>

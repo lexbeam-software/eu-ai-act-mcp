@@ -2453,7 +2453,7 @@ console.log("\n🌐 HTTP HANDLER");
     test("front page: the footer names the served version", html.includes(`EU AI Act MCP Server ${version}.`));
     test("front page: the tools are the server's own ten, in its order",
       JSON.stringify(site.TOOLS.map((tool) => tool.name)) === JSON.stringify(listedTools.map((tool) => tool.name)) &&
-      site.TOOLS.every((tool) => html.includes(`<span class="name">${tool.name}</span>`)));
+      site.TOOLS.every((tool) => html.includes(`<span class="vh">Tool: </span>${tool.name}</span>`)));
     test("front page: every number carries a source and a date",
       site.EVIDENCE.every((row) => row.source && /^\d{4}-\d{2}-\d{2}/.test(row.asOf)));
     const manifest = JSON.parse(readFileSync(new URL("./law/manifest.json", import.meta.url), "utf8"));
@@ -2487,6 +2487,8 @@ console.log("\n🌐 HTTP HANDLER");
       site.escapeHtml(`<script>"'&`) === "&lt;script&gt;&quot;&#39;&amp;");
     test("front page: script blocks cannot be closed by content",
       (html.match(/<script/g) ?? []).length === 2 && (html.match(/<\/script>/g) ?? []).length === 2 && !ldText.includes("<"));
+    test("front page: the data sheets and footer lists keep list semantics (Safari drops them under list-style:none)",
+      (html.match(/<ul [^>]*role="list"|<ul role="list"/g) ?? []).length === 4);
     test("front page: the console is named by its source line, not by its controls",
       html.includes('aria-labelledby="console-src"') && html.includes('<span class="src" id="console-src">'));
     test("front page: script-only controls start hidden and the live button keeps focus while it runs",
