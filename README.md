@@ -95,7 +95,9 @@ Add to `claude_desktop_config.json`:
 npx -y @smithery/cli@latest mcp add lexbeam-software/eu-ai-act
 ```
 
-Direct MCP endpoint: `https://mcp.lexbeam.com/mcp` (health check at `/health`). Open, no auth required.
+Direct MCP endpoint: `https://mcp.lexbeam.com/mcp` (health check at `/health`). Open, no auth required. The
+front page at [mcp.lexbeam.com](https://mcp.lexbeam.com/) has the tools and how to connect, and `/llms.txt` the same
+facts as plain text.
 
 The Smithery-hosted endpoint `https://eu-ai-act--lexbeam-software.run.tools` requires Smithery authentication and returns 401 without it.
 

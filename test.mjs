@@ -2279,8 +2279,11 @@ console.log("\n🔗 SITE LINKS");
   const unknown = [...inSource.keys()].filter((url) => !knownLive.has(url));
   if (unknown.length > 0) console.log(`     not in known-live-urls.json: ${unknown.join(", ")}`);
   test("site links: every lexbeam.com URL in src/ is a known live page", unknown.length === 0);
-  test("site links: src/ names only the lexbeam.com root (tool results carry no links since 1.6.2)",
-    [...inSource.keys()].every((url) => url === "https://lexbeam.com"));
+  // 1.7.1: the front page links the legal pages; tool code still names only the root.
+  const pageOnly = new Set(["https://www.lexbeam.com/de/impressum", "https://www.lexbeam.com/de/datenschutz", "https://www.lexbeam.com/de/agb"]);
+  test("site links: tool code names only the lexbeam.com root (tool results carry no links since 1.6.2)",
+    [...inSource.entries()].every(([url, files]) => url === "https://lexbeam.com" ||
+      (pageOnly.has(url) && files.every((file) => file.startsWith(join("src", "site"))))));
   test("site links: none of the 25 FAQ entries carries a lexbeam.com link",
     faqDatabase.length === 25 && faqDatabase.every((entry) => !("lexbeamUrl" in entry)));
 }
@@ -2421,6 +2424,129 @@ console.log("\n🌐 HTTP HANDLER");
   test("http: the OpenAI challenge path returns exactly the token",
     challenge.status === 200 && (await challenge.text()) === "challenge-token-123");
   if (saved === undefined) delete process.env.OPENAI_APPS_CHALLENGE; else process.env.OPENAI_APPS_CHALLENGE = saved;
+
+  // 1.7.1: the front page at / and the same facts at /llms.txt. Only these two paths are new; /mcp, /health, the
+  // OpenAI challenge path and every other unknown path keep their answers.
+  {
+    const site = await import("./dist/site/front-page.js");
+    const { SERVER_VERSION: version, BRANDING: brand } = await import("./dist/constants.js");
+    const page = await fetch(`${real.base}/`);
+    const html = await page.text();
+    test("front page: GET / answers 200 with HTML", page.status === 200 && page.headers.get("content-type") === "text/html; charset=utf-8");
+    const head = await fetch(`${real.base}/`, { method: "HEAD" });
+    test("front page: HEAD / has the same headers and no body",
+      head.status === 200 && head.headers.get("content-type") === page.headers.get("content-type") &&
+      head.headers.get("content-length") === String(Buffer.byteLength(html)) && (await head.text()) === "");
+    test("front page: a query string still serves the page", (await fetch(`${real.base}/?utm_source=npm`)).status === 200);
+    test("front page: POST / still answers 404", (await fetch(`${real.base}/`, { method: "POST" })).status === 404);
+    test("front page: stays under 150 KB", Buffer.byteLength(html) < 150 * 1024);
+
+    // The one-minute test: who, problem, offer, price, actions and the disclaimer come before the tool list.
+    const firstScreen = html.slice(html.indexOf("<main"), html.indexOf('id="tools"'));
+    test("front page: the first screen names offer, price, actions and the disclaimer", [
+      "Classify AI systems under the EU AI Act, from inside your agent.",
+      "for developers and for legal and compliance teams who work with AI agents",
+      "Ten deterministic tools", site.PRICE.label, site.PRICE.access, brand.disclaimer,
+      `href="${site.DIRECTORY_URL}"`, site.ENDPOINT_URL, site.INSTALL_COMMAND,
+    ].every((fact) => firstScreen.includes(fact)));
+    test("front page: the disclaimer appears again in its own section", html.includes(`<h3>${brand.disclaimer}</h3>`));
+    test("front page: the footer names the served version", html.includes(`EU AI Act MCP Server ${version}.`));
+    test("front page: the tools are the server's own ten, in its order",
+      JSON.stringify(site.TOOLS.map((tool) => tool.name)) === JSON.stringify(listedTools.map((tool) => tool.name)) &&
+      site.TOOLS.every((tool) => html.includes(`<span class="vh">Tool: </span>${tool.name}</span>`)));
+    test("front page: every number carries a source and a date",
+      site.EVIDENCE.every((row) => row.source && /^\d{4}-\d{2}-\d{2}/.test(row.asOf)));
+    const manifest = JSON.parse(readFileSync(new URL("./law/manifest.json", import.meta.url), "utf8"));
+    test("front page: the pinned law matches law/manifest.json",
+      manifest.documents.some((doc) => doc.celex === site.LAW.celex) && manifest.sealed_at.startsWith(site.LAW.sealed));
+
+    // The recorded call in the console is what the tool answers today.
+    const recorded = site.RECORDED_CALL;
+    const rerun = (await rpcCall(recorded.tool, recorded.arguments)).result?.structuredContent ?? {};
+    test("front page: the recorded call is what the tool answers now",
+      ["risk_classification", "confidence", "basis", "caveat"].every((field) => rerun[field] === recorded.response[field]) &&
+      JSON.stringify(rerun.relevant_articles) === JSON.stringify(recorded.response.relevant_articles) &&
+      JSON.stringify(rerun.matched_signals) === JSON.stringify(recorded.response.matched_signals) &&
+      rerun.annex_iii_category?.number === recorded.response.annex_iii_category.number &&
+      rerun.annex_iii_category?.name === recorded.response.annex_iii_category.name);
+
+    // Head: title, description, canonical, Open Graph, JSON-LD.
+    test("front page: title, description, canonical and Open Graph",
+      /<title>[^<]+<\/title>/.test(html) && html.includes('<meta name="description" content="') &&
+      html.includes(`<link rel="canonical" href="${site.SITE_URL}">`) &&
+      ["og:type", "og:title", "og:description", "og:url"].every((tag) => html.includes(`property="${tag}"`)));
+    const ldText = html.match(/<script type="application\/ld\+json">([^<]*)<\/script>/)?.[1] ?? "";
+    const inlineScriptText = html.match(/<script>([\s\S]*?)<\/script>/)?.[1] ?? "";
+    let ld = {};
+    try { ld = JSON.parse(ldText); } catch { ld = {}; }
+    test("front page: JSON-LD SoftwareApplication with version and free offer",
+      ld["@type"] === "SoftwareApplication" && ld.softwareVersion === version && ld.offers?.price === site.PRICE.amount && ld.url === site.SITE_URL);
+
+    // Escaping: markup characters never reach the page raw.
+    test("front page: escapeHtml escapes markup and quotes",
+      site.escapeHtml(`<script>"'&`) === "&lt;script&gt;&quot;&#39;&amp;");
+    test("front page: script blocks cannot be closed by content",
+      (html.match(/<script/g) ?? []).length === 2 && (html.match(/<\/script>/g) ?? []).length === 2 && !ldText.includes("<"));
+    test("front page: the data sheets and footer lists keep list semantics (Safari drops them under list-style:none)",
+      (html.match(/<ul [^>]*role="list"|<ul role="list"/g) ?? []).length === 4);
+    test("front page: the console is named by its source line, not by its controls",
+      html.includes('aria-labelledby="console-src"') && html.includes('<span class="src" id="console-src">'));
+    test("front page: script-only controls start hidden and the live button keeps focus while it runs",
+      (html.match(/<button[^>]*\bhidden\b/g) ?? []).length === 5 && inlineScriptText.includes("button.hidden = false") &&
+      inlineScriptText.includes('setAttribute("aria-disabled", "true")') && !inlineScriptText.includes(".disabled = true"));
+    test("front page: copy targets survive attribute escaping",
+      html.includes(`data-copy="${site.ENDPOINT_URL}"`) && html.includes("data-copy=\"{ &quot;mcpServers&quot;"));
+
+    // Links: same-origin paths, anchors that exist, and https links to known hosts only.
+    const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((match) => match[1]);
+    const knownHosts = ["mcp.lexbeam.com", "claude.ai", "github.com", "www.npmjs.com", "smithery.ai", "www.lexbeam.com"];
+    const badHref = hrefs.find((href) => !(
+      href.startsWith("#") || ["/", "/health", "/llms.txt"].includes(href) || href === "mailto:info@lexbeam.com" ||
+      href.startsWith("data:image/svg+xml,") || (href.startsWith("https://") && knownHosts.includes(new URL(href).hostname))));
+    test(`front page: every link is same-origin or a known https host${badHref ? ` (${badHref})` : ""}`, !badHref);
+    const missingAnchor = hrefs.filter((href) => href.startsWith("#")).find((href) => !html.includes(`id="${href.slice(1)}"`));
+    test(`front page: every in-page anchor has its target${missingAnchor ? ` (${missingAnchor})` : ""}`, !missingAnchor);
+
+    // Nothing is loaded from another origin; the policy header enforces it.
+    test("front page: no external script, stylesheet, frame, image or font",
+      !/<script[^>]+src=|<link[^>]+rel="stylesheet"|@import|<iframe|<img|url\(\s*["']?https?:/i.test(html) &&
+      (html.match(/@font-face/g) ?? []).length === 2 && (html.match(/url\(data:font\/woff2;base64,/g) ?? []).length === 2);
+    const policy = page.headers.get("content-security-policy") ?? "";
+    const inlineScript = html.match(/<script>([\s\S]*?)<\/script>/)?.[1] ?? "";
+    const inlineStyle = html.match(/<style>([\s\S]*?)<\/style>/)?.[1] ?? "";
+    const digest = (text) => createHash("sha256").update(text, "utf8").digest("base64");
+    test("front page: the policy allows exactly the inline script and style and nothing remote",
+      policy.includes("default-src 'none'") && policy.includes(`script-src 'sha256-${digest(inlineScript)}'`) &&
+      policy.includes(`style-src 'sha256-${digest(inlineStyle)}'`) && policy.includes("connect-src 'self'") &&
+      policy.includes("frame-ancestors 'none'") && page.headers.get("x-content-type-options") === "nosniff");
+    // Font data is base64, where "+49" can occur by chance: check the text without it.
+    const withoutFonts = html.replace(/base64,[A-Za-z0-9+/=]+/g, "base64,");
+    test("front page: no em dash, no phone number, no Inter",
+      !html.includes("—") && !/tel:|\+49|telefon/i.test(withoutFonts) && !/font-family:[^;]*\bInter\b/.test(html));
+
+    // /llms.txt: the same facts as plain text.
+    const llms = await fetch(`${real.base}/llms.txt`);
+    const llmsBody = await llms.text();
+    test("llms.txt: GET answers 200 with plain text", llms.status === 200 && llms.headers.get("content-type") === "text/plain; charset=utf-8");
+    test("llms.txt: names the endpoint, the disclaimer, all ten tools and the version",
+      llmsBody.startsWith("# Lexbeam EU AI Act MCP Server") && llmsBody.includes(site.ENDPOINT_URL) && llmsBody.includes(brand.disclaimer) &&
+      site.TOOLS.every((tool) => llmsBody.includes(`- ${tool.name}: `)) && llmsBody.includes(`Version ${version}.`) && !llmsBody.includes("—"));
+    const llmsHead = await fetch(`${real.base}/llms.txt`, { method: "HEAD" });
+    test("llms.txt: HEAD has the same length and no body",
+      llmsHead.status === 200 && llmsHead.headers.get("content-length") === String(Buffer.byteLength(llmsBody)) && (await llmsHead.text()) === "");
+
+    // Unchanged answers.
+    const health = await fetch(`${real.base}/health`);
+    test("unchanged: GET /health answers the same JSON",
+      health.status === 200 && JSON.stringify(await health.json()) === JSON.stringify({ status: "ok", server: "lexbeam-eu-ai-act-mcp", version }));
+    test("unchanged: HEAD /mcp answers 405", (await fetch(`${real.base}/mcp`, { method: "HEAD" })).status === 405);
+    for (const path of ["/index.html", "/llms.txt/", "/robots.txt", "/.well-known/oauth-protected-resource"]) {
+      const response = await fetch(`${real.base}${path}`);
+      const body = await response.json().catch(() => null);
+      test(`unchanged: ${path} answers the same 404`,
+        response.status === 404 && body?.error === "Not found. Use /mcp for the MCP endpoint or /health for status.");
+    }
+  }
   await stop(real.server);
 }
 

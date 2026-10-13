@@ -2,7 +2,8 @@
  * Request handler for the hosted endpoint (Streamable HTTP, stateless).
  *
  * Kept apart from http.ts, which only binds the port, so the behavior suite can run the
- * handler in-process: the error boundary, the health check and the OpenAI domain check.
+ * handler in-process: the error boundary, the health check, the OpenAI domain check, and the
+ * two documents for a reader, the front page at / and the same facts at /llms.txt.
  * Our tools are pure read-only knowledge lookups; each request gets its own MCP server.
  */
 
@@ -11,6 +12,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { createServer } from "./server.js";
 import { SERVER_VERSION } from "./constants.js";
+import { frontPageHeaders, frontPageHtml, llmsText } from "./site/front-page.js";
 
 /** Where OpenAI's plugin directory checks domain control (developers.openai.com/plugins/deploy/submission). */
 export const OPENAI_CHALLENGE_PATH = "/.well-known/openai-apps-challenge";
@@ -20,6 +22,12 @@ export interface RequestHandlerOptions {
   createMcpServer?: () => McpServer;
   /** Receives the one log line a failed request writes; injectable so a test can read it. */
   logError?: (line: string) => void;
+}
+
+/** A document for a reader: the body on GET, the same headers without it on HEAD. */
+function sendPage(req: IncomingMessage, res: ServerResponse, body: string, headers: Record<string, string>): void {
+  res.writeHead(200, { ...headers, "Content-Length": String(Buffer.byteLength(body)) });
+  res.end(req.method === "HEAD" ? undefined : body);
 }
 
 export function createRequestHandler(options: RequestHandlerOptions = {}) {
@@ -55,6 +63,22 @@ export function createRequestHandler(options: RequestHandlerOptions = {}) {
         res.end(token);
         return;
       }
+    }
+
+    // The two documents for a reader instead of a tool call: the front page and the same facts as plain text.
+    // Only these two paths are new; a query string is ignored, every other unknown path still answers 404.
+    const path = (req.url ?? "/").split("?")[0];
+    if ((req.method === "GET" || req.method === "HEAD") && path === "/") {
+      sendPage(req, res, frontPageHtml(), frontPageHeaders());
+      return;
+    }
+    if ((req.method === "GET" || req.method === "HEAD") && path === "/llms.txt") {
+      sendPage(req, res, llmsText(), {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "public, max-age=3600",
+        "X-Content-Type-Options": "nosniff",
+      });
+      return;
     }
 
     // MCP endpoint

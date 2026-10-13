@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.7.1] - 2026-10-12
+
+A front page for the hosted endpoint. https://mcp.lexbeam.com/ answered 404 at its root, which is where the README,
+npm and Claude's connectors directory send people. `/mcp`, `/health`, `/.well-known/openai-apps-challenge` and every
+other path answer as before; the stdio server and the tool results are unchanged.
+
+### Added
+
+- `GET` and `HEAD /` serve the front page: who the server is for, the ten tools, how to connect (Claude's connectors
+  directory, the endpoint, `npx`), the price (free), a recorded `euaiact_classify_system` call with its answer, dated
+  evidence with sources, the disclaimer, privacy and legal links. One self-contained document: style, script and fonts
+  are inline and nothing is loaded from another origin, which a `Content-Security-Policy` header enforces. Title, meta
+  description, canonical link, Open Graph tags and a JSON-LD `SoftwareApplication`. Fonts: Schibsted Grotesk and
+  JetBrains Mono under the SIL Open Font License 1.1 (`src/site/fonts/`).
+- `GET` and `HEAD /llms.txt` serve the same facts as plain text for software and agents.
+- Behaviour tests for both: content, links and anchors, escaping, `HEAD`, the policy header, the recorded call against
+  the tool's current answer, the tool list against the server's own, and unchanged answers for `/mcp`, `/health` and
+  other paths. The site-links allowlist gains the imprint, data protection and terms pages the front page links; tool
+  code still names only the lexbeam.com root.
+
 ## [1.7.0] - 2026-10-01
 
 Agent contracts. Every tool rejects arguments its schema does not name, FAQ answers state whether they matched,

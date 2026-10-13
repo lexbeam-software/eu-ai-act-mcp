@@ -1,9 +1,11 @@
 # Privacy Policy: EU AI Act MCP Server (hosted endpoint)
 
-Last updated: 28 September 2026
+Last updated: 12 October 2026
 
-This policy covers the hosted endpoint `https://mcp.lexbeam.com/mcp` (and its health check
-`https://mcp.lexbeam.com/health`), including use through the Lexbeam plugins that connect to it. If you run
+This policy covers the hosted endpoint `https://mcp.lexbeam.com/mcp` (with its health check
+`https://mcp.lexbeam.com/health`, its front page `https://mcp.lexbeam.com/` and `https://mcp.lexbeam.com/llms.txt`),
+including use through the Lexbeam plugins that connect to it. Opening the front page sends the same request data as
+any other request to the endpoint; the page sets no cookies and loads nothing from other servers. If you run
 the server yourself from npm or from this repository, it runs on your machine and sends nothing to Lexbeam.
 
 ## Controller
