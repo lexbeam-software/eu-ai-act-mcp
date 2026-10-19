@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.7.2] - 2026-10-19
+
+A classification fix for Art. 50. An explicit negative signal now outranks a free-text keyword for the same
+transparency trigger, and negated wording no longer counts as a match. The Art. 5 and Annex III routes and all
+other tools are unchanged.
+
 ### Fixed
 
 - `euaiact_classify_system` no longer lets a free-text keyword override an explicit
