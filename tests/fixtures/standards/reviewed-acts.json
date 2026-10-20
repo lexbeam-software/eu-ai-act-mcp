@@ -1,0 +1,4 @@
+{
+  "about": "Acts the weekly harmonised standards check flagged and a person reviewed, so the check stays quiet about them. An act that publishes, restricts or withdraws a reference belongs in src/knowledge/standards.ts, with a new STANDARDS_REVIEWED_ON. List an act here when it changes nothing the server says, or when standards.ts covers its effect but not its CELEX number (an amending act, a corrigendum, a consolidated version). Each entry: celex, reviewed_on (ISO date), note.",
+  "acts": []
+}

@@ -1,0 +1,91 @@
+{
+  "head": {
+    "link": [],
+    "vars": [
+      "via",
+      "celex",
+      "date",
+      "title",
+      "rel",
+      "target"
+    ]
+  },
+  "results": {
+    "distinct": false,
+    "ordered": true,
+    "bindings": [
+      {
+        "via": {
+          "type": "literal",
+          "value": "legal-basis"
+        },
+        "celex": {
+          "type": "literal",
+          "datatype": "http://www.w3.org/2001/XMLSchema#string",
+          "value": "32026D2274"
+        },
+        "date": {
+          "type": "literal",
+          "datatype": "http://www.w3.org/2001/XMLSchema#date",
+          "value": "2026-10-12"
+        },
+        "title": {
+          "type": "literal",
+          "xml:lang": "en",
+          "value": "Commission Implementing Decision (EU) 2026/2274 of 12 October 2026 on the harmonised standards for high-risk AI systems drafted in support of Regulation (EU) 2024/1689 of the European Parliament and of the Council"
+        }
+      },
+      {
+        "via": {
+          "type": "literal",
+          "value": "title"
+        },
+        "celex": {
+          "type": "literal",
+          "datatype": "http://www.w3.org/2001/XMLSchema#string",
+          "value": "32026D2274"
+        },
+        "date": {
+          "type": "literal",
+          "datatype": "http://www.w3.org/2001/XMLSchema#date",
+          "value": "2026-10-12"
+        },
+        "title": {
+          "type": "literal",
+          "xml:lang": "en",
+          "value": "Commission Implementing Decision (EU) 2026/2274 of 12 October 2026 on the harmonised standards for high-risk AI systems drafted in support of Regulation (EU) 2024/1689 of the European Parliament and of the Council"
+        }
+      },
+      {
+        "via": {
+          "type": "literal",
+          "value": "control"
+        },
+        "celex": {
+          "type": "literal",
+          "datatype": "http://www.w3.org/2001/XMLSchema#string",
+          "value": "32026R1744"
+        },
+        "date": {
+          "type": "literal",
+          "datatype": "http://www.w3.org/2001/XMLSchema#date",
+          "value": "2026-07-08"
+        },
+        "title": {
+          "type": "literal",
+          "xml:lang": "en",
+          "value": "Regulation (EU) 2026/1744 of the European Parliament and of the Council of 8 July 2026 amending Regulations (EU) 2024/1689, (EU) 2018/1139 and (EU) 2023/1230 as regards the simplification of the implementation of harmonised rules on artificial intelligence (Digital Omnibus on AI) (Text with EEA relevance)"
+        },
+        "rel": {
+          "type": "uri",
+          "value": "http://publications.europa.eu/ontology/cdm#resource_legal_amends_resource_legal"
+        },
+        "target": {
+          "type": "literal",
+          "datatype": "http://www.w3.org/2001/XMLSchema#string",
+          "value": "32024R1689"
+        }
+      }
+    ]
+  }
+}

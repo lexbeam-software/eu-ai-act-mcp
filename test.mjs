@@ -2879,6 +2879,124 @@ console.log("\n🔌 1.7.4: NO SMITHERY ROUTE");
     readme.includes("### Any other MCP client") && readme.includes("`https://mcp.lexbeam.com/mcp`"));
 }
 
+// ─── HARMONISED STANDARDS CHECK (weekly Official Journal watch) ────────────
+// euaiact://standards states which references exist as of STANDARDS_REVIEWED_ON. The weekly
+// "Harmonised standards" workflow asks the Publications Office Cellar whether a new act
+// appeared. Offline here: the recorded answer of 20.10.2026 pins the known positive, Decision
+// (EU) 2026/2274, and every way the check can fail must end in "undetermined", never in
+// "no change".
+console.log("\n📡 HARMONISED STANDARDS CHECK");
+{
+  const { spawnSync } = await import("node:child_process");
+  const { mkdtempSync, rmSync, writeFileSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const watch = await import("./scripts/standards-watch.mjs");
+  const { citedHarmonisedStandards, STANDARDS_REVIEWED_ON } = await import("./dist/knowledge/standards.js");
+  const RECORDED = "tests/fixtures/standards/cellar-2026-10-20.json";
+  const reviewedFile = JSON.parse(readFileSync("tests/fixtures/standards/reviewed-acts.json", "utf8"));
+  const plan = watch.watchPlan(citedHarmonisedStandards, reviewedFile.acts);
+  const recorded = JSON.parse(readFileSync(RECORDED, "utf8"));
+  const answer = (keep, extra = []) => ({
+    head: recorded.head,
+    results: { ...recorded.results, bindings: [...recorded.results.bindings.filter(keep), ...extra] },
+  });
+  const literal = (value) => (value === undefined ? undefined : { type: "literal", value });
+  const row = (via, celex, { date, title, rel, target } = {}) => Object.fromEntries(Object.entries({
+    via: literal(via), celex: literal(celex), date: literal(date), title: literal(title),
+    rel: rel && { type: "uri", value: `http://publications.europa.eu/ontology/cdm#${rel}` }, target: literal(target),
+  }).filter(([, value]) => value !== undefined));
+  const all = () => true;
+  const check = (json, today = "2026-10-20", known = plan.known) =>
+    watch.assess(watch.parseResults(json), { known, reviewedOn: STANDARDS_REVIEWED_ON, today });
+  const report = (outcome) => watch.renderReport(outcome);
+
+  test("standards check: watches the decision the server cites and the number of its standard",
+    plan.decisions.join() === "32026D2274" && plan.standardNumbers.join() === "18286" && plan.known.has("32026D2274"));
+  const query = watch.buildQuery(plan);
+  test("standards check: one query asks by legal basis, title, link and a control",
+    ["\"32012R1025\"^^xsd:string", "\"32024R1689\"^^xsd:string", "harmonised.standard.*2024/1689|2026/2274|18286",
+      "VALUES ?target { \"32026D2274\"^^xsd:string }", "\"32026R1744\"^^xsd:string"].every((needle) => query.includes(needle)) &&
+    ["legal-basis", "title", "link", "control"].every((via) => query.includes(`BIND("${via}" AS ?via)`)));
+
+  const base = check(recorded);
+  test("standards check: the recorded answer returns the known positive by legal basis and title, plus the control",
+    base.status === "no-change" && base.exitCode === 0 && base.knownPositiveFoundBy.join() === "legal-basis,title" &&
+    base.newActs.length === 0 && base.actsSeen === 1 && report(base).startsWith("## Harmonised standards check: NO CHANGE"));
+
+  const noLegalBasis = check(answer((b) => b.via.value !== "legal-basis"));
+  const noTitle = check(answer((b) => b.via.value !== "title"));
+  const noControl = check(answer((b) => b.via.value !== "control"));
+  const empty = check(answer(() => false));
+  test("standards check: without the known positive or the control an empty answer is undetermined, never no change",
+    [noLegalBasis, noTitle, noControl, empty].every((outcome) => outcome.status === "undetermined" && outcome.exitCode === 1 &&
+      report(outcome).includes("UNDETERMINED") && !report(outcome).includes("NO CHANGE")) &&
+    /legal-basis search did not return the known positive 32026D2274/.test(noLegalBasis.reasons.join()) &&
+    /title search/.test(noTitle.reasons.join()) && /control/.test(noControl.reasons.join()) && empty.reasons.length === 3);
+
+  const unreadable = [{}, { head: { vars: [] } }, { head: { vars: [] }, results: { bindings: [{ via: literal("other"), celex: literal("1") }] } }]
+    .map((json) => { try { watch.parseResults(json); return false; } catch { return true; } });
+  const failed = watch.undetermined("HTTP 202 with an empty body", { reviewedOn: STANDARDS_REVIEWED_ON, today: "2026-10-20" });
+  test("standards check: an answer of another shape is rejected, and a failed request reports undetermined",
+    unreadable.every(Boolean) && failed.exitCode === 1 && report(failed).includes("HTTP 202 with an empty body") &&
+    report(failed).includes("not a \"no change\" result"));
+
+  const title = "Commission Implementing Decision (EU) 2027/412 of 3 March 2027 on the harmonised standards for high-risk AI systems drafted in support of Regulation (EU) 2024/1689";
+  const series = check(answer(all, [row("legal-basis", "32027D0412", { date: "2027-03-03", title }), row("title", "32027D0412", { date: "2027-03-03", title })]));
+  test("standards check: a new decision in the series is a change, reported with its title and EUR-Lex link",
+    series.status === "change" && series.exitCode === 2 && series.newActs.map((act) => act.celex).join() === "32027D0412" &&
+    series.newActs[0].foundBy.join() === "legal-basis,title" && report(series).includes("CHANGE: 1 act in the Official Journal") &&
+    report(series).includes("https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32027D0412"));
+
+  // Shaped like the links Cellar holds for Decision (EU) 2021/1182, the medical devices series,
+  // whose ten amending acts and consolidated versions the live link search returns.
+  const linked = [
+    row("link", "32027D0950", { date: "2027-06-01", rel: "resource_legal_amends_resource_legal", target: "32026D2274" }),
+    row("title", "32027D0950", { date: "2027-06-01", title: "Commission Implementing Decision (EU) 2027/950 amending Implementing Decision (EU) 2026/2274 as regards the withdrawal of the reference of harmonised standard EN 18286:2026" }),
+    row("link", "02026D2274-20270602", { rel: "act_consolidated_consolidates_resource_legal", target: "32026D2274" }),
+    row("link", "32026D2274R(01)", { rel: "resource_legal_corrects_resource_legal", target: "32026D2274" }),
+  ];
+  const amended = check(answer(all, linked));
+  test("standards check: an amendment, a consolidated version and a corrigendum of 2026/2274 are changes",
+    amended.status === "change" && amended.newActs.map((act) => act.celex).join() === "02026D2274-20270602,32026D2274R(01),32027D0950" &&
+    ["(consolidates 32026D2274)", "(corrects 32026D2274)", "found by link title (amends 32026D2274)"].every((text) => report(amended).includes(text)));
+
+  const reviewedPlan = watch.watchPlan(citedHarmonisedStandards,
+    ["32027D0950", "02026D2274-20270602", "32026D2274R(01)"].map((celex) => ({ celex, reviewed_on: "2027-06-10", note: "test" })));
+  test("standards check: acts recorded in reviewed-acts.json keep the check quiet",
+    check(answer(all, linked), "2026-10-20", reviewedPlan.known).status === "no-change" &&
+    Array.isArray(reviewedFile.acts) && reviewedFile.acts.every((act) =>
+      /^\d[0-9A-Z()-]+$/.test(act.celex) && /^\d{4}-\d{2}-\d{2}$/.test(act.reviewed_on) && act.note?.trim().length > 0));
+
+  const day60 = check(recorded, "2026-12-19");
+  const day61 = check(recorded, "2026-12-20");
+  const staleChange = check(answer(all, linked), "2026-12-20");
+  test("standards check: a review 60 days old is current, 61 days is due, and the warning rides on a change",
+    day60.status === "no-change" && day60.review.age === 60 && !report(day60).includes("Warning") &&
+    day61.status === "review-due" && day61.exitCode === 3 && report(day61).includes("REVIEW DUE: no new act, but STANDARDS_REVIEWED_ON is 61 days old") &&
+    staleChange.status === "change" && report(staleChange).includes("Warning: the review is older than the limit"));
+
+  const cli = (...args) => spawnSync(process.execPath, ["scripts/check-standards.mjs", ...args], { encoding: "utf8" });
+  const scratch = mkdtempSync(join(tmpdir(), "lexbeam-standards-check-"));
+  try {
+    const withoutPositive = join(scratch, "without-positive.json");
+    writeFileSync(withoutPositive, JSON.stringify(answer((b) => b.celex.value !== "32026D2274")));
+    const quiet = cli("--response", RECORDED, "--today", "2026-10-20");
+    const blind = cli("--response", withoutPositive, "--today", "2026-10-20");
+    const due = cli("--response", RECORDED, "--today", "2026-12-20");
+    test("standards check: the command exits 0, 1 and 3 on the recorded answer, the answer without the positive, and a due review",
+      quiet.status === 0 && quiet.stdout.includes("NO CHANGE") && blind.status === 1 && blind.stdout.includes("UNDETERMINED") &&
+      due.status === 3 && due.stdout.includes("REVIEW DUE"));
+  } finally {
+    rmSync(scratch, { recursive: true, force: true });
+  }
+
+  const workflow = readFileSync(".github/workflows/standards-check.yml", "utf8");
+  test("standards check: the workflow runs on Mondays and on demand, opens one issue, and uses no secret",
+    /cron: "\d+ \d+ \* \* 1"/.test(workflow) && workflow.includes("workflow_dispatch:") && workflow.includes("issues: write") &&
+    workflow.includes("npm run --silent check:standards -- --report standards-report.md") && workflow.includes("if: failure()") &&
+    workflow.includes("cat standards-report.md") && workflow.includes("gh issue comment") && !workflow.includes("secrets."));
+}
+
 // ─── SUMMARY ────────────────────────────────────────────────────────────────
 console.log(`\n${"=".repeat(50)}`);
 console.log(`RESULTS: ${pass} passed, ${fail} failed out of ${pass + fail} tests`);
