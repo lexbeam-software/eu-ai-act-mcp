@@ -21,7 +21,6 @@ export const DIRECTORY_URL = "https://claude.ai/directory/lexbeam-eu-ai-act";
 export const REPOSITORY_URL = "https://github.com/lexbeam-software/eu-ai-act-mcp";
 export const NPM_PACKAGE = "@lexbeam-software/eu-ai-act-mcp";
 export const NPM_URL = `https://www.npmjs.com/package/${NPM_PACKAGE}`;
-export const SMITHERY_URL = "https://smithery.ai/servers/lexbeam-software/eu-ai-act";
 export const PRIVACY_URL = `${REPOSITORY_URL}/blob/main/PRIVACY.md`;
 export const IMPRINT_URL = "https://www.lexbeam.com/de/impressum";
 export const DATA_PROTECTION_URL = "https://www.lexbeam.com/de/datenschutz";
@@ -70,11 +69,11 @@ export const EVIDENCE: readonly EvidenceEntry[] = [
   { measure: "Law text", value: `Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744: consolidated text CELEX ${LAW.celex}, pinned by SHA-256 together with Commission Implementing Decision (EU) 2026/2274, the first harmonised standard reference. A consolidated text is a documentation tool without legal effect`, source: "law/manifest.json", asOf: LAW.sealed },
   { measure: "Coverage", figure: "10", value: "tools, 6 resources, 4 prompts", source: "tools/list, resources/list and prompts/list on mcp.lexbeam.com", asOf: "2026-10-20" },
   { measure: "Claim checks", figure: "77", value: "legal claims, each checked twice: against the pinned text and against what the server serves (154 checks)", source: "npm run verify", asOf: "2026-10-20" },
-  { measure: "Behaviour tests", figure: "735", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-20" },
+  { measure: "Behaviour tests", figure: "739", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-20" },
   { measure: "Determinism", figure: "120", value: "identical hashes: 12 assessment profiles, 10 runs each", source: "npm run verify", asOf: "2026-10-12" },
   { measure: "Schema checks", figure: "49", value: "passed", source: "npm run verify", asOf: "2026-10-20" },
   { measure: "Downloads", figure: "838", value: "from npm in 30 days", source: "npm registry", asOf: "2026-09-12 to 2026-10-11" },
-  { measure: "Listings", value: "Claude's connectors directory since 2026-10-07, Smithery", source: "listing pages", asOf: "2026-10-12" },
+  { measure: "Listings", value: "Claude's connectors directory since 2026-10-07", source: "listing pages", asOf: "2026-10-20" },
 ];
 
 /** The call the hero console shows, recorded on mcp.lexbeam.com. The behaviour suite runs it again in-process. */
@@ -160,7 +159,7 @@ function jsonLd(): string {
     isAccessibleForFree: true,
     offers: { "@type": "Offer", price: PRICE.amount, priceCurrency: PRICE.currency },
     publisher: { "@type": "Organization", name: "Lexbeam Software", url: "https://lexbeam.com" },
-    sameAs: [REPOSITORY_URL, NPM_URL, SMITHERY_URL, DIRECTORY_URL],
+    sameAs: [REPOSITORY_URL, NPM_URL, DIRECTORY_URL],
   });
 }
 
@@ -371,7 +370,6 @@ function buildPage(): { html: string; style: string; script: string } {
     <nav aria-labelledby="f-product"><h2 id="f-product">Product</h2><ul role="list">
       <li><a href="${REPOSITORY_URL}">GitHub</a></li>
       <li><a href="${NPM_URL}">npm</a></li>
-      <li><a href="${SMITHERY_URL}">Smithery</a></li>
       <li><a href="/llms.txt">llms.txt</a></li>
       <li><a href="/health">Status</a></li>
     </ul></nav>
