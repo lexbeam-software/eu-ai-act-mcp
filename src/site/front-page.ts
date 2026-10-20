@@ -70,7 +70,7 @@ export const EVIDENCE: readonly EvidenceEntry[] = [
   { measure: "Law text", value: `Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744: consolidated text CELEX ${LAW.celex}, pinned by SHA-256 together with Commission Implementing Decision (EU) 2026/2274, the first harmonised standard reference. A consolidated text is a documentation tool without legal effect`, source: "law/manifest.json", asOf: LAW.sealed },
   { measure: "Coverage", figure: "10", value: "tools, 6 resources, 4 prompts", source: "tools/list, resources/list and prompts/list on mcp.lexbeam.com", asOf: "2026-10-20" },
   { measure: "Claim checks", figure: "77", value: "legal claims, each checked twice: against the pinned text and against what the server serves (154 checks)", source: "npm run verify", asOf: "2026-10-20" },
-  { measure: "Behaviour tests", figure: "732", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-20" },
+  { measure: "Behaviour tests", figure: "735", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-20" },
   { measure: "Determinism", figure: "120", value: "identical hashes: 12 assessment profiles, 10 runs each", source: "npm run verify", asOf: "2026-10-12" },
   { measure: "Schema checks", figure: "49", value: "passed", source: "npm run verify", asOf: "2026-10-20" },
   { measure: "Downloads", figure: "838", value: "from npm in 30 days", source: "npm registry", asOf: "2026-09-12 to 2026-10-11" },

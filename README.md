@@ -49,8 +49,8 @@ purposes* (Commission Implementing Decision (EU) 2026/2274, in force that day).
 - **Art. 40 in `euaiact_get_article`**, and Art. 6, 17, 43 and 50 summaries that state the new status.
 - **A corrected Art. 43 route:** biometric systems under Annex III point 1 may use internal control (Annex VI) only
   where harmonised standards or common specifications were applied for the Chapter III, Section 2 requirements.
-  EN 18286 covers Art. 17, not Section 2, so a notified body (Annex VII) remains their route for now.
-- **Two FAQ answers:** which harmonised standards exist (and why ISO/IEC 42001 gives no presumption of conformity),
+  EN 18286 covers Art. 17, not Section 2, so as of 20 October 2026 a notified body (Annex VII) remains their route.
+- **Two FAQ answers:** which harmonised standards exist (and why ISO/IEC 42001 gives no presumption of conformity under the AI Act),
   and what the Art. 17 quality management system requires.
 
 Full release history: [CHANGELOG.md](CHANGELOG.md).

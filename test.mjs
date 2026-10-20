@@ -2761,8 +2761,9 @@ console.log("\n📐 1.7.3: HARMONISED STANDARDS AND GUIDANCE STATUS");
     /EN 18286:2026/.test(a17.article.summary) && /presumption of conformity with the Art\. 17 requirements it covers/.test(a17.article.summary));
   test("get_article(17): Omnibus Art. 17(2) SMEs and SMCs, Art. 17(4) and Art. 63(1)",
     /SMC/.test(a17.article.summary) && /Art\. 17\(4\)/.test(a17.article.summary) && /Art\. 63\(1\)/.test(a17.article.summary));
-  test("get_article(17): ISO/IEC 42001 gives no presumption of its own",
-    /ISO\/IEC 42001/.test(a17.article.summary) && /no presumption of their own/.test(a17.article.summary));
+  test("get_article(17): ISO/IEC 42001 and ISO 13485 give no presumption under the AI Act; EN ISO 13485 keeps its MDR one",
+    /ISO\/IEC 42001/.test(a17.article.summary) && /no presumption of conformity under the AI Act/.test(a17.article.summary) &&
+    /EN ISO 13485 keeps the presumption it carries under the Medical Devices Regulation/.test(a17.article.summary));
 
   const a43 = structured(await callTool("euaiact_get_article", { article: "43" }));
   test("get_article(43): Annex VI for biometrics is conditional on standards for Section 2",
@@ -2834,15 +2835,32 @@ console.log("\n📐 1.7.3: HARMONISED STANDARDS AND GUIDANCE STATUS");
     guidanceSources.find((g) => g.id === "code_transparency_ai_generated_content")?.status === "code_adequate_voluntary_tool");
   test("standards: no guidance source is labelled as law",
     guidanceSources.every((g) => g.status !== "enacted_oj"));
-  test("standards: every source URL is official https",
-    [...guidanceSources.map((g) => g.url), ...payload.sources.map((x) => x.url).filter((u) => u.startsWith("https"))]
-      .every((u) => u.startsWith("https://digital-strategy.ec.europa.eu/")) &&
-    payload.sources.some((x) => x.url === "http://data.europa.eu/eli/dec_impl/2026/2274/oj"));
+  const ELI_2274 = "http://data.europa.eu/eli/dec_impl/2026/2274/oj";
+  test("standards: every source URL is the OJ ELI or an official Commission https page",
+    payload.sources.every((x) => x.url === ELI_2274 || x.url.startsWith("https://digital-strategy.ec.europa.eu/")) &&
+    guidanceSources.every((g) => g.url.startsWith("https://digital-strategy.ec.europa.eu/")) &&
+    payload.sources.some((x) => x.url === ELI_2274));
   test("standards: review date is an ISO date", /^\d{4}-\d{2}-\d{2}$/.test(payload.reviewed_on));
 
   const { SERVER_INSTRUCTIONS } = await import("./dist/constants.js");
   test("instructions: point to euaiact://standards and call standards voluntary",
     /euaiact:\/\/standards/.test(SERVER_INSTRUCTIONS) && /voluntary/.test(SERVER_INSTRUCTIONS));
+
+  // Fable gate, 20.10.2026: every "only" or "not yet" statement about standards carries the review date, so it
+  // cannot silently turn false when the next reference is published.
+  const { standardsReviewedOnText, STANDARDS_REVIEWED_ON } = await import("./dist/knowledge/standards.js");
+  const reviewed = standardsReviewedOnText();
+  test("standards: the review date renders as prose", reviewed === "20 October 2026" && STANDARDS_REVIEWED_ON === "2026-10-20" &&
+    standardsReviewedOnText("2027-01-05") === "5 January 2027");
+  test("standards: instructions, Art. 43 obligation, Annex IV item 7, FAQ and resource summary are dated",
+    SERVER_INSTRUCTIONS.includes(`as of ${reviewed}`) &&
+    (ob43?.details ?? "").includes(`As of ${reviewed}`) &&
+    item7?.sub_items.filter((x) => x.includes(reviewed)).length === 2 &&
+    payload.summary.startsWith(`As of ${reviewed}`) &&
+    structured(await callTool("euaiact_answer_question", { question: "What is EN 18286?" })).answer.startsWith(`As of ${reviewed}`));
+  test("get_article(50): the guidelines are stated as published on 20 July 2026, not adopted on that date",
+    /published its Guidelines on the Art\. 50 transparency obligations on 20 July 2026/.test(a50.article.summary) &&
+    !/adopted Guidelines/.test(a50.article.summary));
 }
 
 // ─── SUMMARY ────────────────────────────────────────────────────────────────

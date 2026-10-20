@@ -19,6 +19,14 @@ import type { SourceStatus } from "./sources.js";
 /** Date of the last cross-read of everything in this file. */
 export const STANDARDS_REVIEWED_ON = "2026-10-20";
 
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/** The review date as prose ("20 October 2026"), for every served "only" or "not yet" statement. */
+export function standardsReviewedOnText(iso: string = STANDARDS_REVIEWED_ON): string {
+  const [year, month, day] = iso.split("-").map(Number);
+  return `${day} ${MONTHS[month - 1]} ${year}`;
+}
+
 export interface CitedHarmonisedStandard {
   reference: string;
   title: string;
@@ -121,7 +129,7 @@ export const standardisationAreas: StandardisationArea[] = [
 export const notHarmonisedUnderTheAiAct = [
   {
     reference: "ISO/IEC 42001",
-    note: "International AI management system standard. It is not a harmonised standard under the AI Act and applying it gives no presumption of conformity. EN 18286 is designed to be layered on top of it.",
+    note: "International AI management system standard. It is not a harmonised standard under the AI Act and applying it gives no presumption of conformity under the AI Act. EN 18286 is designed to be layered on top of it.",
   },
 ];
 
@@ -160,7 +168,7 @@ export function buildStandardsPayload() {
   return {
     reviewed_on: STANDARDS_REVIEWED_ON,
     summary:
-      "One harmonised standard supports the AI Act so far: EN 18286:2026, the quality management system standard for Art. 17, whose reference was published in the Official Journal on 14 October 2026 by Commission Implementing Decision (EU) 2026/2274. No harmonised standard covers the Chapter III, Section 2 requirements yet. Harmonised standards are voluntary; a cited standard gives a presumption of conformity only to the extent it covers a requirement.",
+      `As of ${standardsReviewedOnText()}, one harmonised standard supports the AI Act: EN 18286:2026, the quality management system standard for Art. 17, whose reference was published in the Official Journal on 14 October 2026 by Commission Implementing Decision (EU) 2026/2274. As of the same date no harmonised standard covers the Chapter III, Section 2 requirements. Harmonised standards are voluntary; a cited standard gives a presumption of conformity only to the extent it covers a requirement.`,
     cited_harmonised_standards: citedHarmonisedStandards,
     standardisation_request: {
       act: "Commission Implementing Decision C(2025) 3871 of 23 June 2025",

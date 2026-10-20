@@ -7,6 +7,8 @@
  * The nine titles and descriptions summarise Annex IV. `sub_items` are non-binding implementation prompts, are not verbatim Annex IV text, and do not create additional legal requirements. Under Article 11(1), SMEs, including start-ups, and SMCs may provide the Annex IV elements in a simplified manner only by using the Commission form referred to in that paragraph.
  */
 
+import { standardsReviewedOnText } from "./standards.js";
+
 export interface AnnexIVItem {
   number: number;
   title: string;
@@ -112,8 +114,8 @@ export const annexIVItems: AnnexIVItem[] = [
       "List of harmonised standards applied in full or in part",
       "Where harmonised standards not used, detailed description of solutions adopted",
       "List of other relevant standards and technical specifications used",
-      "Status 20 October 2026: the only harmonised standard with an Official Journal reference is EN 18286:2026 (quality management system, Art. 17), published 14 October 2026; list it if applied",
-      "No harmonised standard covers the Chapter III, Section 2 requirements yet, so describe the solutions adopted for them; current list in euaiact://standards",
+      `Status ${standardsReviewedOnText()}: the only harmonised standard with an Official Journal reference is EN 18286:2026 (quality management system, Art. 17), published 14 October 2026; list it if applied`,
+      `As of ${standardsReviewedOnText()} no harmonised standard covers the Chapter III, Section 2 requirements, so describe the solutions adopted for them; current list in euaiact://standards`,
     ],
     related_articles: ["Art. 40", "Art. 41"],
   },

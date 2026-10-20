@@ -4,6 +4,8 @@
  * Source: Regulation (EU) 2024/1689
  */
 
+import { standardsReviewedOnText } from "./standards.js";
+
 export interface Obligation {
   obligation: string;
   article: string;
@@ -89,7 +91,7 @@ export const providerHighRiskObligations: Obligation[] = [
     article: "Art. 43",
     deadline: "2026-08-02",
     details:
-      "Undergo a conformity assessment procedure before placing the system on the market. For Annex III point 1 (biometrics), Art. 43(1) sets the applicable route: internal control under Annex VI is available only where harmonised standards (Art. 40) or common specifications (Art. 41) were applied for the Chapter III, Section 2 requirements; otherwise the quality management system plus technical documentation assessment with notified-body involvement under Annex VII applies. The only harmonised standard referenced in the Official Journal so far, EN 18286:2026, covers the Art. 17 quality management system, not Section 2. For Annex III points 2-8, providers follow the internal-control procedure under Annex VI per Art. 43(2). Systems covered by Union harmonisation legislation in Annex I follow the relevant sectoral conformity assessment procedure under Art. 43(3), including notified-body involvement where required by that sectoral legislation.",
+      `Undergo a conformity assessment procedure before placing the system on the market. For Annex III point 1 (biometrics), Art. 43(1) sets the applicable route: internal control under Annex VI is available only where harmonised standards (Art. 40) or common specifications (Art. 41) were applied for the Chapter III, Section 2 requirements; otherwise the quality management system plus technical documentation assessment with notified-body involvement under Annex VII applies. As of ${standardsReviewedOnText()}, the only harmonised standard referenced in the Official Journal, EN 18286:2026, covers the Art. 17 quality management system, not Section 2. For Annex III points 2-8, providers follow the internal-control procedure under Annex VI per Art. 43(2). Systems covered by Union harmonisation legislation in Annex I follow the relevant sectoral conformity assessment procedure under Art. 43(3), including notified-body involvement where required by that sectoral legislation.`,
     category: "conformity_assessment",
   },
   {
