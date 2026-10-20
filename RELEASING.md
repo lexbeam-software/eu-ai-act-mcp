@@ -135,6 +135,19 @@ The `Site links` workflow runs `npm run check:links` every Monday and opens or u
 one issue when a lexbeam.com URL stops resolving. The release gate cannot see a page
 that disappears while a version sits published; this can.
 
+The `Harmonised standards` workflow runs `npm run check:standards` every Monday. It asks
+the Official Journal, through the Publications Office Cellar SPARQL endpoint, for acts
+that `euaiact://standards` does not reflect yet: a new decision in the AI Act series, or
+an act that amends, corrects or consolidates a decision the server cites, or that names
+a cited standard (a restriction or a withdrawal). It opens or updates one issue on a
+change, when the check cannot decide, and when `STANDARDS_REVIEWED_ON` in
+`src/knowledge/standards.ts` is older than 60 days, because the Commission's guidance
+pages that the resource also reports have no Official Journal trace. It fails closed:
+an answer without new acts counts only when it also returns the known positive,
+Implementing Decision (EU) 2026/2274. After reviewing a flagged act, update
+`standards.ts` and release, or record the act in
+`tests/fixtures/standards/reviewed-acts.json` when it changes nothing the server says.
+
 ## The front door, measured
 
 `evals/front-door/` measures what a calling agent makes of `euaiact_classify_system`.

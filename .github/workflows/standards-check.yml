@@ -1,0 +1,68 @@
+name: Harmonised standards
+
+# euaiact://standards says which harmonised standards have an Official Journal reference "as of"
+# STANDARDS_REVIEWED_ON. EN 18286:2026 was the first; the Commission expects more and gives no
+# date. This asks the Official Journal every week, through the Publications Office Cellar, and
+# opens one issue when a new or amending act appears, when the check cannot decide (it fails
+# closed), or when the review date is older than 60 days.
+
+on:
+  schedule:
+    - cron: "37 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check-standards:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Ask the Official Journal for new harmonised standard references
+        shell: bash
+        run: npm run --silent check:standards -- --report standards-report.md 2>&1 | tee standards-check.log
+
+      - name: Open or update an issue when the check finds a change or cannot decide
+        if: failure()
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Harmonised standards: euaiact://standards may be out of date"
+          {
+            if [ -s standards-report.md ]; then
+              cat standards-report.md
+            else
+              echo "## Harmonised standards check: UNDETERMINED: the check did not finish. This is not a \"no change\" result"
+              echo
+              echo '```'
+              tail -n 20 standards-check.log 2>/dev/null || echo "No log: an earlier step failed."
+              echo '```'
+            fi
+            echo
+            echo "Commit \`${GITHUB_SHA:0:7}\`. Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          } > issue-body.md
+          # Compared exactly, so the search syntax never gets to interpret the colon in the title.
+          existing="$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --limit 200 --json number,title \
+            | jq -r --arg title "$title" '[.[] | select(.title == $title)][0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body-file issue-body.md
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body-file issue-body.md
+          fi
