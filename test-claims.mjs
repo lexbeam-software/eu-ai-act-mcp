@@ -27,6 +27,7 @@ function check(id, side, ok) {
 const norm = (s) => s.replace(/\s+/g, " ");
 const CONSOLIDATED = norm(readFileSync("law/celex-02024R1689-20260727-consolidated.txt", "utf8"));
 const OMNIBUS = norm(readFileSync("law/celex-32026R1744-omnibus.txt", "utf8"));
+const DECISION_2274 = norm(readFileSync("law/celex-32026D2274-harmonised-standards.txt", "utf8"));
 const inLaw = (needle, corpus = CONSOLIDATED) => corpus.includes(norm(needle));
 // Article-bounded slice: needles must hold WITHIN the article they claim, not
 // anywhere in the corpus (cross-model round 3: global includes() let unrelated
@@ -57,6 +58,13 @@ const ART5 = sliceBetween("Article 5 Prohibited AI practices", "Article 6 Classi
 const ART50 = sliceBetween("Article 50 Transparency obligations", "Article 51 Classification");
 const ART51 = sliceBetween("Article 51 Classification of general-purpose AI models", "Article 52");
 const ART52 = sliceBetween("Article 52 Procedure", "Article 53 Obligations");
+const ART6 = sliceBetween("Article 6 Classification rules", "Article 7 Amendments");
+const ART17 = sliceBetween("Article 17 Quality management system", "Article 18 Documentation keeping");
+const ART40 = sliceBetween("Article 40 Harmonised standards", "Article 41 Common specifications");
+const ART43 = sliceBetween("Article 43 Conformity assessment", "Article 44");
+const ART63 = sliceBetween("Article 63 Derogations for specific operators", "CHAPTER VII");
+const ANNEX_IV = sliceBetween("ANNEX IV Technical documentation referred to in Article 11(1)", "ANNEX V");
+const ANNEX_VI = sliceBetween("ANNEX VI Conformity assessment procedure based on internal control", "ANNEX VII");
 
 // Served-side sources
 const { getMilestonesWithDaysRemaining, getOperativeHighRiskDates } = await import("./dist/knowledge/deadlines.js");
@@ -65,6 +73,10 @@ const { getPenaltyTier, calculateMaxFine } = await import("./dist/knowledge/pena
 const { articles } = await import("./dist/knowledge/articles.js");
 const { annexIIICategories, prohibitedPractices } = await import("./dist/knowledge/annex-iii.js");
 const { faqDatabase } = await import("./dist/knowledge/faq-database.js");
+const { buildStandardsPayload } = await import("./dist/knowledge/standards.js");
+const { annexIVItems } = await import("./dist/knowledge/annex-iv.js");
+const STANDARDS = buildStandardsPayload();
+const EN18286 = STANDARDS.cited_harmonised_standards.find((x) => x.reference === "EN 18286:2026");
 const SERVER_BUNDLE = norm(readFileSync("dist/server.js", "utf8"));
 const ARTICLE_TOOL_BUNDLE = norm(readFileSync("dist/tools/article.js", "utf8"));
 const ASSESSMENT_BUNDLE = norm(readFileSync("dist/decision-contract/assess-system.js", "utf8"));
@@ -582,6 +594,98 @@ check("R2-F2b", "served",
   ASSESSMENT_BUNDLE.includes("/geography/used_in_eu") &&
   ASSESSMENT_BUNDLE.includes("/geography/output_used_in_eu") &&
   ASSESSMENT_BUNDLE.includes("Which fact establishes the Union nexus"));
+
+// ── Harmonised standards (1.7.3): law side = Implementing Decision (EU) 2026/2274 and the consolidated act ──
+
+check("HS1 EN 18286:2026 reference published by Implementing Decision (EU) 2026/2274 of 12 October 2026, OJ 14.10.2026", "law",
+  DECISION_2274.includes("COMMISSION IMPLEMENTING DECISION (EU) 2026/2274 of 12 October 2026") &&
+  DECISION_2274.includes("14.10.2026") &&
+  DECISION_2274.includes("EN 18286:2026 Artificial intelligence – Quality management system for EU AI Act regulatory purposes"));
+check("HS1", "served",
+  EN18286?.oj_publication.celex === "32026D2274" && EN18286?.oj_publication.adopted === "2026-10-12" &&
+  EN18286?.oj_publication.published === "2026-10-14" && EN18286?.oj_publication.status === "enacted_oj" &&
+  EN18286?.title === "Artificial intelligence - Quality management system for EU AI Act regulatory purposes" &&
+  STANDARDS.cited_harmonised_standards.length === 1);
+
+check("HS2 in force on publication; presumption from the publication of the reference", "law",
+  DECISION_2274.includes("This Decision shall enter into force on the day of its publication") &&
+  DECISION_2274.includes("from the date of publication of the reference of such standard in the Official Journal"));
+check("HS2", "served",
+  EN18286?.oj_publication.entry_into_force === "2026-10-14" && EN18286?.presumption_of_conformity_from === "2026-10-14");
+
+check("HS3 the Annex lists the reference without a restriction", "law",
+  sliceBetween("ANNEX No Reference and title of the harmonised standard", "ELI:", DECISION_2274).length > 0 &&
+  !/restrict/i.test(sliceBetween("ANNEX No Reference and title of the harmonised standard", "ELI:", DECISION_2274)));
+check("HS3", "served", EN18286?.oj_publication.restriction === null);
+
+check("HS4 standardisation request C(2025) 3871, Annex I point 9: QMS including post-market monitoring", "law",
+  DECISION_2274.includes("Implementing Decision C(2025) 3871 of 23 June 2025") &&
+  DECISION_2274.includes("point 9 of Annex I") &&
+  DECISION_2274.includes("quality management systems for providers of AI systems, including post-market monitoring processes"));
+check("HS4", "served",
+  /C\(2025\) 3871/.test(EN18286?.standardisation_request ?? "") && /point 9/.test(EN18286?.standardisation_request ?? "") &&
+  STANDARDS.standardisation_request.areas.filter((a) => a.oj_reference !== null).length === 1);
+
+check("A40-1 presumption scope: Chapter III Section 2 or Chapter V Sections 2 and 3, to the extent covered", "law",
+  ART40.includes("shall be presumed to be in conformity with the requirements set out in Section 2 of this Chapter") &&
+  ART40.includes("Chapter V, Sections 2 and 3") &&
+  ART40.includes("to the extent that those standards cover those requirements or obligations"));
+check("A40-1", "served",
+  /Chapter III, Section 2/.test(art("40")?.summary ?? "") && /Chapter V, Sections 2 and 3/.test(art("40")?.summary ?? "") &&
+  /to the extent the standards cover them/.test(art("40")?.summary ?? ""));
+
+check("A40-2 the Omnibus request covers Chapter III, Sections 2 and 3", "law",
+  ART40.includes("presumption of conformity with the requirements or obligations set out in Chapter III, Sections 2 and 3"));
+check("A40-2", "served",
+  /Chapter III, Sections 2 and 3/.test(art("40")?.summary ?? "") && /Sections 2 and 3/.test(EN18286?.presumption_basis ?? ""));
+
+check("A43-1 biometrics: Annex VII where no harmonised standard or common specification is applied for Section 2", "law",
+  ART43.includes("in demonstrating the compliance of a high-risk AI system with the requirements set out in Section 2, the provider has applied harmonised standards referred to in Article 40") &&
+  ART43.includes("harmonised standards referred to in Article 40 do not exist, and common specifications referred to in Article 41 are not available"));
+check("A43-1", "served",
+  /do not exist and common specifications are not available/.test(art("43")?.summary ?? "") &&
+  /must follow Annex VII/.test(art("43")?.summary ?? "") &&
+  /does not on its own open the Annex VI route/.test(art("43")?.summary ?? ""));
+
+check("A43-3 Annex I Section A route includes the Art. 17 QMS assessment", "law",
+  ART43.includes("Assessment of the quality management system set out in Article 17 shall also be undertaken"));
+check("A43-3", "served", /Art\. 17 quality management system is assessed as well/.test(art("43")?.summary ?? ""));
+
+check("A17-2 proportionality names SMEs, start-ups and SMCs", "law",
+  ART17.includes("proportionate to the size of the provider’s organisation, in particular, if the provider is an SME, including a start-up, or an SMC"));
+check("A17-2", "served", /SME, including a start-up, or an SMC/.test(art("17")?.summary ?? ""));
+
+check("A17-4 financial institutions take harmonised standards into account", "law",
+  ART17.includes("any harmonised standards referred to in Article 40 shall be taken into account"));
+check("A17-4", "served", /taking harmonised standards referred to in Art\. 40 into account/.test(art("17")?.summary ?? ""));
+
+check("A63-1 SMEs without partner or linked enterprises: simplified QMS elements", "law",
+  ART63.includes("may comply with certain elements of the quality management system required by Article 17 in a simplified manner") &&
+  ART63.includes("partner enterprises or linked enterprises"));
+check("A63-1", "served", /Art\. 63\(1\)/.test(art("17")?.summary ?? "") && /simplified manner/.test(art("17")?.summary ?? ""));
+
+check("A6-5 Art. 6(5) guidelines due no later than 2 February 2026", "law",
+  ART6.includes("no later than 2 February 2026, provide guidelines"));
+check("A6-5", "served",
+  /no later than 2 February 2026/.test(art("6")?.summary ?? "") &&
+  STANDARDS.commission_guidance.find((g) => g.id === "guidelines_high_risk_classification_draft")?.status === "commission_guideline_draft");
+
+check("A50-7 code adequacy is assessed for Art. 50(2) and (4) under Art. 50(7)", "law",
+  ART50.includes("adequate to ensure compliance with the obligations laid down in paragraphs 2 and 4 of this Article"));
+check("A50-7", "served",
+  STANDARDS.commission_guidance.find((g) => g.id === "code_transparency_ai_generated_content")?.status === "code_adequate_voluntary_tool" &&
+  STANDARDS.commission_guidance.find((g) => g.id === "code_transparency_ai_generated_content")?.ai_act_provisions.includes("Art. 50(7)"));
+
+check("AX4-7 Annex IV point 7: list cited standards, else describe the Section 2 solutions", "law",
+  ANNEX_IV.includes("A list of the harmonised standards applied in full or in part the references of which have been published in the Official Journal") &&
+  ANNEX_IV.includes("a detailed description of the solutions adopted to meet the requirements set out in Chapter III, Section 2"));
+check("AX4-7", "served",
+  annexIVItems.find((i) => i.number === 7)?.sub_items.some((x) => /EN 18286:2026/.test(x)) &&
+  annexIVItems.find((i) => i.number === 7)?.sub_items.some((x) => /Chapter III, Section 2/.test(x)));
+
+check("AX6-2 internal control verifies the QMS against Art. 17", "law",
+  ANNEX_VI.includes("The provider verifies that the established quality management system is in compliance with the requirements of Article 17"));
+check("AX6-2", "served", EN18286?.where_it_matters.some((x) => /Annex VI point 2/.test(x)));
 
 // ── Summary ──────────────────────────────────────────────────────────────────
 console.log(`\nCLAIM MATRIX RESULTS: ${pass} passed, ${fail} failed out of ${pass + fail} checks`);

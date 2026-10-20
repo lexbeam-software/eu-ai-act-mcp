@@ -33,7 +33,7 @@ const CLAUDE_DESKTOP_CONFIG = `{ "mcpServers": { "eu-ai-act": { "command": "npx"
 export const PRICE = { label: "Free", amount: "0", currency: "EUR", access: "No key, no account" } as const;
 
 /** The pinned law the claim matrix checks against; the behaviour suite keeps it equal to law/manifest.json. */
-export const LAW = { celex: "02024R1689-20260727", sealed: "2026-08-06" } as const;
+export const LAW = { celex: "02024R1689-20260727", sealed: "2026-10-20" } as const;
 
 export interface ToolEntry {
   name: string;
@@ -67,12 +67,12 @@ export interface EvidenceEntry {
 
 /** Every number the page states, with its source and date. Update with the release that changes it. */
 export const EVIDENCE: readonly EvidenceEntry[] = [
-  { measure: "Law text", value: `Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744: consolidated text CELEX ${LAW.celex}, pinned by SHA-256. A consolidated text is a documentation tool without legal effect`, source: "law/manifest.json", asOf: LAW.sealed },
-  { measure: "Coverage", figure: "10", value: "tools, 5 resources, 4 prompts", source: "tools/list, resources/list and prompts/list on mcp.lexbeam.com", asOf: "2026-10-12" },
-  { measure: "Claim checks", figure: "62", value: "legal claims, each checked twice: against the pinned text and against what the server serves (124 checks)", source: "npm run verify", asOf: "2026-10-12" },
-  { measure: "Behaviour tests", figure: "679", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-12" },
+  { measure: "Law text", value: `Regulation (EU) 2024/1689 as amended by Regulation (EU) 2026/1744: consolidated text CELEX ${LAW.celex}, pinned by SHA-256 together with Commission Implementing Decision (EU) 2026/2274, the first harmonised standard reference. A consolidated text is a documentation tool without legal effect`, source: "law/manifest.json", asOf: LAW.sealed },
+  { measure: "Coverage", figure: "10", value: "tools, 6 resources, 4 prompts", source: "tools/list, resources/list and prompts/list on mcp.lexbeam.com", asOf: "2026-10-20" },
+  { measure: "Claim checks", figure: "77", value: "legal claims, each checked twice: against the pinned text and against what the server serves (154 checks)", source: "npm run verify", asOf: "2026-10-20" },
+  { measure: "Behaviour tests", figure: "732", value: "passed, none failed", source: "npm run verify", asOf: "2026-10-20" },
   { measure: "Determinism", figure: "120", value: "identical hashes: 12 assessment profiles, 10 runs each", source: "npm run verify", asOf: "2026-10-12" },
-  { measure: "Schema checks", figure: "48", value: "passed", source: "npm run verify", asOf: "2026-10-12" },
+  { measure: "Schema checks", figure: "49", value: "passed", source: "npm run verify", asOf: "2026-10-20" },
   { measure: "Downloads", figure: "838", value: "from npm in 30 days", source: "npm registry", asOf: "2026-09-12 to 2026-10-11" },
   { measure: "Listings", value: "Claude's connectors directory since 2026-10-07, Smithery", source: "listing pages", asOf: "2026-10-12" },
 ];
@@ -302,7 +302,7 @@ function buildPage(): { html: string; style: string; script: string } {
           <li class="row head" aria-hidden="true"><span>Tool</span><span>Returns</span><span>Rests on</span></li>
           ${toolRows()}
         </ul>
-        <p class="extra">Also served: five resources (timeline, risk levels, Annex III, Annex IV, the Digital Omnibus) and four prompts.</p>
+        <p class="extra">Also served: six resources (timeline, risk levels, Annex III, Annex IV, the Digital Omnibus, harmonised standards and guidance) and four prompts.</p>
       </div>
     </div>
   </section>
@@ -461,7 +461,7 @@ export function llmsText(): string {
     "",
     "## Resources and prompts",
     "",
-    "- Resources: euaiact://timeline, euaiact://risk-levels, euaiact://annex/iii, euaiact://annex/iv, euaiact://omnibus",
+    "- Resources: euaiact://timeline, euaiact://risk-levels, euaiact://annex/iii, euaiact://annex/iv, euaiact://omnibus, euaiact://standards",
     "- Prompts: classify-my-system, compliance-checklist, penalty-risk-assessment, ground-citation",
     "",
     "## Evidence",

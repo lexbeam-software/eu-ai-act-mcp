@@ -889,7 +889,7 @@ test("GPAI penalty tier = Art. 101", getPenaltyTier("gpai").article === "Art. 10
 
 // ─── FAQ ────────────────────────────────────────────────────────────────────
 console.log("\n❓ FAQ");
-test("25 FAQ entries after the 1.6.2 Article 50 entry", faqDatabase.length === 25);
+test("27 FAQ entries after the 1.7.3 harmonised standards and QMS entries", faqDatabase.length === 27);
 test(
   "faq-21-gpai-flops-threshold present",
   faqDatabase.some((f) => f.id === "faq-21-gpai-flops-threshold"),
@@ -1208,7 +1208,7 @@ console.log("\n🩹 1.4.4 REGRESSIONS");
 console.log("\n📖 1.4.4 REGRESSIONS: ARTICLE CORPUS");
 {
   const { articles } = await import("./dist/knowledge/articles.js");
-  test("corpus: 28 article summaries including Art. 4a", articles.length === 28 && articles.some((a) => a.number === "4a"));
+  test("corpus: 29 article summaries including Art. 4a and Art. 40", articles.length === 29 && articles.some((a) => a.number === "4a") && articles.some((a) => a.number === "40"));
   test("corpus: every link points at the consolidated text", articles.every((a) => a.eurlex_url.includes("CELEX:02024R1689-20260727")));
 
   const a4a = structured(await callTool("euaiact_get_article", { article: "4a" }));
@@ -2284,8 +2284,8 @@ console.log("\n🔗 SITE LINKS");
   test("site links: tool code names only the lexbeam.com root (tool results carry no links since 1.6.2)",
     [...inSource.entries()].every(([url, files]) => url === "https://lexbeam.com" ||
       (pageOnly.has(url) && files.every((file) => file.startsWith(join("src", "site"))))));
-  test("site links: none of the 25 FAQ entries carries a lexbeam.com link",
-    faqDatabase.length === 25 && faqDatabase.every((entry) => !("lexbeamUrl" in entry)));
+  test("site links: none of the 27 FAQ entries carries a lexbeam.com link",
+    faqDatabase.length === 27 && faqDatabase.every((entry) => !("lexbeamUrl" in entry)));
 }
 
 // ─── HTTP HANDLER ───────────────────────────────────────────────────────────
@@ -2740,6 +2740,109 @@ console.log("\n🧭 SIGNAL PRECEDENCE AND NEGATION");
   const { TRANSPARENCY_GOVERNING_SIGNAL } = await import("./dist/tools/classify.js");
   test("precedence: every Art. 50 trigger names the signal that governs it",
     transparencyTriggers.every((trigger) => typeof TRANSPARENCY_GOVERNING_SIGNAL?.[trigger.id] === "string"));
+}
+
+// ─── 1.7.3: HARMONISED STANDARDS (EN 18286:2026) AND GUIDANCE STATUS ────────
+console.log("\n📐 1.7.3: HARMONISED STANDARDS AND GUIDANCE STATUS");
+{
+  const a40 = structured(await callTool("euaiact_get_article", { article: "40" }));
+  test("get_article(40): available, anchored at art_40 of the consolidated text",
+    a40.available === true && a40.eurlex_url.endsWith("#art_40") && a40.eurlex_url.includes("CELEX:02024R1689-20260727"));
+  test("get_article(40): names EN 18286:2026, Decision 2026/2274 and 14 October 2026",
+    /EN 18286:2026/.test(a40.article.summary) && /2026\/2274/.test(a40.article.summary) && /14 October 2026/.test(a40.article.summary));
+  test("get_article(40): presumption is limited to what a standard covers, and standards are voluntary",
+    /to the extent the standards cover them/.test(a40.article.summary) && /voluntary/.test(a40.article.summary));
+  test("get_article(40): states that no Section 2 standard is referenced yet",
+    /no reference covering the Section 2 requirements/.test(a40.article.summary));
+  test("get_article('Art. 40') resolves like '40'", structured(await callTool("euaiact_get_article", { article: "Art. 40" })).article?.number === "40");
+
+  const a17 = structured(await callTool("euaiact_get_article", { article: "17" }));
+  test("get_article(17): EN 18286:2026 with the Commission's presumption statement",
+    /EN 18286:2026/.test(a17.article.summary) && /presumption of conformity with the Art\. 17 requirements it covers/.test(a17.article.summary));
+  test("get_article(17): Omnibus Art. 17(2) SMEs and SMCs, Art. 17(4) and Art. 63(1)",
+    /SMC/.test(a17.article.summary) && /Art\. 17\(4\)/.test(a17.article.summary) && /Art\. 63\(1\)/.test(a17.article.summary));
+  test("get_article(17): ISO/IEC 42001 gives no presumption of its own",
+    /ISO\/IEC 42001/.test(a17.article.summary) && /no presumption of their own/.test(a17.article.summary));
+
+  const a43 = structured(await callTool("euaiact_get_article", { article: "43" }));
+  test("get_article(43): Annex VI for biometrics is conditional on standards for Section 2",
+    /must follow Annex VII where such harmonised standards do not exist/.test(a43.article.summary));
+  test("get_article(43): the old unconditional either-or wording is gone",
+    !/providers must follow the conformity assessment procedure based on internal control set out in Annex VI, or the procedure/.test(a43.article.summary));
+  test("get_article(43): EN 18286 does not open the Annex VI route on its own",
+    /does not on its own open the Annex VI route/.test(a43.article.summary));
+
+  const a6 = structured(await callTool("euaiact_get_article", { article: "6" }));
+  test("get_article(6): Art. 6(5) guidelines due 2 Feb 2026, draft of 19 May 2026, still draft",
+    /2 February 2026/.test(a6.article.summary) && /19 May 2026/.test(a6.article.summary) && /still describes them as draft/.test(a6.article.summary));
+
+  const a50 = structured(await callTool("euaiact_get_article", { article: "50" }));
+  test("get_article(50): dates incl. Art. 111(4), final guidelines and the adequate code",
+    /2 August 2026/.test(a50.article.summary) && /111\(4\)/.test(a50.article.summary) &&
+    /20 July 2026/.test(a50.article.summary) && /8 July 2026/.test(a50.article.summary) &&
+    /not conclusive evidence of compliance/.test(a50.article.summary));
+
+  const ob = structured(await callTool("euaiact_get_obligations", { role: "provider", risk_level: "high-risk" }));
+  const ob17 = ob.obligations.find((o) => o.article === "Art. 17");
+  const ob43 = ob.obligations.find((o) => o.article === "Art. 43");
+  test("obligations: Art. 17 names EN 18286:2026 as voluntary", /EN 18286:2026/.test(ob17?.details ?? "") && /voluntary/.test(ob17?.details ?? ""));
+  test("obligations: Art. 43 conditions Annex VI for biometrics", /available only where harmonised standards/.test(ob43?.details ?? ""));
+
+  const iv = structured(await callTool("euaiact_annex_iv_checklist", {}));
+  const item7 = iv.items.find((i) => i.number === 7);
+  test("annex IV item 7: names EN 18286:2026 and the missing Section 2 standards",
+    item7?.sub_items.some((x) => /EN 18286:2026/.test(x)) && item7?.sub_items.some((x) => /Chapter III, Section 2/.test(x)));
+
+  for (const q of [
+    "Is there a harmonised standard for the EU AI Act?",
+    "Does ISO 42001 give a presumption of conformity under the AI Act?",
+    "What is EN 18286?",
+  ]) {
+    const f = structured(await callTool("euaiact_answer_question", { question: q }));
+    test(`faq: "${q}" matches the harmonised standards entry`,
+      f.match_status === "matched" && /EN 18286:2026/.test(f.answer) && f.question === q);
+  }
+  for (const q of ["Is a quality management system (QMS) required, and what must it cover?", "What must a QMS under the AI Act contain?", "Do SMEs need a full quality management system?"]) {
+    const f = structured(await callTool("euaiact_answer_question", { question: q }));
+    test(`faq: "${q}" matches the QMS entry with Art. 17, 63(1) and EN 18286`,
+      f.match_status === "matched" && /Art\. 17\(2\)/.test(f.answer) && /Art\. 63\(1\)/.test(f.answer) && /EN 18286:2026/.test(f.answer));
+  }
+  for (const q of ["What are the risk management requirements for high-risk AI?", "What is a risk management system under Article 9?", "Do deployers need a risk management system?"]) {
+    const f = structured(await callTool("euaiact_answer_question", { question: q }));
+    test(`faq: risk-management question stays off the QMS entry ("${q}")`, !/thirteen aspects in Art\. 17\(1\)/.test(f.answer));
+  }
+  const chatbot = structured(await callTool("euaiact_answer_question", { question: "Do AI chatbots need special disclosure or labelling?" }));
+  test("faq: the chatbot question still matches its own entry", /Art\. 50\(1\)/.test(chatbot.answer) && !/EN 18286/.test(chatbot.answer));
+
+  const { buildStandardsPayload, citedHarmonisedStandards, standardisationAreas, guidanceSources } = await import("./dist/knowledge/standards.js");
+  const payload = buildStandardsPayload();
+  test("standards: exactly one cited standard, EN 18286:2026 for Art. 17",
+    citedHarmonisedStandards.length === 1 && citedHarmonisedStandards[0].reference === "EN 18286:2026" &&
+    JSON.stringify(citedHarmonisedStandards[0].ai_act_provisions_covered) === JSON.stringify(["Art. 17"]));
+  test("standards: OJ act is enacted law, published and in force on 14 October 2026, no restriction",
+    citedHarmonisedStandards[0].oj_publication.status === "enacted_oj" &&
+    citedHarmonisedStandards[0].oj_publication.published === "2026-10-14" &&
+    citedHarmonisedStandards[0].oj_publication.entry_into_force === "2026-10-14" &&
+    citedHarmonisedStandards[0].oj_publication.restriction === null);
+  test("standards: ten request areas, only quality management has a reference",
+    standardisationAreas.length === 10 && standardisationAreas.filter((a) => a.oj_reference).map((a) => a.area).join() === "quality management");
+  test("standards: ISO/IEC 42001 is listed as not harmonised and without presumption",
+    payload.not_harmonised_under_the_ai_act.some((x) => x.reference === "ISO/IEC 42001" && /no presumption of conformity/.test(x.note)));
+  test("standards: guidance keeps its status (draft, final, adequate code)",
+    guidanceSources.find((g) => g.id === "guidelines_high_risk_classification_draft")?.status === "commission_guideline_draft" &&
+    guidanceSources.find((g) => g.id === "guidelines_transparency_art50")?.status === "commission_guideline_final" &&
+    guidanceSources.find((g) => g.id === "code_transparency_ai_generated_content")?.status === "code_adequate_voluntary_tool");
+  test("standards: no guidance source is labelled as law",
+    guidanceSources.every((g) => g.status !== "enacted_oj"));
+  test("standards: every source URL is official https",
+    [...guidanceSources.map((g) => g.url), ...payload.sources.map((x) => x.url).filter((u) => u.startsWith("https"))]
+      .every((u) => u.startsWith("https://digital-strategy.ec.europa.eu/")) &&
+    payload.sources.some((x) => x.url === "http://data.europa.eu/eli/dec_impl/2026/2274/oj"));
+  test("standards: review date is an ISO date", /^\d{4}-\d{2}-\d{2}$/.test(payload.reviewed_on));
+
+  const { SERVER_INSTRUCTIONS } = await import("./dist/constants.js");
+  test("instructions: point to euaiact://standards and call standards voluntary",
+    /euaiact:\/\/standards/.test(SERVER_INSTRUCTIONS) && /voluntary/.test(SERVER_INSTRUCTIONS));
 }
 
 // ─── SUMMARY ────────────────────────────────────────────────────────────────

@@ -158,7 +158,7 @@ as before.
 | `euaiact_get_obligations` | Specific compliance obligations by role (provider/deployer) and risk level, including GPAI (Art. 51-56) and universal AI literacy (Art. 4). |
 | `euaiact_answer_question` | Keyword FAQ search (lexical matching with stopword filtering, tie handling and abstention) across 24 curated EU AI Act questions; echoes your question and names the matched entry. |
 | `euaiact_calculate_penalty` | Calculate maximum fines by violation type, turnover, SME status (Art. 99(6)) and SMC status (Art. 99(6a), tiers 99(4)-(5) only), with a comparative non-SME vs SME block. |
-| `euaiact_get_article` | Retrieve an operational summary and EUR-Lex URL for a specific article. Covers 28 curated articles between Art. 3 and Art. 113 (including the new Art. 4a), not the full act. |
+| `euaiact_get_article` | Retrieve an operational summary and EUR-Lex URL for a specific article. Covers 29 curated articles between Art. 3 and Art. 113 (including the new Art. 4a and Art. 40 on harmonised standards), not the full act. |
 | `euaiact_check_gpai_systemic_risk` | Check whether a GPAI model crosses the 10²⁵ FLOPs threshold and return Art. 53 + Art. 55 obligations plus the Art. 52 notification duty. |
 | `euaiact_assess_art6_3_exception` | Walk through the Art. 6(3) "no significant risk" exception with explicit profiling block and Art. 6(4) / Art. 49(2) reminders. |
 | `euaiact_annex_iv_checklist` | Return all nine Annex IV technical-documentation items, optionally as a markdown checklist. |
@@ -173,6 +173,7 @@ as before.
 | `euaiact://annex/iii` | Full Annex III high-risk AI categories (1-8) with descriptions, examples, and article references. |
 | `euaiact://annex/iv` | Full Annex IV technical-documentation items (1-9). |
 | `euaiact://omnibus` | The Digital Omnibus on AI (Regulation (EU) 2026/1744) as enacted: amended dates, deltas, and source status per item. |
+| `euaiact://standards` | Harmonised standards with an Official Journal reference (so far EN 18286:2026 for the Art. 17 quality management system, published 14 October 2026), the standardisation areas still without one, and the status of Commission guidelines and codes of practice. |
 
 ## Prompts
 
@@ -196,11 +197,12 @@ Curated, structured data covering:
 - **Limited-risk transparency obligations** (4 under Art. 50)
 - **Universal AI literacy** (Art. 4)
 - **Penalty framework** with SME protection logic (Art. 99)
-- **25 FAQ entries** with article references
-- **28 article summaries** with EUR-Lex URLs to the consolidated text
+- **27 FAQ entries** with article references
+- **29 article summaries** with EUR-Lex URLs to the consolidated text
+- **Harmonised standards and guidance status**: EN 18286:2026 (Art. 17) with its OJ reference, the open standardisation areas, and the status of the draft high-risk classification guidelines, the Art. 50 guidelines and the transparency code of practice
 - **Annex IV (9 documentation items)** *(new in 1.1.0)*
 
-Load-bearing dates, thresholds, amounts and exceptions are checked on every build by a claim matrix (`test-claims.mjs`) against a pinned, hash-verified copy of the consolidated act (`law/`). Coverage is the matrix, not a blanket claim.
+Load-bearing dates, thresholds, amounts and exceptions are checked on every build by a claim matrix (`test-claims.mjs`) against a pinned, hash-verified copy of the consolidated act (`law/`), which since 1.7.3 also holds Commission Implementing Decision (EU) 2026/2274, the act that published the first harmonised standard reference. Coverage is the matrix, not a blanket claim.
 
 ## Regulatory Accuracy
 

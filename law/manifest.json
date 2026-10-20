@@ -2,7 +2,7 @@
   "schema": 2,
   "tool_version": "fetch.mjs@2",
   "pinned_consolidated": "20260727",
-  "sealed_at": "2026-08-06T07:15:50.834Z",
+  "sealed_at": "2026-10-20T09:04:46.489Z",
   "documents": [
     {
       "celex": "02024R1689-20260727",
@@ -47,6 +47,17 @@
       "html_bytes": 382964,
       "txt_bytes": 143533,
       "fetched_at": null
+    },
+    {
+      "celex": "32026D2274",
+      "file": "celex-32026D2274-harmonised-standards",
+      "role": "authentic implementing act: publishes the reference of EN 18286:2026 (Art. 17 quality management system), OJ 2026-10-14, in force 2026-10-14",
+      "source_url": "https://publications.europa.eu/resource/celex/32026D2274",
+      "html_sha256": "fd86b2160326d3af7f438e80abcb0649e87eac21dafb9bdc03175e60cc453961",
+      "txt_sha256": "a750d84bdd67b7b2f942c718dd7b7d2bf5c38ba60ad9accf567ed0fb171fdee1",
+      "html_bytes": 13455,
+      "txt_bytes": 4758,
+      "fetched_at": "2026-10-20T09:04:46.477Z"
     }
   ]
 }
