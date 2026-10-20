@@ -35,7 +35,7 @@ export function createRequestHandler(options: RequestHandlerOptions = {}) {
   const logError = options.logError ?? ((line: string) => console.error(line));
 
   async function handle(req: IncomingMessage, res: ServerResponse): Promise<void> {
-    // CORS headers for Smithery proxy
+    // CORS headers for browser-based MCP clients
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type, mcp-session-id, MCP-Protocol-Version, Last-Event-ID");

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Streamable HTTP transport for Smithery / hosted deployments.
+ * Streamable HTTP transport for the hosted deployment (mcp.lexbeam.com on Railway).
  *
  * Start with: node dist/http.js
  * Env: PORT (default 3000), OPENAI_APPS_CHALLENGE (optional, OpenAI's domain token)

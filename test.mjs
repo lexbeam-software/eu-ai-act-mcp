@@ -2499,7 +2499,7 @@ console.log("\n🌐 HTTP HANDLER");
 
     // Links: same-origin paths, anchors that exist, and https links to known hosts only.
     const hrefs = [...html.matchAll(/href="([^"]*)"/g)].map((match) => match[1]);
-    const knownHosts = ["mcp.lexbeam.com", "claude.ai", "github.com", "www.npmjs.com", "smithery.ai", "www.lexbeam.com"];
+    const knownHosts = ["mcp.lexbeam.com", "claude.ai", "github.com", "www.npmjs.com", "www.lexbeam.com"];
     const badHref = hrefs.find((href) => !(
       href.startsWith("#") || ["/", "/health", "/llms.txt"].includes(href) || href === "mailto:info@lexbeam.com" ||
       href.startsWith("data:image/svg+xml,") || (href.startsWith("https://") && knownHosts.includes(new URL(href).hostname))));
@@ -2861,6 +2861,22 @@ console.log("\n📐 1.7.3: HARMONISED STANDARDS AND GUIDANCE STATUS");
   test("get_article(50): the guidelines are stated as published on 20 July 2026, not adopted on that date",
     /published its Guidelines on the Art\. 50 transparency obligations on 20 July 2026/.test(a50.article.summary) &&
     !/adopted Guidelines/.test(a50.article.summary));
+}
+
+// ─── 1.7.4: NO SMITHERY ROUTE ───────────────────────────────────────────────
+// Smithery shuts down its proxy, run.tools URLs, accounts and CLI on 31 October 2026. Nothing this package or the
+// hosted pages publish may send a user there; the direct endpoint is https://mcp.lexbeam.com/mcp.
+console.log("\n🔌 1.7.4: NO SMITHERY ROUTE");
+{
+  const site = await import("./dist/site/front-page.js");
+  const readme = readFileSync(new URL("./README.md", import.meta.url), "utf8");
+  const surfaces = { "front page": site.frontPageHtml(), "llms.txt": site.llmsText(), README: readme };
+  for (const [name, text] of Object.entries(surfaces)) {
+    test(`${name}: no run.tools URL, no Smithery CLI, no Smithery link`,
+      !/run\.tools/i.test(text) && !/@smithery\/cli/i.test(text) && !/smithery\.ai/i.test(text));
+  }
+  test("README: the direct endpoint is the documented remote route",
+    readme.includes("### Any other MCP client") && readme.includes("`https://mcp.lexbeam.com/mcp`"));
 }
 
 // ─── SUMMARY ────────────────────────────────────────────────────────────────

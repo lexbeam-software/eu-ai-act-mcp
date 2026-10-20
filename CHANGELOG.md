@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.7.4] - 2026-10-20
+
+Smithery shuts down its MCP proxy, its `run.tools` URLs, its accounts and its CLI on 31 October 2026 and stays a
+non-proxied registry. This server never ran on Smithery: Smithery only listed it and forwarded calls to
+`https://mcp.lexbeam.com/mcp`. This release removes every route that sends users to Smithery. Tools, resources and
+answers are unchanged.
+
+### Removed
+
+- README: the Smithery listing link, the Smithery CLI install section and the `run.tools` endpoint note. The direct
+  endpoint is documented under "Any other MCP client".
+- Front page and `/llms.txt`: the Smithery link, its entry in the page's structured data, and Smithery in the
+  listings row.
+
+### Changed
+
+- `smithery.yaml` (registry metadata for the npm install) names six resources; it said five since 1.7.3.
+- Code comments in the HTTP entry point no longer mention a Smithery proxy; behaviour is unchanged.
+- A behaviour test keeps `run.tools` URLs, the Smithery CLI and Smithery links out of the README, the front page and
+  `/llms.txt`.
+
 ## [1.7.3] - 2026-10-20
 
 The first harmonised standard. On 14 October 2026 the Official Journal published the first harmonised standard

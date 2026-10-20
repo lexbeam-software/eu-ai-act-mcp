@@ -3,7 +3,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![npm version](https://img.shields.io/npm/v/@lexbeam-software/eu-ai-act-mcp)](https://www.npmjs.com/package/@lexbeam-software/eu-ai-act-mcp)
 [Connect to Claude](https://claude.ai/directory/lexbeam-eu-ai-act) (Anthropic's connectors directory)
-[Smithery listing](https://smithery.ai/servers/lexbeam-software/eu-ai-act)
 [![Test](https://github.com/lexbeam-software/eu-ai-act-mcp/actions/workflows/test.yml/badge.svg)](https://github.com/lexbeam-software/eu-ai-act-mcp/actions/workflows/test.yml)
 
 An open-source [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that gives LLMs structured intelligence about the EU AI Act (Regulation (EU) 2024/1689, as amended by the Digital Omnibus, Regulation (EU) 2026/1744).
@@ -85,17 +84,11 @@ Add to `claude_desktop_config.json`:
 }
 ```
 
-### Smithery
-
-```bash
-npx -y @smithery/cli@latest mcp add lexbeam-software/eu-ai-act
-```
+### Any other MCP client
 
 Direct MCP endpoint: `https://mcp.lexbeam.com/mcp` (health check at `/health`). Open, no auth required. The
 front page at [mcp.lexbeam.com](https://mcp.lexbeam.com/) has the tools and how to connect, and `/llms.txt` the same
 facts as plain text.
-
-The Smithery-hosted endpoint `https://eu-ai-act--lexbeam-software.run.tools` requires Smithery authentication and returns 401 without it.
 
 ### From source
 
@@ -105,7 +98,7 @@ cd eu-ai-act-mcp
 npm install
 npm run build
 npm start        # stdio transport
-npm run start:http  # streamable HTTP (for Smithery/Railway)
+npm run start:http  # streamable HTTP (as hosted on Railway)
 ```
 
 ## First successful calls
