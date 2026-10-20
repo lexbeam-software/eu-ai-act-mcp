@@ -13,7 +13,7 @@ export function registerArticleTool(server: McpServer): void {
     {
       title: "Get EU AI Act Article Summary",
       description:
-        "Retrieve an operational summary of a specific article of the EU AI Act (Regulation 2024/1689), plus a stable EUR-Lex URL to the canonical text. Supports a subset of the most-cited articles (Art. 3, 4, 5, 6, 9-17, 26, 27, 43, 47, 49, 50, 51, 53, 55, 72, 73, 99, 100, 113). For articles outside this subset the tool returns the EUR-Lex base URL. The summary is not statutory text: follow the URL and verify the official provision before quoting it.",
+        "Retrieve an operational summary of a specific article of the EU AI Act (Regulation 2024/1689), plus a stable EUR-Lex URL to the canonical text. Supports a subset of the most-cited articles (Art. 3, 4, 4a, 5, 6, 9-17, 26, 27, 40, 43, 47, 49, 50, 51, 53, 55, 72, 73, 99, 100, 113); Art. 40 and the summaries of Art. 17 and 43 carry the status of harmonised standards. For articles outside this subset the tool returns the EUR-Lex base URL. The summary is not statutory text: follow the URL and verify the official provision before quoting it.",
       annotations: {
         title: "Get EU AI Act Article Summary",
         readOnlyHint: true,

@@ -37,25 +37,21 @@ gets `"other"`. Two calls to `euaiact_classify_system`, both for systems in the 
 The classifier trusts the signal: the same chatbot sent with `"domain": "employment"` comes
 back `high-risk`. Leave `domain` out when the description does not tell you which it is.
 
-## What's new in 1.6.0
+## What's new in 1.7.3
 
-Version 1.6.0 corrects what a calling agent is told, and measures what it then does.
+The first harmonised standard under the AI Act is in the server. On 14 October 2026 the Official Journal published
+the reference of **EN 18286:2026**, *Artificial intelligence - Quality management system for EU AI Act regulatory
+purposes* (Commission Implementing Decision (EU) 2026/2274, in force that day).
 
-- **Listed uses, not sectors:** `signals.domain` names an Annex III area only when the
-  system itself performs a use Annex III lists for it. Until now the field read as the
-  sector a system operates in, and an agent that filled it faithfully got a school
-  timetable, a payroll check and a court budgeting tool back as high-risk. Measured with
-  one agent model on 358 descriptions: 46 of 106 non-regulated systems were wrongly
-  regulated under the old tool definition and none under the new one, while recognition
-  of regulated systems held (181 and 179 of 252). See [evals/front-door](evals/front-door).
-- **Signals first:** the tool description tells the agent to derive the structured
-  signals from the user's description itself. Free text alone is only keyword-matched.
-- **A callable assessment:** the `euaiact_assess_system` description states the fact
-  shape and a useful minimum profile.
-- **Releases with two human steps and no token:** a GitHub release stages the package on
-  npm over trusted publishing, and it becomes public only when a maintainer approves it
-  with 2FA. A weekly job checks every lexbeam.com link the server publishes, and a version
-  bump no longer moves a pinned hash.
+- **`euaiact://standards`:** the harmonised standards with an Official Journal reference, what each covers and does
+  not cover, the standardisation areas still without one, and the status of the Commission's high-risk
+  classification guidelines (draft), Art. 50 guidelines (final) and transparency code of practice (found adequate).
+- **Art. 40 in `euaiact_get_article`**, and Art. 6, 17, 43 and 50 summaries that state the new status.
+- **A corrected Art. 43 route:** biometric systems under Annex III point 1 may use internal control (Annex VI) only
+  where harmonised standards or common specifications were applied for the Chapter III, Section 2 requirements.
+  EN 18286 covers Art. 17, not Section 2, so as of 20 October 2026 a notified body (Annex VII) remains their route.
+- **Two FAQ answers:** which harmonised standards exist (and why ISO/IEC 42001 gives no presumption of conformity under the AI Act),
+  and what the Art. 17 quality management system requires.
 
 Full release history: [CHANGELOG.md](CHANGELOG.md).
 
@@ -156,9 +152,9 @@ as before.
 | `euaiact_classify_system` | Classify an AI system's risk level (prohibited / high-risk / limited / minimal) from structured signals that the calling agent derives from the user's description; free text alone is a keyword fallback. Returns matched signals, missing signals, and follow-up questions. |
 | `euaiact_check_deadlines` | Implementation milestones with days remaining, `next_milestone` shortcut, `only_upcoming` filter, and the enacted Digital Omnibus (Regulation (EU) 2026/1744) status. |
 | `euaiact_get_obligations` | Specific compliance obligations by role (provider/deployer) and risk level, including GPAI (Art. 51-56) and universal AI literacy (Art. 4). |
-| `euaiact_answer_question` | Keyword FAQ search (lexical matching with stopword filtering, tie handling and abstention) across 24 curated EU AI Act questions; echoes your question and names the matched entry. |
+| `euaiact_answer_question` | Keyword FAQ search (lexical matching with stopword filtering, tie handling and abstention) across 27 curated EU AI Act questions; echoes your question and names the matched entry. |
 | `euaiact_calculate_penalty` | Calculate maximum fines by violation type, turnover, SME status (Art. 99(6)) and SMC status (Art. 99(6a), tiers 99(4)-(5) only), with a comparative non-SME vs SME block. |
-| `euaiact_get_article` | Retrieve an operational summary and EUR-Lex URL for a specific article. Covers 28 curated articles between Art. 3 and Art. 113 (including the new Art. 4a), not the full act. |
+| `euaiact_get_article` | Retrieve an operational summary and EUR-Lex URL for a specific article. Covers 29 curated articles between Art. 3 and Art. 113 (including the new Art. 4a and Art. 40 on harmonised standards), not the full act. |
 | `euaiact_check_gpai_systemic_risk` | Check whether a GPAI model crosses the 10²⁵ FLOPs threshold and return Art. 53 + Art. 55 obligations plus the Art. 52 notification duty. |
 | `euaiact_assess_art6_3_exception` | Walk through the Art. 6(3) "no significant risk" exception with explicit profiling block and Art. 6(4) / Art. 49(2) reminders. |
 | `euaiact_annex_iv_checklist` | Return all nine Annex IV technical-documentation items, optionally as a markdown checklist. |
@@ -173,6 +169,7 @@ as before.
 | `euaiact://annex/iii` | Full Annex III high-risk AI categories (1-8) with descriptions, examples, and article references. |
 | `euaiact://annex/iv` | Full Annex IV technical-documentation items (1-9). |
 | `euaiact://omnibus` | The Digital Omnibus on AI (Regulation (EU) 2026/1744) as enacted: amended dates, deltas, and source status per item. |
+| `euaiact://standards` | Harmonised standards with an Official Journal reference (so far EN 18286:2026 for the Art. 17 quality management system, published 14 October 2026), the standardisation areas still without one, and the status of Commission guidelines and codes of practice. |
 
 ## Prompts
 
@@ -196,11 +193,12 @@ Curated, structured data covering:
 - **Limited-risk transparency obligations** (4 under Art. 50)
 - **Universal AI literacy** (Art. 4)
 - **Penalty framework** with SME protection logic (Art. 99)
-- **25 FAQ entries** with article references
-- **28 article summaries** with EUR-Lex URLs to the consolidated text
+- **27 FAQ entries** with article references
+- **29 article summaries** with EUR-Lex URLs to the consolidated text
+- **Harmonised standards and guidance status**: EN 18286:2026 (Art. 17) with its OJ reference, the open standardisation areas, and the status of the draft high-risk classification guidelines, the Art. 50 guidelines and the transparency code of practice
 - **Annex IV (9 documentation items)** *(new in 1.1.0)*
 
-Load-bearing dates, thresholds, amounts and exceptions are checked on every build by a claim matrix (`test-claims.mjs`) against a pinned, hash-verified copy of the consolidated act (`law/`). Coverage is the matrix, not a blanket claim.
+Load-bearing dates, thresholds, amounts and exceptions are checked on every build by a claim matrix (`test-claims.mjs`) against a pinned, hash-verified copy of the consolidated act (`law/`), which since 1.7.3 also holds Commission Implementing Decision (EU) 2026/2274, the act that published the first harmonised standard reference. Coverage is the matrix, not a blanket claim.
 
 ## Regulatory Accuracy
 
@@ -215,15 +213,22 @@ Operative dates as amended:
 - **2 Dec 2027** - High-risk Annex III obligations. Deferred from 2 Aug 2026
 - **2 Aug 2028** - High-risk Annex I regulated products. Deferred from 2 Aug 2027
 
+Harmonised standards: on **14 Oct 2026** Commission Implementing Decision (EU) 2026/2274 published the reference of
+EN 18286:2026, the quality management system standard for Art. 17; per the Commission it gives a presumption of
+conformity with the Art. 17 requirements it covers from that day. Applying it is voluntary, and no harmonised
+standard covers the Chapter III, Section 2 requirements yet. Reviewed on 20 October 2026 against the decision (pinned
+in `law/`) and the Commission's AI Act pages of 19 October 2026; `euaiact://standards` carries the details and the
+review date.
+
 ## Development
 
 ```bash
 npm install
 npm run build        # typescript -> dist/
 node test.mjs         # full suite incl. ten agent journeys
-node test-claims.mjs  # 124-check matrix: pinned law corpus vs served facts
+node test-claims.mjs  # 154-check matrix: pinned law corpus vs served facts
 node test-schemas.mjs # post-serialization output-schema gate
-node law/fetch.mjs verify # verify all 4 pinned legal documents
+node law/fetch.mjs verify # verify all 5 pinned legal documents
 npm --prefix compiler test # deterministic compiler: 6 tests
 node evals/front-door/score.mjs evals/front-door/agent-args-1.6.0.json # the front door, measured
 npm run dev          # stdio dev server
@@ -244,7 +249,7 @@ This MCP server is a structured information tool that returns references to and 
 
 ## License
 
-MIT. See [LICENSE](LICENSE). Regulation text summarised in `src/knowledge/articles.ts` and `src/knowledge/annex-iv.ts` is derived from Regulation (EU) 2024/1689 as amended; EUR-Lex content is reused under the conditions of Commission Decision 2011/833/EU (preserve attribution, do not distort the meaning of the source).
+MIT. See [LICENSE](LICENSE). Regulation text summarised in `src/knowledge/articles.ts` and `src/knowledge/annex-iv.ts` is derived from Regulation (EU) 2024/1689 as amended; `src/knowledge/standards.ts` summarises Commission Implementing Decision (EU) 2026/2274 and the Commission's AI Act pages. EUR-Lex, Official Journal and Commission content is reused under the conditions of Commission Decision 2011/833/EU (preserve attribution, do not distort the meaning of the source). The text of EN 18286 is not reproduced; CEN and CENELEC distribute it through the national standardisation bodies.
 
 ## About Lexbeam
 

@@ -1,5 +1,6 @@
 import { createRequire } from "node:module";
 import { omnibusStatusLine } from "./knowledge/digital-omnibus.js";
+import { standardsReviewedOnText } from "./knowledge/standards.js";
 
 /**
  * Single source of truth for the served version. Read from package.json rather
@@ -48,6 +49,10 @@ export const SERVER_INSTRUCTIONS = [
   "The Digital Omnibus details are available via the euaiact://omnibus resource and",
   "euaiact_check_deadlines with include_pending_omnibus, labelled by source status. Non-OJ",
   "content must not be treated as current law until published in the Official Journal.",
+  "Harmonised standards and Commission guidance carry their own status in the",
+  "euaiact://standards resource: as of " + standardsReviewedOnText() + ", EN 18286:2026 (Art. 17 quality",
+  "management system) is the only harmonised standard with an Official Journal reference;",
+  "standards are voluntary.",
   "",
   "Disclaimer: General guidance, not legal advice. Always consult legal counsel for",
   "definitive classification and compliance decisions.",

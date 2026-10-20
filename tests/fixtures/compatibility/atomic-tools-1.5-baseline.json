@@ -7,8 +7,8 @@
         "format": "checklist",
         "sme_simplified": true
       },
-      "baseline_sha256": "8e2d76bf5c1f89eb15e58657590cb8b9f218da9a485f2ff245d6d41fb311cb1f",
-      "baseline_bytes": 29568
+      "baseline_sha256": "f299f5c0bf406745958f5cde556fd7d60bd31d7f16304ed8b8322fe98d7177b0",
+      "baseline_bytes": 31078
     },
     {
       "tool_name": "euaiact_answer_question",
@@ -87,8 +87,8 @@
         "high_risk_source": "annex_iii",
         "annex_iii_point": 4
       },
-      "baseline_sha256": "66d859f0aa895dc96fec5fdc74972ac06f5875d1891423ca068244018c0f2504",
-      "baseline_bytes": 22856
+      "baseline_sha256": "5e4ffea73c23fcce35b6de74c63bb57fce3520622a7232d28475dadc7dc89d94",
+      "baseline_bytes": 24426
     }
   ]
 }

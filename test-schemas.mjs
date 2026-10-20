@@ -138,7 +138,7 @@ await validate("euaiact_annex_iv_checklist", annexIvOutputSchema, { format: "che
 await validate("euaiact_annex_iv_checklist", annexIvOutputSchema, { format: "checklist", sme_simplified: true }, "checklist sme");
 
 // ── Resources: capture via a stub McpServer covering resource+prompt+tool ────
-console.log("\nGATE 3: resource payloads, 5 resources\n");
+console.log("\nGATE 3: resource payloads, 6 resources\n");
 const resources = {};
 const serverStub = {
   registerTool: () => {},
@@ -206,6 +206,49 @@ const RESOURCE_SCHEMAS = {
     eurlex_url: z.string().includes("02024R1689-20260727"),
   }),
   "euaiact://omnibus": z.object({}).passthrough(), // structure asserted loosely; content is claim-matrix territory
+  "euaiact://standards": z.object({
+    reviewed_on: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    summary: z.string(),
+    cited_harmonised_standards: z.array(z.object({
+      reference: z.string(),
+      title: z.string(),
+      developed_by: z.string(),
+      ai_act_provisions_covered: z.array(z.string()).min(1),
+      not_covered: z.string(),
+      oj_publication: z.object({
+        act: z.string(),
+        status: z.literal("enacted_oj"),
+        celex: z.string(),
+        adopted: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+        published: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+        entry_into_force: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+        eli: z.string().startsWith("http://data.europa.eu/eli/"),
+        restriction: z.string().nullable(),
+      }).strict(),
+      presumption_of_conformity_from: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      presumption_basis: z.string(),
+      standardisation_request: z.string(),
+      design: z.string(),
+      where_it_matters: z.array(z.string()).min(1),
+    }).strict()).min(1),
+    standardisation_request: z.object({
+      act: z.string(),
+      addressees: z.string(),
+      areas: z.array(z.object({ area: z.string(), ai_act_provisions: z.array(z.string()), oj_reference: z.string().nullable() }).strict()).length(10),
+    }).strict(),
+    not_harmonised_under_the_ai_act: z.array(z.object({ reference: z.string(), note: z.string() }).strict()),
+    commission_guidance: z.array(z.object({
+      id: z.string(),
+      title: z.string(),
+      status: z.enum(["commission_guideline_draft", "commission_guideline_final", "code_under_assessment", "code_adequate_voluntary_tool", "commission_study"]),
+      date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      url: z.string().startsWith("https://"),
+      ai_act_provisions: z.array(z.string()),
+      note: z.string(),
+    }).strict()),
+    sources: z.array(z.object({ title: z.string(), url: z.string() }).strict()).min(1),
+    caveat: z.string(),
+  }).strict(),
 };
 
 for (const [uri, schema] of Object.entries(RESOURCE_SCHEMAS)) {

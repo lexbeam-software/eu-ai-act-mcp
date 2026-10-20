@@ -85,10 +85,29 @@ const DOCS = [
       ["Digital Omnibus", 1],
     ],
   },
+  {
+    // A two-article decision is far below the 100 kB floor that catches EUR-Lex's
+    // empty throttle bodies, so it carries its own floor. EUR-Lex answers curl with
+    // an empty 202 for this act; the Publications Office Cellar serves the same OJ
+    // manifestation (L_202602274EN.000101.fmx.xml) by CELEX content negotiation.
+    celex: "32026D2274",
+    file: "celex-32026D2274-harmonised-standards",
+    role: "authentic implementing act: publishes the reference of EN 18286:2026 (Art. 17 quality management system), OJ 2026-10-14, in force 2026-10-14",
+    url: "https://publications.europa.eu/resource/celex/32026D2274",
+    headers: ["Accept: application/xhtml+xml", "Accept-Language: eng"],
+    minBytes: 10_000,
+    titleMustContain: ["L_202602274EN"],
+    markers: [
+      ["EN 18286:2026", 4], // recitals 3 to 5 and the Annex
+      ["Quality management system for EU AI Act regulatory purposes", 1],
+      ["Article 10(6)", 1],
+      ["shall enter into force on the day of its publication", 1],
+    ],
+  },
 ];
 
-const srcUrl = (celex) =>
-  `https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:${celex}`;
+const srcUrl = (doc) =>
+  doc.url ?? `https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:${doc.celex}`;
 
 function htmlToText(h) {
   h = h.replace(/<(script|style)[\s\S]*?<\/\1>/gi, "");
@@ -113,10 +132,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // curl transport (node fetch gets empty 200s from EUR-Lex). --fail turns HTTP
 // errors into exceptions; status+type are captured on stdout, body goes to file.
-function curlToFile(u, outPath) {
+function curlToFile(u, outPath, headers = []) {
   const meta = execFileSync(
     "curl",
-    ["-sL", "--fail", "-A", UA, "--max-time", "90", "-o", outPath, "-w", "%{http_code} %{content_type}", u],
+    ["-sL", "--fail", "-A", UA, ...headers.flatMap((h) => ["-H", h]), "--max-time", "90", "-o", outPath, "-w", "%{http_code} %{content_type}", u],
     { encoding: "utf8" }
   );
   const [code, ...typeParts] = meta.trim().split(" ");
@@ -131,8 +150,9 @@ function extractTitle(html) {
 // Full validation of a candidate body BEFORE it may replace corpus files.
 function validateBody(doc, html) {
   const errs = [];
-  if (html.length < 100_000)
-    errs.push(`${doc.celex}: body only ${html.length} bytes (EUR-Lex throttle serves empty 202s; retry later)`);
+  const minBytes = doc.minBytes ?? 100_000;
+  if (html.length < minBytes)
+    errs.push(`${doc.celex}: body only ${html.length} bytes, floor ${minBytes} (EUR-Lex throttle serves empty 202s; retry later)`);
   const title = extractTitle(html);
   for (const s of doc.titleMustContain)
     if (!title.includes(s)) errs.push(`${doc.celex}: title "${title}" lacks required "${s}"`);
@@ -160,7 +180,7 @@ function buildManifest(fetchedAt = {}) {
       celex: d.celex,
       file: d.file,
       role: d.role,
-      source_url: srcUrl(d.celex),
+      source_url: srcUrl(d),
       html_sha256: sha256(html),
       txt_sha256: sha256(txt),
       html_bytes: html.length,
@@ -242,7 +262,7 @@ async function fetchDocs(targets) {
       for (;;) {
         attempt++;
         try {
-          const { code, contentType } = curlToFile(srcUrl(d.celex), tmpHtml);
+          const { code, contentType } = curlToFile(srcUrl(d), tmpHtml, d.headers);
           if (!/html|xml/.test(contentType))
             throw new Error(`${d.celex}: unexpected content-type "${contentType}"`);
           const html = readFileSync(tmpHtml, "utf8");

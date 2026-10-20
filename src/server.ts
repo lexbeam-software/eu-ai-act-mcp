@@ -33,6 +33,7 @@ import {
   resolveOmnibusStatus,
 } from "./knowledge/deadlines.js";
 import { SOURCE_STATUS_LABELS } from "./knowledge/sources.js";
+import { buildStandardsPayload, standardsReviewedOnText } from "./knowledge/standards.js";
 import { SERVER_VERSION } from "./constants.js";
 
 export function createServer(): McpServer {
@@ -197,6 +198,24 @@ export function createServer(): McpServer {
             null,
             2,
           ),
+        },
+      ],
+    }),
+  );
+
+  server.resource(
+    "EU AI Act Harmonised Standards and Guidance",
+    "euaiact://standards",
+    {
+      description: `Harmonised standards with an Official Journal reference (as of ${standardsReviewedOnText()}: EN 18286:2026, the Art. 17 quality management system standard, published 14 October 2026), the areas of the standardisation request that still lack one, and the status of Commission guidelines and codes of practice. Standards are voluntary; a cited standard gives a presumption of conformity only to the extent it covers a requirement.`,
+      mimeType: "application/json",
+    },
+    async () => ({
+      contents: [
+        {
+          uri: "euaiact://standards",
+          mimeType: "application/json",
+          text: JSON.stringify(buildStandardsPayload(), null, 2),
         },
       ],
     }),

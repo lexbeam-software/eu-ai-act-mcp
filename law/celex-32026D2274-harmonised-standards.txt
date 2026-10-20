@@ -1,0 +1,96 @@
+ 
+
+ L_202602274EN.000101.fmx.xml 
+
+ Official Journal 
+of the European Union
+
+ EN
+
+ L series
+
+ 2026/2274
+
+ 14.10.2026
+
+ COMMISSION IMPLEMENTING DECISION (EU) 2026/2274
+
+ of 12 October 2026
+
+ on the harmonised standards for high-risk AI systems drafted in support of Regulation (EU) 2024/1689 of the European Parliament and of the Council
+
+ (Text with EEA relevance)
+
+ THE EUROPEAN COMMISSION,
+
+ Having regard to the Treaty on the Functioning of the European Union,
+
+ Having regard to Regulation (EU) No 1025/2012 of the European Parliament and of the Council of 25 October 2012 on European standardisation, amending Council Directives 89/686/EEC and 93/15/EEC and Directives 94/9/EC, 94/25/EC, 95/16/EC, 97/23/EC, 98/34/EC, 2004/22/EC, 2007/23/EC, 2009/23/EC and 2009/105/EC of the European Parliament and of the Council and repealing Council Decision 87/95/EEC and Decision No 1673/2006/EC of the European Parliament and of the Council ( 1 ) , and in particular Article 10(6) thereof,
+
+ Whereas:
+
+ (1)
+
+ In accordance with Article 40 of Regulation (EU) 2024/1689 of the European Parliament and of the Council ( 2 ) , high-risk AI systems or general-purpose AI models which are in conformity with harmonised standards or parts thereof, the references of which have been published in the Official Journal of the European Union , are to be presumed to be in conformity with the requirements covered by those standards or parts thereof set out in that Regulation.
+
+ (2)
+
+ By Commission Implementing Decision C(2025) 3871 ( 3 ) the Commission made a request to the European Committee for Standardisation (CEN) and the European Committee for Electrotechnical Standardisation (Cenelec) for the drafting of harmonised standards and standardisation deliverables in support of Regulation (EU) 2024/1689.
+
+ (3)
+
+ On the basis of the request set out in Implementing Decision C(2025) 3871, CEN and Cenelec completed the work on the harmonised standard requested corresponding to point 9 of Annex I to that Decision regarding harmonised standard(s) and if necessary European standardisation deliverable(s) on quality management systems for providers of AI systems, including post-market monitoring processes. This resulted in the adoption of the new harmonised standard EN 18286:2026.
+
+ (4)
+
+ The Commission together with CEN and Cenelec has assessed whether standard EN 18286:2026 drafted by CEN and Cenelec comply with the request set out in Implementing Decision C(2025) 3871.
+
+ (5)
+
+ Standard EN 18286:2026 satisfies the requirements which it aims to cover and which is set out in Regulation (EU) 2024/1689. It is therefore appropriate to publish the references of that standard in the Official Journal of the European Union. 
+
+ (6)
+
+ Compliance with a harmonised standard confers a presumption of conformity with the corresponding essential requirements set out in Union harmonisation legislation from the date of publication of the reference of such standard in the Official Journal of the European Union . This Decision should therefore enter into force on the date of its publication,
+
+ HAS ADOPTED THIS DECISION:
+
+ Article 1
+
+ The reference of the harmonised standard for high-risk AI systems drafted in support of Regulation (EU) 2024/1689, listed in the Annex to this Decision, is hereby published in the Official Journal of the European Union .
+
+ Article 2
+
+ This Decision shall enter into force on the day of its publication in the Official Journal of the European Union .
+
+ Done at Brussels, 12 October 2026.
+
+ For the Commission 
+
+ The President 
+
+ Ursula VON DER LEYEN
+
+ ( 1 ) 
+ OJ L 316, 14.11.2012, p. 12 , ELI: http://data.europa.eu/eli/reg/2012/1025/oj .
+
+ ( 2 ) Regulation (EU) 2024/1689 of the European Parliament and of the Council of 13 June 2024 laying down harmonised rules on artificial intelligence and amending Regulations (EC) No 300/2008, (EU) No 167/2013, (EU) No 168/2013, (EU) 2018/858, (EU) 2018/1139 and (EU) 2019/2144 and Directives 2014/90/EU, (EU) 2016/797 and (EU) 2020/1828 (Artificial Intelligence Act) ( OJ L, 2024/1689, 12.7.2024, ELI: http://data.europa.eu/eli/reg/2024/1689/oj ).
+
+ ( 3 ) Commission Implementing Decision C(2025) 3871 of 23 June 2025 on a standardisation request to the European Committee for Standardisation and the European Committee for Electrotechnical Standardisation as regards high-risk AI-systems in support of Regulation (EU) 2024/1689 of the European Parliament and of the Council and repealing Implementing Decision C(2023) 3215.
+
+ ANNEX
+
+ No 
+
+ Reference and title of the harmonised standard 
+
+ 1.
+
+ EN 18286:2026
+
+ Artificial intelligence – Quality management system for EU AI Act regulatory purposes
+
+ ELI: http://data.europa.eu/eli/dec_impl/2026/2274/oj
+
+ ISSN 1977-0677 (electronic edition)
+

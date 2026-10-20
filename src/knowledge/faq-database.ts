@@ -1,7 +1,7 @@
 /**
  * EU AI Act - FAQ Database
  *
- * 25 frequently asked questions based on top ICP queries.
+ * 27 frequently asked questions based on top ICP queries.
  * Each answer references specific articles from Regulation (EU) 2024/1689.
  *
  * faq-18 (Digital Omnibus) derives its answer from the `omnibusEnactment`
@@ -10,6 +10,7 @@
  */
 
 import { isOmnibusEnacted, omnibusEnactment } from "./digital-omnibus.js";
+import { standardsReviewedOnText } from "./standards.js";
 
 const omnibusFaqAnswer = isOmnibusEnacted(omnibusEnactment)
   ? `The Digital Omnibus on AI (Commission proposal COM(2025) 836 of 19 November 2025, procedure 2025/0359(COD)) amends Regulation (EU) 2024/1689. It was politically agreed on 7 May 2026, formally adopted by the European Parliament (${omnibusEnactment.epEndorsement}) and the Council (${omnibusEnactment.councilAdoption}), published in the Official Journal on ${omnibusEnactment.ojPublicationDate} (CELEX ${omnibusEnactment.celex}), and entered into force on ${omnibusEnactment.entryIntoForce}. Operative dates now: Annex III high-risk obligations apply from 2 December 2027 and Annex I product-integrated high-risk obligations from 2 August 2028. NOT deferred: Art. 50 transparency obligations and the Commission's GPAI enforcement powers and fines apply since 2 August 2026; GPAI obligations have been in force since 2 August 2025; the legacy GPAI compliance date stays 2 August 2027. The Art. 5 prohibited-practices list was expanded (non-consensual intimate imagery / CSAM), not delayed. Use euaiact_check_deadlines for the operative timeline and verify article-level wording against the OJ text.`
@@ -252,5 +253,27 @@ export const faqDatabase: FAQEntry[] = [
     // high-risk questions (Art. 111(2) and (3)), which this entry does not answer.
     keywords: ["art. 111(4)", "watermarking", "watermark", "marking transition"],
     category: "transparency",
+  },
+  {
+    id: "faq-26-harmonised-standards",
+    question: "Which harmonised standards support the AI Act, and does ISO/IEC 42001 give a presumption of conformity?",
+    answer:
+      `As of ${standardsReviewedOnText()}, one. The reference of EN 18286:2026, Artificial intelligence - Quality management system for EU AI Act regulatory purposes, developed by CEN and CENELEC, was published in the Official Journal on 14 October 2026 by Commission Implementing Decision (EU) 2026/2274, in force the same day. Per the Commission, providers of high-risk AI systems that implement it benefit from a presumption of conformity with the Art. 17 quality management system requirements the standard covers (Art. 40). Applying it is voluntary. It covers Art. 17 only: no harmonised standard for the Chapter III, Section 2 requirements (Art. 8 to 15) had its reference published as of 19 October 2026, so for those requirements the technical documentation describes the solutions adopted (Annex IV point 7), and providers of biometric systems under Annex III point 1 cannot yet rely on a harmonised standard to choose internal control (Art. 43(1)). ISO/IEC 42001 is not a harmonised standard under the AI Act and gives no presumption of conformity under it; EN 18286 is designed to be layered on top of it, on ISO 9001 or on a sectoral system such as ISO 13485. The current list is in the euaiact://standards resource.`,
+    articleReferences: ["Art. 17", "Art. 40", "Art. 43(1)", "Annex IV"],
+    // Narrow on purpose (see faq-25): standard-specific terms only, so generic
+    // quality, management or system wording keeps matching the existing entries.
+    keywords: ["harmonised standard", "harmonized standard", "harmonised standards", "en 18286", "18286", "iso 42001", "iso/iec 42001", "presumption of conformity", "cen-cenelec", "jtc 21"],
+    category: "standards",
+  },
+  {
+    id: "faq-27-quality-management-system",
+    question: "Is a quality management system (QMS) required, and what must it cover?",
+    answer:
+      "Yes. Art. 17 requires every provider of a high-risk AI system to put a documented quality management system in place: written policies, procedures and instructions covering at least the thirteen aspects in Art. 17(1), among them a regulatory compliance strategy, design and development controls, examination, test and validation procedures, data management, the Art. 9 risk management system, post-market monitoring (Art. 72), serious-incident reporting (Art. 73), record-keeping and an accountability framework. Implementation is proportionate to the size of the organisation, in particular for SMEs, including start-ups, and SMCs (Art. 17(2) as replaced by Regulation (EU) 2026/1744); SMEs without partner or linked enterprises may comply with certain elements in a simplified manner (Art. 63(1)). Providers already under a sectoral quality management duty may integrate these aspects into that system (Art. 17(3)); financial institutions meet most of the duty through their internal-governance rules (Art. 17(4)). The duty applies with Chapter III, Section 3: from 2 December 2027 for Annex III systems and from 2 August 2028 for Annex I systems. Deployers have no Art. 17 duty unless they become providers under Art. 25. EN 18286:2026, whose reference was published in the Official Journal on 14 October 2026, is the harmonised standard for Art. 17; per the Commission, implementing it gives a presumption of conformity with the requirements it covers. Applying it is voluntary.",
+    articleReferences: ["Art. 17", "Art. 25", "Art. 40", "Art. 63(1)", "Art. 113"],
+    // Narrow on purpose (see faq-25): the matcher scores single words, so "risk", "high-risk",
+    // "providers" or "article" here would pull risk-management and article questions into this entry.
+    keywords: ["qms", "quality management system"],
+    category: "quality_management",
   },
 ];
