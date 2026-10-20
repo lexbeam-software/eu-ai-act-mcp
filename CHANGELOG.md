@@ -6,6 +6,52 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.7.3] - 2026-10-20
+
+The first harmonised standard. On 14 October 2026 the Official Journal published the first harmonised standard
+reference under the AI Act: EN 18286:2026, the quality management system standard for Art. 17 (Commission
+Implementing Decision (EU) 2026/2274 of 12 October 2026, in force on publication). The server now states what the
+standard covers, what it does not cover, and where it changes a provider's route, with the decision pinned in `law/`
+next to the consolidated act. Classification logic, the decision contract and every date are unchanged.
+
+### Added
+
+- Resource `euaiact://standards`: harmonised standards with an Official Journal reference (EN 18286:2026 with its
+  covered provision, the OJ act, publication and entry-into-force date, the basis of the presumption, the
+  standardisation request, its relation to ISO/IEC 42001, ISO 9001 and ISO 13485, and where it matters in Art. 17,
+  Art. 43 and Annexes IV to VII), the nine areas of standardisation request C(2025) 3871 still without a reference,
+  and the status of three Commission sources: the draft high-risk classification guidelines (19 May 2026), the
+  Art. 50 transparency guidelines (20 July 2026) and the Code of Practice on Transparency of AI-generated Content
+  (found adequate on 8 July 2026). Every entry carries a source status from the existing vocabulary.
+- `euaiact_get_article` covers Art. 40: the presumption of conformity, its scope (Chapter III, Section 2 and the GPAI
+  obligations), the Omnibus addition to Art. 40(2), and the current status.
+- FAQ entries `faq-26-harmonised-standards` (which harmonised standards exist, and why ISO/IEC 42001 gives no
+  presumption of conformity) and `faq-27-quality-management-system` (the Art. 17 duty, its proportionality for SMEs
+  and SMCs, the dates and EN 18286:2026). Both match on narrow terms: over 65 questions (the suite's FAQ questions,
+  every FAQ question and 25 new ones) seven answers changed against 1.7.2, all toward the new entries, and no
+  risk-management question moved.
+- `law/` pins Commission Implementing Decision (EU) 2026/2274 (CELEX 32026D2274), fetched from the Publications Office
+  Cellar because EUR-Lex answers scripted requests for it with an empty 202. `law/fetch.mjs` accepts a source URL,
+  request headers and a size floor per document for this; the four existing documents are byte-identical.
+- Claim matrix: 15 claims (30 checks) on the decision and on Art. 6(5), 17, 40, 43, 50(7), 63(1) and Annexes IV and VI.
+
+### Changed
+
+- Art. 17 summary and obligation: the Omnibus wording of Art. 17(2) (SMEs, start-ups and SMCs), Art. 17(3) and (4),
+  the simplified route in Art. 63(1), and EN 18286:2026.
+- Art. 6 summary: the status of the Art. 6(5) guidelines (due 2 February 2026, draft published 19 May 2026, still a
+  draft on 19 October 2026).
+- Art. 50 summary: the application dates including the Art. 111(4) transition, the final Commission guidelines and the
+  code of practice, each with its status.
+- Annex IV item 7 prompts and the server instructions name the standards status.
+
+### Fixed
+
+- Art. 43 summary and the Art. 43 obligation offered Annex III point 1 (biometric) systems the internal-control route
+  under Annex VI without its condition. Art. 43(1) allows it only where harmonised standards or common specifications
+  were applied for the Chapter III, Section 2 requirements; otherwise Annex VII applies. EN 18286:2026 covers Art. 17,
+  not Section 2, so it does not open the Annex VI route on its own.
+
 ## [1.7.2] - 2026-10-19
 
 A classification fix for Art. 50. An explicit negative signal now outranks a free-text keyword for the same
