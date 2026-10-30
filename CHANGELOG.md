@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- Front page: a link preview image at `/og.jpg` (1200 x 630), named in the Open Graph and X card tags, so a shared
+  link to mcp.lexbeam.com shows a picture instead of a bare title.
+
 ## [1.7.4] - 2026-10-20
 
 Smithery shuts down its MCP proxy, its `run.tools` URLs, its accounts and its CLI on 31 October 2026 and stays a

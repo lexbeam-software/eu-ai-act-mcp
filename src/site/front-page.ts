@@ -12,11 +12,13 @@ import { createHash } from "node:crypto";
 import { BRANDING, SERVER_VERSION } from "../constants.js";
 import { articles } from "../knowledge/articles.js";
 import { JETBRAINS_MONO_WOFF2, SCHIBSTED_GROTESK_WOFF2 } from "./fonts.js";
+import { OG_IMAGE_ALT, OG_IMAGE_PATH } from "./og-image.js";
 import { PAGE_SCRIPT_TEMPLATE } from "./page-script.js";
 import { PAGE_STYLE } from "./page-style.js";
 
 export const SITE_URL = "https://mcp.lexbeam.com/";
 export const ENDPOINT_URL = `${SITE_URL}mcp`;
+export const OG_IMAGE_URL = new URL(OG_IMAGE_PATH, SITE_URL).href;
 export const DIRECTORY_URL = "https://claude.ai/directory/lexbeam-eu-ai-act";
 export const REPOSITORY_URL = "https://github.com/lexbeam-software/eu-ai-act-mcp";
 export const NPM_PACKAGE = "@lexbeam-software/eu-ai-act-mcp";
@@ -238,7 +240,12 @@ function buildPage(): { html: string; style: string; script: string } {
 <meta property="og:description" content="${escapeHtml(SHARE_DESCRIPTION)}">
 <meta property="og:url" content="${SITE_URL}">
 <meta property="og:locale" content="en_GB">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="${OG_IMAGE_URL}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="${escapeHtml(OG_IMAGE_ALT)}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${OG_IMAGE_URL}">
 <link rel="alternate" type="text/plain" href="/llms.txt" title="The same facts as plain text">
 <link rel="icon" href="${FAVICON}">
 <script type="application/ld+json">${jsonLd()}</script>

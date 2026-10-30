@@ -13,6 +13,9 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import { createServer } from "./server.js";
 import { SERVER_VERSION } from "./constants.js";
 import { frontPageHeaders, frontPageHtml, llmsText } from "./site/front-page.js";
+import { OG_IMAGE_JPEG, OG_IMAGE_PATH } from "./site/og-image.js";
+
+let ogImage: Buffer | undefined;
 
 /** Where OpenAI's plugin directory checks domain control (developers.openai.com/plugins/deploy/submission). */
 export const OPENAI_CHALLENGE_PATH = "/.well-known/openai-apps-challenge";
@@ -65,8 +68,9 @@ export function createRequestHandler(options: RequestHandlerOptions = {}) {
       }
     }
 
-    // The two documents for a reader instead of a tool call: the front page and the same facts as plain text.
-    // Only these two paths are new; a query string is ignored, every other unknown path still answers 404.
+    // The documents for a reader instead of a tool call: the front page, the same facts as plain text and the image
+    // that link previews show. Only these paths are new; a query string is ignored, every other unknown path still
+    // answers 404.
     const path = (req.url ?? "/").split("?")[0];
     if ((req.method === "GET" || req.method === "HEAD") && path === "/") {
       sendPage(req, res, frontPageHtml(), frontPageHeaders());
@@ -78,6 +82,17 @@ export function createRequestHandler(options: RequestHandlerOptions = {}) {
         "Cache-Control": "public, max-age=3600",
         "X-Content-Type-Options": "nosniff",
       });
+      return;
+    }
+    if ((req.method === "GET" || req.method === "HEAD") && path === OG_IMAGE_PATH) {
+      ogImage ??= Buffer.from(OG_IMAGE_JPEG, "base64");
+      res.writeHead(200, {
+        "Content-Type": "image/jpeg",
+        "Content-Length": String(ogImage.length),
+        "Cache-Control": "public, max-age=86400",
+        "X-Content-Type-Options": "nosniff",
+      });
+      res.end(req.method === "HEAD" ? undefined : ogImage);
       return;
     }
 
