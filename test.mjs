@@ -2535,6 +2535,16 @@ console.log("\n🌐 HTTP HANDLER");
     test("llms.txt: HEAD has the same length and no body",
       llmsHead.status === 200 && llmsHead.headers.get("content-length") === String(Buffer.byteLength(llmsBody)) && (await llmsHead.text()) === "");
 
+    // /og.jpg: the link preview the front page names for Open Graph and X.
+    const og = await fetch(`${real.base}/og.jpg`);
+    const ogBody = Buffer.from(await og.arrayBuffer());
+    test("og.jpg: GET answers 200 with a JPEG",
+      og.status === 200 && og.headers.get("content-type") === "image/jpeg" && ogBody[0] === 0xff && ogBody[1] === 0xd8 &&
+      og.headers.get("content-length") === String(ogBody.length));
+    test("front page: names the preview image for Open Graph and X",
+      html.includes(`<meta property="og:image" content="${site.OG_IMAGE_URL}">`) && site.OG_IMAGE_URL === "https://mcp.lexbeam.com/og.jpg" &&
+      html.includes('<meta name="twitter:card" content="summary_large_image">'));
+
     // Unchanged answers.
     const health = await fetch(`${real.base}/health`);
     test("unchanged: GET /health answers the same JSON",
