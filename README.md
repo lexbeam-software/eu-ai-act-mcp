@@ -1,7 +1,5 @@
 # EU AI Act MCP Server
 
-![EU AI Act MCP Server by Lexbeam: a thin line of light through a slit in a graphite plate](https://raw.githubusercontent.com/lexbeam-software/eu-ai-act-mcp/main/docs/header.jpg)
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![npm version](https://img.shields.io/npm/v/@lexbeam-software/eu-ai-act-mcp)](https://www.npmjs.com/package/@lexbeam-software/eu-ai-act-mcp)
 [Connect to Claude](https://claude.ai/directory/lexbeam-eu-ai-act) (Anthropic's connectors directory)
