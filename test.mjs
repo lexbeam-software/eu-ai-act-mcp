@@ -2547,6 +2547,59 @@ console.log("\n🌐 HTTP HANDLER");
         response.status === 404 && body?.error === "Not found. Use /mcp for the MCP endpoint or /health for status.");
     }
   }
+
+  // Request limits (GHSA-46jr-4wx8-v453, GHSA-f897-62hf-6gxq). MCP SDK 1.32 leaves the element limit off and the
+  // body limit at 4 MiB, so constants.ts sets both. A refused request must cost almost nothing and leave the
+  // process serving; the largest fixture profile must still pass.
+  {
+    const { MAX_REQUEST_BODY_BYTES, MAX_TOOL_INPUT_ELEMENTS } = await import("./dist/constants.js");
+    const post = (body) => fetch(`${real.base}/mcp`, { method: "POST", headers: {
+      ...mcpHeaders, "MCP-Protocol-Version": "2025-11-25",
+    }, body });
+    const read = async (response) => {
+      const text = await response.text();
+      const data = text.split("\n").find((line) => line.startsWith("data: "));
+      try {
+        return data ? JSON.parse(data.slice(6)) : JSON.parse(text);
+      } catch {
+        return null;
+      }
+    };
+    const assessCall = (argumentsJson) =>
+      `{"jsonrpc":"2.0","id":7,"method":"tools/call","params":{"name":"euaiact_assess_system","arguments":${argumentsJson}}}`;
+    const zeros = (count) => `[${"0,".repeat(count - 1)}0]`;
+
+    test("limits: the values are 5,000 elements and 128 KiB",
+      MAX_TOOL_INPUT_ELEMENTS === 5_000 && MAX_REQUEST_BODY_BYTES === 128 * 1024);
+
+    // One element over: the array alone fills the limit, the three members around it exceed it.
+    const overElements = await post(assessCall(
+      `{"profile_version":"1.0","controls_and_evidence":{"controls":${zeros(MAX_TOOL_INPUT_ELEMENTS)}}}`));
+    const overElementsBody = await read(overElements);
+    const overElementsText = overElementsBody?.result?.content?.[0]?.text ?? "";
+    test("limits: a call over the element limit is refused as a tool error",
+      overElements.status === 200 && overElementsBody?.result?.isError === true &&
+      overElementsText.includes(`more than the maximum of ${MAX_TOOL_INPUT_ELEMENTS} elements`));
+    test("limits: the refusal is one short line, not one issue per element", overElementsText.length < 300);
+
+    const overBytes = await post(assessCall(`{"profile_version":"1.0"}`) + " ".repeat(MAX_REQUEST_BODY_BYTES));
+    test("limits: a body over the byte limit answers 413", overBytes.status === 413);
+    await overBytes.text();
+
+    const overBatch = await post(`[${Array.from({ length: 101 },
+      (_, index) => `{"jsonrpc":"2.0","id":${index + 1},"method":"tools/list"}`).join(",")}]`);
+    test("limits: a batch of more than 100 messages answers 400", overBatch.status === 400);
+    await overBatch.text();
+
+    const largestFixture = readFileSync(
+      new URL("./tests/fixtures/assess-system/worst-case-dual-route.json", import.meta.url), "utf8");
+    const largest = await read(await post(assessCall(largestFixture)));
+    test("limits: the largest fixture profile passes both limits",
+      largest?.result?.isError !== true && largest?.result?.structuredContent?.contract_version !== undefined);
+
+    test("limits: the endpoint keeps serving after the refused requests",
+      (await fetch(`${real.base}/health`)).status === 200);
+  }
   await stop(real.server);
 }
 

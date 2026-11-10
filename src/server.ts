@@ -11,7 +11,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { SERVER_INSTRUCTIONS } from "./constants.js";
+import { MAX_TOOL_INPUT_ELEMENTS, SERVER_INSTRUCTIONS } from "./constants.js";
 import { registerClassifyTool } from "./tools/classify.js";
 import { registerDeadlinesTool } from "./tools/deadlines.js";
 import { registerObligationsTool } from "./tools/obligations.js";
@@ -44,6 +44,8 @@ export function createServer(): McpServer {
     },
     {
       instructions: SERVER_INSTRUCTIONS,
+      // Off by default in the SDK: a call with more elements is refused before validation.
+      maxToolInputElements: MAX_TOOL_INPUT_ELEMENTS,
     },
   );
 
