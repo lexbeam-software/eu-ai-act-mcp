@@ -12,6 +12,29 @@ import { standardsReviewedOnText } from "./knowledge/standards.js";
 const require = createRequire(import.meta.url);
 export const SERVER_VERSION: string = require("../package.json").version;
 
+/**
+ * Request limits (GHSA-46jr-4wx8-v453, GHSA-f897-62hf-6gxq). MCP SDK 1.32 added the first switch
+ * and leaves it off; the second defaults to 4 MiB. Upgrading the SDK alone changes nothing, so
+ * both are set here.
+ *
+ * The largest legitimate input is an `euaiact_assess_system` profile. The worst-case fixture
+ * (tests/fixtures/assess-system/worst-case-dual-route.json) carries 486 elements in 17 KiB. A
+ * dossier with 100 controls and 200 evidence references carries about 3300 elements in about
+ * 112 KiB. Both limits sit above that.
+ *
+ * The body limit also bounds what the element limit cannot see: every other part of a request,
+ * and a batch of calls that each stay under the element limit. zod 3 keeps one issue per
+ * failing array element (GHSA-mrhx-c7xc-m3w5, fixed in zod 4.6.6), so memory grows with the
+ * elements a request may carry. Raise a limit only together with a new measurement of the
+ * server's memory at that limit.
+ */
+
+/** Array elements plus object members one `tools/call` may carry in its arguments. */
+export const MAX_TOOL_INPUT_ELEMENTS = 5_000;
+
+/** Bytes of one POST body on the hosted endpoint. */
+export const MAX_REQUEST_BODY_BYTES = 128 * 1024;
+
 export const BRANDING = {
   source: "Lexbeam Software - lexbeam.com",
   disclaimer: "General guidance, not legal advice.",

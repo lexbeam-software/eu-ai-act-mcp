@@ -11,7 +11,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { createServer } from "./server.js";
-import { SERVER_VERSION } from "./constants.js";
+import { MAX_REQUEST_BODY_BYTES, SERVER_VERSION } from "./constants.js";
 import { frontPageHeaders, frontPageHtml, llmsText } from "./site/front-page.js";
 
 /** Where OpenAI's plugin directory checks domain control (developers.openai.com/plugins/deploy/submission). */
@@ -93,6 +93,8 @@ export function createRequestHandler(options: RequestHandlerOptions = {}) {
       }
       const transport = new StreamableHTTPServerTransport({
         sessionIdGenerator: undefined, // stateless
+        // A larger body answers 413 before anything is parsed; the SDK default is 4 MiB.
+        maxRequestBodySize: MAX_REQUEST_BODY_BYTES,
       });
       const server = buildServer();
       res.on("close", () => {

@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Security
+
+- Request limits on the server (GHSA-46jr-4wx8-v453, GHSA-f897-62hf-6gxq). A `tools/call` may carry at most 5,000
+  array elements and object members in its arguments, and the hosted endpoint accepts a request body of at most
+  128 KiB. A call over the element limit returns a tool error, a larger body answers 413, and a batch of more than
+  100 messages answers 400. The largest fixture profile for `euaiact_assess_system` uses 486 elements in 17 KiB, so
+  no answer changes.
+- `@modelcontextprotocol/sdk` is required at 1.32.2 or later (was 1.30.0). The SDK ships both limits switched off
+  or wide, so the server sets them itself.
+- Lockfile: patched releases of ten transitive dependencies of the SDK. One advisory stays open and is bounded by
+  the limits above: zod 3 keeps one issue per failing array element (GHSA-mrhx-c7xc-m3w5); the fix needs zod 4.
+
 ## [1.7.4] - 2026-10-20
 
 Smithery shuts down its MCP proxy, its `run.tools` URLs, its accounts and its CLI on 31 October 2026 and stays a
