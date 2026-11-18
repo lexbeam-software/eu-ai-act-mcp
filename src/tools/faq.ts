@@ -9,6 +9,7 @@ export function registerFaqTool(server: McpServer): void {
     annotations: {
       title: "EU AI Act FAQ",
       readOnlyHint: true,
+      destructiveHint: false,
       idempotentHint: true,
       openWorldHint: false,
     },

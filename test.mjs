@@ -2332,6 +2332,10 @@ console.log("\n🌐 HTTP HANDLER");
   }
   test("http: all 10 tools repeat their title in annotations.title",
     listedTools.length === 10 && listedTools.every((tool) => tool.title && tool.annotations?.title === tool.title));
+  // OpenAI's plugin review requires readOnlyHint, destructiveHint and openWorldHint as explicit booleans.
+  test("http: all 10 tools set readOnlyHint, destructiveHint and openWorldHint explicitly",
+    listedTools.length === 10 && listedTools.every((tool) => tool.annotations?.readOnlyHint === true &&
+      tool.annotations?.destructiveHint === false && tool.annotations?.openWorldHint === false));
   const preflight = await fetch(`${real.base}/mcp`, { method: "OPTIONS", headers: {
     Origin: "https://example.test", "Access-Control-Request-Method": "POST",
     "Access-Control-Request-Headers": "content-type,mcp-protocol-version",

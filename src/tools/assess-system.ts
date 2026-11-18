@@ -35,6 +35,7 @@ export function registerAssessSystemTool(server: McpServer): void {
       annotations: {
         title: "Assess an AI System Under the EU AI Act",
         readOnlyHint: true,
+        destructiveHint: false,
         idempotentHint: true,
         openWorldHint: false,
       },

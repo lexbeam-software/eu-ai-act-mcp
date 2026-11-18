@@ -865,6 +865,7 @@ export function registerClassifyTool(server: McpServer): void {
       annotations: {
         title: "Classify AI System Under EU AI Act",
         readOnlyHint: true,
+        destructiveHint: false,
         idempotentHint: true,
         openWorldHint: false,
       },

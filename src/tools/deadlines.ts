@@ -15,6 +15,7 @@ export function registerDeadlinesTool(server: McpServer): void {
     annotations: {
       title: "Check EU AI Act Implementation Deadlines",
       readOnlyHint: true,
+      destructiveHint: false,
       idempotentHint: true,
       openWorldHint: false,
     },
