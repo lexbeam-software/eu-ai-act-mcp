@@ -17,6 +17,7 @@ export function registerArticleTool(server: McpServer): void {
       annotations: {
         title: "Get EU AI Act Article Summary",
         readOnlyHint: true,
+        destructiveHint: false,
         idempotentHint: true,
         openWorldHint: false,
       },

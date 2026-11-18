@@ -36,6 +36,7 @@ export function registerAnnexIvTool(server: McpServer): void {
       annotations: {
         title: "Annex IV Technical Documentation Checklist",
         readOnlyHint: true,
+        destructiveHint: false,
         idempotentHint: true,
         openWorldHint: false,
       },

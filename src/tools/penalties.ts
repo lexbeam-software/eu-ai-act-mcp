@@ -24,6 +24,7 @@ export function registerPenaltiesTool(server: McpServer): void {
     annotations: {
       title: "Calculate EU AI Act Penalties",
       readOnlyHint: true,
+      destructiveHint: false,
       idempotentHint: true,
       openWorldHint: false,
     },

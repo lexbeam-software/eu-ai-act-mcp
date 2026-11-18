@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Every tool sets `destructiveHint: false` next to `readOnlyHint: true` and `openWorldHint: false`. OpenAI's plugin
+  review requires all three hints as explicit booleans; Claude and other clients read the same values. No tool
+  behaviour or answer changes.
+
 ### Security
 
 - Request limits on the server (GHSA-46jr-4wx8-v453, GHSA-f897-62hf-6gxq). A `tools/call` may carry at most 5,000

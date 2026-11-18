@@ -16,6 +16,7 @@ export function registerArt6ExceptionTool(server: McpServer): void {
       annotations: {
         title: "Assess Art. 6(3) 'No Significant Risk' Exception",
         readOnlyHint: true,
+        destructiveHint: false,
         idempotentHint: true,
         openWorldHint: false,
       },

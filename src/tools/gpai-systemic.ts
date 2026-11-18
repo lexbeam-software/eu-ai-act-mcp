@@ -19,6 +19,7 @@ export function registerGpaiSystemicTool(server: McpServer): void {
       annotations: {
         title: "Check GPAI Model Systemic Risk Classification",
         readOnlyHint: true,
+        destructiveHint: false,
         idempotentHint: true,
         openWorldHint: false,
       },

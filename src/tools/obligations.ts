@@ -25,6 +25,7 @@ export function registerObligationsTool(server: McpServer): void {
     annotations: {
       title: "Get Obligations by Role and Risk Level",
       readOnlyHint: true,
+      destructiveHint: false,
       idempotentHint: true,
       openWorldHint: false,
     },
